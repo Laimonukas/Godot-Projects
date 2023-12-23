@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqwhdgctc4yy6"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_qvww3"]
+[ext_resource type="PackedScene" uid="uid://dc6q8lg2yv5p" path="res://Scenes/paralax.tscn" id="2_wbn02"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_qvww3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="NewLevel" type="Button" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start new"
+
+[node name="QuitButton" type="Button" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Paralax" parent="." instance=ExtResource("2_wbn02")]
+
+[connection signal="pressed" from="AspectRatioContainer/VBoxContainer/NewLevel" to="AspectRatioContainer" method="_on_new_level_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/VBoxContainer/QuitButton" to="AspectRatioContainer" method="_on_quit_button_pressed"]
