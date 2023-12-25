@@ -9,7 +9,7 @@ Links:
 ------------
 ## **Pong**
 Links:
-- Itch.io - [Link](https://laimonukas.itch.io/ "Link")
+- Itch.io - [Link](https://laimonukas.itch.io/pn "Link")
 - Based on 20 games Challenge - [Link](https://20_games_challenge.gitlab.io/challenge/ "Link")
 - Project - [Readme](Pong/README.md)
 ------------
