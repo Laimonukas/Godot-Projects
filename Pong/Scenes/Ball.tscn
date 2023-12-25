@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0pxrdeoj2xbb"]
+
+[ext_resource type="Script" path="res://Scripts/Ball.gd" id="1_5yr53"]
+[ext_resource type="Texture2D" uid="uid://bo0i8vy506073" path="res://Assets/pixel.png" id="1_okyb0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1wdr"]
+size = Vector2(16, 16)
+
+[sub_resource type="Curve" id="Curve_owina"]
+_data = [Vector2(0.011236, 1), 0.0, 0.0, 0, 0, Vector2(0.994382, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Ball" type="CharacterBody2D"]
+script = ExtResource("1_5yr53")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(16, 16)
+texture = ExtResource("1_okyb0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e1wdr")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 10
+randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 10.58
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 10.0
+angular_velocity_min = -72.73
+angular_velocity_max = 101.82
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_owina")
+color = Color(1, 1, 1, 0.392157)
+hue_variation_min = -1.0
+hue_variation_max = 1.0
