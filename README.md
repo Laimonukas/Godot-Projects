@@ -13,4 +13,7 @@ Links:
 - Based on 20 games Challenge - [Link](https://20_games_challenge.gitlab.io/challenge/ "Link")
 - Project - [Readme](Pong/README.md)
 ------------
+## **Shaders**
+Links:
+- Project - [Readme](Shaders/README.md)
 
