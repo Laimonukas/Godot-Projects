@@ -1,0 +1,138 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpysmfcky3xx"]
+
+[ext_resource type="Shader" uid="uid://lc5830w1crt" path="res://Shaders/VertexSway.tres" id="1_2oh2a"]
+[ext_resource type="Texture2D" uid="uid://dhhbyntwbchw2" path="res://icon.svg" id="1_a4wpp"]
+[ext_resource type="Script" path="res://Scripts/InputHandler.gd" id="1_et8ks"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_icint"]
+shader = ExtResource("1_2oh2a")
+shader_parameter/UVFloat = 1.0
+shader_parameter/SwayOnY = false
+shader_parameter/TimeMultiplier = 0.2
+shader_parameter/SwayAmount = 20.0
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_et8ks")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 448.0
+offset_right = 1088.0
+offset_bottom = 648.0
+
+[node name="2D" type="TabBar" parent="TabContainer"]
+layout_mode = 2
+
+[node name="2DContainer" type="TabContainer" parent="TabContainer/2D"]
+offset_top = 1.0
+offset_right = 1024.0
+offset_bottom = 169.0
+
+[node name="VertexTime" type="TabBar" parent="TabContainer/2D/2DContainer"]
+layout_mode = 2
+
+[node name="VertexTimeSprite" type="Sprite2D" parent="TabContainer/2D/2DContainer/VertexTime"]
+material = SubResource("ShaderMaterial_icint")
+position = Vector2(512, -255)
+scale = Vector2(2.5, 2)
+texture = ExtResource("1_a4wpp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/2D/2DContainer/VertexTime"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 1.0
+offset_right = 960.0
+offset_bottom = 129.0
+
+[node name="Label" type="Label" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer"]
+layout_mode = 2
+text = "Manipulating vertices - e.g. grass sway"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Time Multiplier:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VertexTimeTimeMultplier" type="SpinBox" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 3.0
+step = 0.1
+value = 0.2
+update_on_text_changed = true
+
+[node name="Label2" type="Label" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "UV Float:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VertexTimeUVFloat" type="SpinBox" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 2.0
+value = 1.0
+update_on_text_changed = true
+
+[node name="VSeparator" type="VSeparator" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Sway Amount:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VertexTimeSwayAmount" type="SpinBox" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+value = 10.0
+update_on_text_changed = true
+
+[node name="Label2" type="Label" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Sway on Y axis:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VertexTimeSwayOnY" type="CheckButton" parent="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+icon_alignment = 1
+
+[node name="Fragment" type="TabBar" parent="TabContainer/2D/2DContainer"]
+visible = false
+layout_mode = 2
+
+[node name="3D" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="3DContainer" type="TabContainer" parent="TabContainer/3D"]
+offset_top = 1.0
+offset_right = 1024.0
+offset_bottom = 169.0
+
+[node name="Vertex" type="TabBar" parent="TabContainer/3D/3DContainer"]
+layout_mode = 2
+
+[node name="Fragment" type="TabBar" parent="TabContainer/3D/3DContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Misc" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[connection signal="value_changed" from="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer/VertexTimeTimeMultplier" to="." method="_on_vertex_time_time_multplier_value_changed"]
+[connection signal="value_changed" from="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer/VertexTimeUVFloat" to="." method="_on_vertex_time_uv_float_value_changed"]
+[connection signal="value_changed" from="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2/VertexTimeSwayAmount" to="." method="_on_vertex_time_sway_amount_value_changed"]
+[connection signal="toggled" from="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2/VertexTimeSwayOnY" to="." method="_on_vertex_time_sway_on_y_toggled"]
