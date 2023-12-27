@@ -1,0 +1,125 @@
+[gd_resource type="VisualShader" load_steps=13 format=3 uid="uid://k1qyu47k655q"]
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_rjapd"]
+output_port_for_preview = 0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_fhpcn"]
+parameter_name = "hitPoint"
+default_value_enabled = true
+default_value = 0.1
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_4q5vi"]
+parameter_name = "hitLenght"
+default_value_enabled = true
+default_value = 1.0
+
+[sub_resource type="VisualShaderNodeVectorLen" id="VisualShaderNodeVectorLen_rfhxh"]
+output_port_for_preview = 0
+default_input_values = [0, Vector2(0, 0)]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_34634"]
+output_port_for_preview = 0
+op_type = 0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_6j0sm"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_j6o88"]
+output_port_for_preview = 0
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_bymbm"]
+output_port_for_preview = 0
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_8oiur"]
+output_port_for_preview = 0
+function = 0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_45spt"]
+output_port_for_preview = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_hd6en"]
+parameter_name = "timeMultiplier"
+default_value_enabled = true
+default_value = 2.0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_686s3"]
+output_port_for_preview = 0
+operator = 2
+
+[resource]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform float timeMultiplier = 2;
+
+
+
+void fragment() {
+// Input:2
+	vec2 n_out2p0 = UV;
+
+
+// VectorDecompose:10
+	float n_out10p0 = vec3(n_out2p0, 0.0).x;
+	float n_out10p1 = vec3(n_out2p0, 0.0).y;
+	float n_out10p2 = vec3(n_out2p0, 0.0).z;
+
+
+// Input:4
+	float n_out4p0 = TIME;
+
+
+// FloatParameter:8
+	float n_out8p0 = timeMultiplier;
+
+
+// FloatOp:7
+	float n_out7p0 = n_out4p0 * n_out8p0;
+
+
+// FloatFunc:5
+	float n_out5p0 = sin(n_out7p0);
+
+
+// FloatOp:9
+	float n_out9p0 = n_out10p1 * n_out5p0;
+
+
+// Output:0
+	COLOR.rgb = vec3(n_out9p0);
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(640, 180)
+nodes/fragment/2/node = SubResource("VisualShaderNodeInput_j6o88")
+nodes/fragment/2/position = Vector2(-840, 180)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_bymbm")
+nodes/fragment/4/position = Vector2(-1340, 660)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_8oiur")
+nodes/fragment/5/position = Vector2(-640, 660)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatOp_45spt")
+nodes/fragment/7/position = Vector2(-900, 640)
+nodes/fragment/8/node = SubResource("VisualShaderNodeFloatParameter_hd6en")
+nodes/fragment/8/position = Vector2(-1240, 1000)
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_686s3")
+nodes/fragment/9/position = Vector2(220, 160)
+nodes/fragment/10/node = SubResource("VisualShaderNodeVectorDecompose_rjapd")
+nodes/fragment/10/position = Vector2(-360, 0)
+nodes/fragment/11/node = SubResource("VisualShaderNodeFloatParameter_fhpcn")
+nodes/fragment/11/position = Vector2(-640, 1000)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatParameter_4q5vi")
+nodes/fragment/14/position = Vector2(-640, 1200)
+nodes/fragment/15/node = SubResource("VisualShaderNodeVectorLen_rfhxh")
+nodes/fragment/15/position = Vector2(280, 1120)
+nodes/fragment/16/node = SubResource("VisualShaderNodeVectorCompose_34634")
+nodes/fragment/16/position = Vector2(40, 1160)
+nodes/fragment/17/node = SubResource("VisualShaderNodeFloatOp_6j0sm")
+nodes/fragment/17/position = Vector2(-140, 860)
+nodes/fragment/connections = PackedInt32Array(4, 0, 7, 0, 7, 0, 5, 0, 8, 0, 7, 1, 5, 0, 9, 1, 9, 0, 0, 0, 2, 0, 10, 0, 10, 1, 9, 0, 11, 0, 16, 0, 16, 0, 15, 0, 11, 0, 17, 0, 10, 1, 17, 1, 17, 0, 16, 1)
