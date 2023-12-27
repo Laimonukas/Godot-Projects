@@ -1,6 +1,6 @@
 ## **Shaders**
 Links:
-- Itch.io - [Link]( "Link")
+- Itch.io - [Link](https://laimonukas.itch.io/shaders "Link")
 
 Project made to learn Shader scripting
 
