@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxv1j5espu83w"]
+
+[ext_resource type="Script" path="res://Scripts/Vortex.gd" id="1_78st5"]
+[ext_resource type="Texture2D" uid="uid://clwwvvstawfa4" path="res://Assets/pixel.png" id="1_gyksa"]
+
+[node name="Vortex" type="Node2D"]
+script = ExtResource("1_78st5")
+
+[node name="BG" type="Sprite2D" parent="."]
+modulate = Color(0.219608, 0.529412, 0.745098, 1)
+show_behind_parent = true
+position = Vector2(575.5, 324)
+scale = Vector2(1153, 648)
+texture = ExtResource("1_gyksa")
+
+[node name="Vortex" type="Sprite2D" parent="BG"]
+modulate = Color(0.219608, 0.254902, 0.615686, 1)
+position = Vector2(0.000433654, -0.00617281)
+scale = Vector2(0.222029, 0.395062)
+texture = ExtResource("1_gyksa")
+
+[node name="Vortex2" type="Sprite2D" parent="BG/Vortex"]
+modulate = Color(0.505882, 0.560784, 0.705882, 0.784314)
+position = Vector2(0, 1.19209e-07)
+scale = Vector2(0.875, 0.875)
+texture = ExtResource("1_gyksa")
+
+[node name="Vortex3" type="Sprite2D" parent="BG/Vortex/Vortex2"]
+modulate = Color(0.262745, 0.333333, 0.521569, 0.784314)
+position = Vector2(0, -1.19209e-07)
+scale = Vector2(0.857143, 0.857143)
+texture = ExtResource("1_gyksa")
+
+[node name="Vortex4" type="Sprite2D" parent="BG/Vortex/Vortex2/Vortex3"]
+modulate = Color(0.211765, 0.188235, 0.384314, 0.784314)
+scale = Vector2(0.833333, 0.833333)
+texture = ExtResource("1_gyksa")
+
+[node name="Vortex5" type="Sprite2D" parent="BG/Vortex/Vortex2/Vortex3/Vortex4"]
+modulate = Color(0.12549, 0.054902, 0.227451, 0.784314)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_gyksa")

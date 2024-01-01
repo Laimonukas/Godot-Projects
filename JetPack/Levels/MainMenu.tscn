@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://t1hqmu2g5ee3"]
+
+[ext_resource type="PackedScene" uid="uid://bxv1j5espu83w" path="res://Scenes/Vortex.tscn" id="1_8sa50"]
+[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_wwcvk"]
+[ext_resource type="PackedScene" uid="uid://b2anie6gu68ku" path="res://Scenes/PlayerStatic.tscn" id="2_psioa"]
+[ext_resource type="Texture2D" uid="uid://clwwvvstawfa4" path="res://Assets/pixel.png" id="4_qa3jk"]
+
+[node name="MainMenu" type="Node"]
+script = ExtResource("1_wwcvk")
+
+[node name="Vortex" parent="." instance=ExtResource("1_8sa50")]
+
+[node name="Player" parent="." instance=ExtResource("2_psioa")]
+position = Vector2(216, 270)
+scale = Vector2(4.21876, 4.61972)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Button" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 552.0
+offset_top = 304.0
+offset_right = 598.0
+offset_bottom = 335.0
+text = "START"
+
+[node name="Fade" type="Sprite2D" parent="UI"]
+self_modulate = Color(0, 0, 0, 0)
+top_level = true
+z_index = 130
+position = Vector2(575.75, 323.75)
+scale = Vector2(1152.5, 648.5)
+texture = ExtResource("4_qa3jk")
+
+[connection signal="pressed" from="UI/Button" to="." method="_on_button_pressed"]

@@ -1,0 +1,109 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2anie6gu68ku"]
+
+[ext_resource type="Texture2D" uid="uid://clwwvvstawfa4" path="res://Assets/pixel.png" id="1_iyiwj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gjytm"]
+radius = 6.0
+height = 22.0
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_gjytm")
+
+[node name="Node2D" type="Node2D" parent="CollisionShape2D"]
+position = Vector2(0, 1)
+
+[node name="Body" type="Sprite2D" parent="CollisionShape2D/Node2D"]
+z_index = 1
+position = Vector2(2.5, -2)
+scale = Vector2(5, 8)
+texture = ExtResource("1_iyiwj")
+
+[node name="Hat" type="Sprite2D" parent="CollisionShape2D/Node2D"]
+self_modulate = Color(0.780392, 0, 0.223529, 1)
+z_index = 5
+position = Vector2(3, -10)
+rotation = -0.270413
+scale = Vector2(4.5002, 1.86136)
+texture = ExtResource("1_iyiwj")
+
+[node name="Hat2" type="Sprite2D" parent="CollisionShape2D/Node2D/Hat"]
+self_modulate = Color(0.780392, 0, 0.223529, 1)
+z_index = 5
+position = Vector2(0.428275, 0.287026)
+scale = Vector2(0.870353, 0.359297)
+texture = ExtResource("1_iyiwj")
+
+[node name="Head" type="Sprite2D" parent="CollisionShape2D/Node2D"]
+self_modulate = Color(1, 0.741176, 0.34902, 1)
+position = Vector2(3, -8)
+scale = Vector2(3.5, 4)
+texture = ExtResource("1_iyiwj")
+
+[node name="Head2" type="Sprite2D" parent="CollisionShape2D/Node2D/Head"]
+modulate = Color(0.12549, 0.054902, 0.227451, 1)
+position = Vector2(0.285714, 0)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_iyiwj")
+
+[node name="Legs" type="Node2D" parent="CollisionShape2D/Node2D"]
+position = Vector2(3, 3)
+rotation = 0.114963
+
+[node name="rleg" type="Sprite2D" parent="CollisionShape2D/Node2D/Legs"]
+modulate = Color(0.262745, 0.333333, 0.521569, 1)
+z_index = 25
+position = Vector2(0, 2)
+scale = Vector2(2, 6)
+texture = ExtResource("1_iyiwj")
+
+[node name="lleg" type="Sprite2D" parent="CollisionShape2D/Node2D/Legs"]
+modulate = Color(0.12549, 0.054902, 0.227451, 1)
+position = Vector2(-1, 2)
+scale = Vector2(2, 5.75)
+texture = ExtResource("1_iyiwj")
+
+[node name="Arms" type="Node2D" parent="CollisionShape2D/Node2D"]
+position = Vector2(3, -5)
+rotation = -0.152652
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/Node2D/Arms"]
+self_modulate = Color(0.976471, 0.298039, 0.0627451, 1)
+z_index = 50
+position = Vector2(0, 4)
+scale = Vector2(1.6, 8.72)
+texture = ExtResource("1_iyiwj")
+
+[node name="JetPack" type="Sprite2D" parent="CollisionShape2D/Node2D"]
+self_modulate = Color(0.564706, 0.0470588, 0.247059, 1)
+z_index = 10
+position = Vector2(-1, -3)
+scale = Vector2(2.68704, 4.63672)
+texture = ExtResource("1_iyiwj")
+
+[node name="Fire" type="Sprite2D" parent="CollisionShape2D/Node2D/JetPack"]
+self_modulate = Color(0.968627, 0.992157, 0.0156863, 1)
+z_as_relative = false
+position = Vector2(-2.21822e-08, 0.431339)
+rotation = -1.09007
+skew = 0.605629
+texture = ExtResource("1_iyiwj")
+
+[node name="Fire2" type="Sprite2D" parent="CollisionShape2D/Node2D/JetPack/Fire"]
+self_modulate = Color(0.976471, 0.698039, 0.0313726, 1)
+z_as_relative = false
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_iyiwj")
+
+[node name="Fire3" type="Sprite2D" parent="CollisionShape2D/Node2D/JetPack/Fire/Fire2"]
+self_modulate = Color(0.976471, 0.517647, 0.0156863, 1)
+z_as_relative = false
+scale = Vector2(0.635, 0.635)
+texture = ExtResource("1_iyiwj")
+
+[node name="Fire4" type="Sprite2D" parent="CollisionShape2D/Node2D/JetPack/Fire/Fire2/Fire3"]
+self_modulate = Color(0.988235, 0.329412, 0.0156863, 1)
+z_as_relative = false
+scale = Vector2(0.515, 0.515)
+texture = ExtResource("1_iyiwj")

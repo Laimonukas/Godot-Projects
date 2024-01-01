@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3 uid="uid://bb0ujdckh7df7"]
+
+[ext_resource type="PackedScene" uid="uid://ciqehsntaruma" path="res://Scenes/Paralax.tscn" id="1_bx3a2"]
+[ext_resource type="Script" path="res://Scripts/Level.gd" id="1_j5moe"]
+[ext_resource type="Texture2D" uid="uid://clwwvvstawfa4" path="res://Assets/pixel.png" id="1_w37vo"]
+[ext_resource type="PackedScene" uid="uid://cwhokhm22lm3p" path="res://Scenes/Player.tscn" id="3_kuap7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ohr3"]
+size = Vector2(1152, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fthlq"]
+
+[sub_resource type="Curve2D" id="Curve2D_f7ul4"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 293.44, 663.713, 0, 0, 0, 0, 700.48, 663.713, 0, 0, 0, 0, 700.48, 48, 0, 0, 0, 0, 293.44, 48)
+}
+point_count = 4
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n1my1"]
+size = Vector2(200, 650)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_j5moe")
+obstaclesToSpawn = PackedStringArray("res://Scenes/Obstacle.tscn")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
+position = Vector2(576, 32)
+shape = SubResource("RectangleShape2D_2ohr3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D/CollisionShape2D"]
+self_modulate = Color(0.0980392, 0.14902, 0.333333, 1)
+position = Vector2(-0.25, -0.25)
+scale = Vector2(1152.5, 64.5)
+texture = ExtResource("1_w37vo")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 584)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
+position = Vector2(576, 32)
+shape = SubResource("RectangleShape2D_2ohr3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D2/CollisionShape2D"]
+self_modulate = Color(0.0980392, 0.14902, 0.333333, 1)
+position = Vector2(-0.25, -0.25)
+scale = Vector2(1152.5, 64.5)
+texture = ExtResource("1_w37vo")
+
+[node name="Paralax" parent="." instance=ExtResource("1_bx3a2")]
+
+[node name="Player" parent="." instance=ExtResource("3_kuap7")]
+position = Vector2(144, 320)
+scale = Vector2(3, 3)
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+position = Vector2(600, 323)
+scale = Vector2(91.9511, 36.1562)
+shape = SubResource("RectangleShape2D_fthlq")
+shape_visible = false
+action = "jump"
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(910.333, 23.4616)
+scale = Vector2(1.04167, 0.84455)
+curve = SubResource("Curve2D_f7ul4")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(700.48, 362.291)
+rotation = -1.5708
+progress = 708.462
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-152, 323)
+shape = SubResource("RectangleShape2D_n1my1")
+
+[connection signal="PlayerCollided" from="Player" to="." method="_on_player_player_collided"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

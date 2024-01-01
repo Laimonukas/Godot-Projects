@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://ciqehsntaruma"]
+
+[ext_resource type="Script" path="res://Scripts/Paralax.gd" id="1_sfrvr"]
+[ext_resource type="Texture2D" uid="uid://bqeihcd4qn8mh" path="res://Assets/Sprite-0001.png" id="2_brb73"]
+[ext_resource type="Texture2D" uid="uid://c4757aamq7ye4" path="res://Assets/Sprite-0002.png" id="2_csmy6"]
+[ext_resource type="Texture2D" uid="uid://dxpjqcuejxohl" path="res://Assets/Sprite-0003.png" id="4_w58rd"]
+
+[node name="Paralax" type="ParallaxBackground"]
+script = ExtResource("1_sfrvr")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+self_modulate = Color(1, 1, 1, 0.588235)
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer2"]
+self_modulate = Color(1, 1, 1, 0.588235)
+position = Vector2(576, 324)
+scale = Vector2(18, 10.125)
+texture = ExtResource("2_csmy6")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+self_modulate = Color(1, 1, 1, 0.588235)
+position = Vector2(576, 308)
+scale = Vector2(18, 9.625)
+texture = ExtResource("2_brb73")
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
+self_modulate = Color(1, 1, 1, 0.588235)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer3"]
+self_modulate = Color(1, 1, 1, 0.588235)
+position = Vector2(576, 324)
+scale = Vector2(18, 10.125)
+texture = ExtResource("4_w58rd")
