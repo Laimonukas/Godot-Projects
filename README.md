@@ -15,5 +15,6 @@ Links:
 ------------
 ## **Shaders**
 Links:
+- Itch.io - [Link](https://laimonukas.itch.io/shaders "Link")
 - Project - [Readme](Shaders/README.md)
 
