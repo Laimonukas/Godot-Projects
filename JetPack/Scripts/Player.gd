@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var arms = get_node("CollisionShape2D/Node2D/Arms")
 @onready var legs = get_node("CollisionShape2D/Node2D/Legs")
 @onready var fire = get_node("CollisionShape2D/Node2D/JetPack/Fire")
+@onready var animPlayer = get_node("AnimationPlayer")
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 enum states {inAir, grounded}
@@ -12,6 +13,7 @@ var currentState
 var hurtCooldown = 1
 signal PlayerCollided
 var canBeHurt = true
+
 
 
 func _process(delta):
@@ -26,9 +28,11 @@ func _process(delta):
 		fire.scale += Vector2(delta,delta)
 		fire.scale.x = clampf(fire.scale.x,0.1,1.2)
 		fire.scale.y = clampf(fire.scale.y,0.1,1.2)
+		$CPUParticles2D.emitting = true
 	else:
 		var size = clampf(velocity.normalized().y,-1,-0.2)
 		fire.scale = Vector2(size,size) 
+		$CPUParticles2D.emitting = false
 		
 	if velocity.y != 0:
 		arms.rotation += velocity.normalized().y *delta * 5
@@ -51,7 +55,14 @@ func _process(delta):
 	
 func PlayerHit():
 	if canBeHurt:
-		emit_signal("PlayerCollided")
-		$AnimationPlayer.play("hurt")
+		animPlayer.play("hurt")
 		canBeHurt = false
-	
+		emit_signal("PlayerCollided")
+		
+func PlayDeath():
+	$CPUParticles2D.emitting = false
+	animPlayer.stop()
+	animPlayer.play("death")
+	$DeathParticles.emitting = true
+	await animPlayer.animation_finished
+	queue_free()

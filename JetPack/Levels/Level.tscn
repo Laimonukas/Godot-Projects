@@ -79,5 +79,75 @@ progress = 708.462
 position = Vector2(-152, 323)
 shape = SubResource("RectangleShape2D_n1my1")
 
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 8.0
+offset_right = 576.0
+offset_bottom = 56.0
+
+[node name="CurrentScore" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 336.0
+offset_right = 642.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 26
+text = "Current score: 00000000"
+vertical_alignment = 1
+
+[node name="HighScore" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 768.0
+offset_right = 908.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 26
+text = "Highscore: 00000000"
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="UI"]
+self_modulate = Color(0.803922, 0.0196078, 0.113725, 1)
+layout_mode = 0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 40.0
+max_value = 3.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="UI/ProgressBar"]
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 32.0
+text = "Hitpoints"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EndGame" type="Control" parent="UI"]
+visible = false
+anchors_preset = 0
+offset_left = 256.0
+offset_top = 184.0
+offset_right = 768.0
+offset_bottom = 448.0
+
+[node name="Label" type="Label" parent="UI/EndGame"]
+layout_mode = 0
+offset_right = 512.0
+offset_bottom = 64.0
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="UI/EndGame"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 64.0
+offset_right = 289.0
+offset_bottom = 104.0
+text = "Restart"
+
 [connection signal="PlayerCollided" from="Player" to="." method="_on_player_player_collided"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="pressed" from="UI/EndGame/Button" to="." method="_on_button_pressed"]

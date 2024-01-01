@@ -17,4 +17,10 @@ Links:
 Links:
 - Itch.io - [Link](https://laimonukas.itch.io/shaders "Link")
 - Project - [Readme](Shaders/README.md)
+------------
+## **Jetpack**
+Links:
+- Itch.io - [Link](https://laimonukas.itch.io/jetpack-game "Link")
+- Project - [Readme](JetPack/README.md)
+- Based on 20 games Challenge - [Link](https://20_games_challenge.gitlab.io/challenge/ "Link")
 
