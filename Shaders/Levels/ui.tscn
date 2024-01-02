@@ -1,15 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpysmfcky3xx"]
+[gd_scene load_steps=7 format=3 uid="uid://dpysmfcky3xx"]
 
-[ext_resource type="Shader" uid="uid://lc5830w1crt" path="res://Shaders/VertexSway.tres" id="1_2oh2a"]
 [ext_resource type="Texture2D" uid="uid://dhhbyntwbchw2" path="res://icon.svg" id="1_a4wpp"]
 [ext_resource type="Script" path="res://Scripts/InputHandler.gd" id="1_et8ks"]
+[ext_resource type="Shader" uid="uid://lc5830w1crt" path="res://Shaders/VertexSway.tres" id="2_732bk"]
+[ext_resource type="Shader" path="res://Shaders/Noise.gdshader" id="4_5ews5"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_icint"]
-shader = ExtResource("1_2oh2a")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nj7w5"]
+shader = ExtResource("2_732bk")
 shader_parameter/UVFloat = 1.0
 shader_parameter/SwayOnY = false
-shader_parameter/TimeMultiplier = 0.2
-shader_parameter/SwayAmount = 20.0
+shader_parameter/TimeMultiplier = 1.5
+shader_parameter/SwayAmount = 100.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_icint"]
+shader = ExtResource("4_5ews5")
+shader_parameter/VectorNoiseAmount = Vector2(13.27, 78.59)
+shader_parameter/Offset = 145.12
+shader_parameter/ColumnAmount = 3.0
+shader_parameter/RowAmount = 3.0
+shader_parameter/UseTime = true
+shader_parameter/TimeSpeed = 1.0
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -29,15 +39,18 @@ offset_bottom = 648.0
 layout_mode = 2
 
 [node name="2DContainer" type="TabContainer" parent="TabContainer/2D"]
+layout_mode = 0
 offset_top = 1.0
 offset_right = 1024.0
 offset_bottom = 169.0
+current_tab = 1
 
 [node name="VertexTime" type="TabBar" parent="TabContainer/2D/2DContainer"]
+visible = false
 layout_mode = 2
 
 [node name="VertexTimeSprite" type="Sprite2D" parent="TabContainer/2D/2DContainer/VertexTime"]
-material = SubResource("ShaderMaterial_icint")
+material = SubResource("ShaderMaterial_nj7w5")
 position = Vector2(512, -255)
 scale = Vector2(2.5, 2)
 texture = ExtResource("1_a4wpp")
@@ -108,15 +121,104 @@ vertical_alignment = 1
 layout_mode = 2
 icon_alignment = 1
 
-[node name="Fragment" type="TabBar" parent="TabContainer/2D/2DContainer"]
-visible = false
+[node name="VoronoiNoise" type="TabBar" parent="TabContainer/2D/2DContainer"]
 layout_mode = 2
+
+[node name="NoiseSprite" type="Sprite2D" parent="TabContainer/2D/2DContainer/VoronoiNoise"]
+material = SubResource("ShaderMaterial_icint")
+position = Vector2(512, -255)
+scale = Vector2(2.5, 2)
+texture = ExtResource("1_a4wpp")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/2D/2DContainer/VoronoiNoise"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 9.0
+offset_right = 1016.0
+offset_bottom = 129.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer"]
+custom_minimum_size = Vector2(800, 120)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Noise settings:"
+
+[node name="Label2" type="Label" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Noise X and Y:"
+
+[node name="VoronoiColorPicker" type="ColorPickerButton" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "ColorPicker"
+color = Color(0.364706, 0.729412, 0.890196, 1)
+edit_alpha = false
+
+[node name="Label3" type="Label" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Offset:"
+
+[node name="VoronoiNoiseOffset" type="SpinBox" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label3"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = -4.0
+offset_right = 224.0
+offset_bottom = 27.0
+min_value = 1.0
+max_value = 99999.0
+value = 1.0
+
+[node name="Label4" type="Label" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Column and Row counts"
+
+[node name="VoronoiCollumn" type="SpinBox" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label4"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = -4.0
+offset_right = 291.063
+offset_bottom = 27.0
+min_value = 2.0
+max_value = 10.0
+value = 2.0
+
+[node name="VoronoiRow" type="SpinBox" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label4"]
+layout_mode = 0
+offset_left = 312.0
+offset_top = -4.0
+offset_right = 395.063
+offset_bottom = 27.0
+min_value = 2.0
+max_value = 10.0
+value = 2.0
+
+[node name="Label5" type="Label" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Use Time: "
+
+[node name="VoronoiUseTime" type="CheckButton" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label5"]
+layout_mode = 0
+offset_left = 80.0
+offset_right = 124.0
+offset_bottom = 24.0
+button_pressed = true
+
+[node name="VoronoiTimeSpeed" type="SpinBox" parent="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label5"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = -4.0
+offset_right = 211.063
+offset_bottom = 27.0
+min_value = 1.0
+value = 1.0
 
 [node name="3D" type="TabBar" parent="TabContainer"]
 visible = false
 layout_mode = 2
 
 [node name="3DContainer" type="TabContainer" parent="TabContainer/3D"]
+layout_mode = 0
 offset_top = 1.0
 offset_right = 1024.0
 offset_bottom = 169.0
@@ -136,3 +238,9 @@ layout_mode = 2
 [connection signal="value_changed" from="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer/VertexTimeUVFloat" to="." method="_on_vertex_time_uv_float_value_changed"]
 [connection signal="value_changed" from="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2/VertexTimeSwayAmount" to="." method="_on_vertex_time_sway_amount_value_changed"]
 [connection signal="toggled" from="TabContainer/2D/2DContainer/VertexTime/HBoxContainer/VBoxContainer2/VertexTimeSwayOnY" to="." method="_on_vertex_time_sway_on_y_toggled"]
+[connection signal="color_changed" from="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/VoronoiColorPicker" to="." method="_on_voronoi_color_picker_color_changed"]
+[connection signal="value_changed" from="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label3/VoronoiNoiseOffset" to="." method="_on_voronoi_noise_offset_value_changed"]
+[connection signal="value_changed" from="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label4/VoronoiCollumn" to="." method="_on_voronoi_collumn_value_changed"]
+[connection signal="value_changed" from="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label4/VoronoiRow" to="." method="_on_voronoi_row_value_changed"]
+[connection signal="toggled" from="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label5/VoronoiUseTime" to="." method="_on_voronoi_use_time_toggled"]
+[connection signal="value_changed" from="TabContainer/2D/2DContainer/VoronoiNoise/ScrollContainer/VBoxContainer/Label5/VoronoiTimeSpeed" to="." method="_on_voronoi_time_speed_value_changed"]
