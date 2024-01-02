@@ -9,7 +9,7 @@ Completed goals:
 - Added obstacles for player to avoid
 - Obstacles are instantiated with a script
 - Obstacles are deleted when going past the player/ offscreen
-- Score is calculated based on speed/play session lenght and is saved/shown with highscore
+- Score is calculated based on speed/play session length and is saved/shown with highscore
 
 Stretch goals:
 - Saving the high score between play sessions.
@@ -17,7 +17,7 @@ Stretch goals:
 
 Other:
 - Level background is paralax.
-- Obstacles/Score/Background are affected by the lenght of play. The longer the game goes on,- the faster things move.
+- Obstacles/Score/Background are affected by the length of play. The longer the game goes on,- the faster things move.
 - Added some support for Mobile play
 - Player immunity to damage if hit for a short time
 - Basic animations:
