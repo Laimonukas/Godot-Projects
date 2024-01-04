@@ -8,9 +8,9 @@ uniform bool UseTime = false;
 uniform float TimeSpeed = 1.0;
 
 
-vec2 random(vec2 uv) {
+vec2 random(vec2 uv) {;
 	return vec2(fract(sin(dot(uv.xy,
-		VectorNoiseAmount)) * Offset));
+		clamp(VectorNoiseAmount,vec2(0.1,0.1),vec2(1.0,1.0)))) * Offset));
 }
 
 float worley(vec2 uv, float columns, float rows) {

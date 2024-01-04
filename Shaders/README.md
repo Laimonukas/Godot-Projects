@@ -4,8 +4,10 @@ Links:
 
 Project made to learn Shader scripting
 
-Currently has:
-- Vertex sway - grass sway
-
+Shaders:
+- 2D:
+ - 1 - Vertex Sway (e.g. grass)
+ - 2 - Voronoi Noise
+ - 3 - Basic Shader graph functions
 ------------
 
