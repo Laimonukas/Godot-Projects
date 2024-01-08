@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://chxouorombqcj"]
+
+[node name="Sand" type="Node2D"]
+
+[node name="Wall" type="Polygon2D" parent="."]
+position = Vector2(-14, -50)
+polygon = PackedVector2Array(-221, -35, -245, 794, 149, 772, 303, 486, 303.575, 138.66, 98, -58.99)
+
+[node name="Area2D" type="Area2D" parent="Wall"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall/Area2D"]

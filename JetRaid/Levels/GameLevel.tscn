@@ -1,8 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://cs2b3uuuav0ll"]
+[gd_scene load_steps=5 format=3 uid="uid://cs2b3uuuav0ll"]
 
 [ext_resource type="PackedScene" uid="uid://bu0pcaaepchoq" path="res://Scenes/Jet.tscn" id="1_qcp3e"]
+[ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="2_ocjke"]
+[ext_resource type="Shader" path="res://Shaders/Water.gdshader" id="2_y3b87"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q8mxh"]
+shader = ExtResource("2_y3b87")
+shader_parameter/VectorNoiseAmount = Vector2(5.5, 80.5)
+shader_parameter/Offset = 100.0
+shader_parameter/ColumnAmount = 12.0
+shader_parameter/RowAmount = 3.0
+shader_parameter/waterColor = Vector3(0.4, 0.8, 1)
+shader_parameter/speed = 0.2
 
 [node name="GameLevel" type="Node2D"]
 
 [node name="Jet" parent="." instance=ExtResource("1_qcp3e")]
 position = Vector2(560, 559)
+
+[node name="Water" type="Sprite2D" parent="."]
+z_index = -10
+material = SubResource("ShaderMaterial_q8mxh")
+position = Vector2(577.75, 326.75)
+scale = Vector2(1156.5, 654.5)
+texture = ExtResource("2_ocjke")
