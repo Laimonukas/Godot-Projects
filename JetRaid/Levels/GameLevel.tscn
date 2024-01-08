@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cs2b3uuuav0ll"]
+
+[ext_resource type="PackedScene" uid="uid://bu0pcaaepchoq" path="res://Scenes/Jet.tscn" id="1_qcp3e"]
+
+[node name="GameLevel" type="Node2D"]
+
+[node name="Jet" parent="." instance=ExtResource("1_qcp3e")]
+position = Vector2(560, 559)

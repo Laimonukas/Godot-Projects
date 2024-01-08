@@ -1,0 +1,159 @@
+[gd_scene load_steps=15 format=3 uid="uid://bu0pcaaepchoq"]
+
+[ext_resource type="Texture2D" uid="uid://dulgids1gv2el" path="res://Assets/Jet.png" id="1_72sk1"]
+[ext_resource type="Script" path="res://Scenes/Jet.gd" id="1_bjiut"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5v08r"]
+size = Vector2(105, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crsvx"]
+atlas = ExtResource("1_72sk1")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1urx6"]
+atlas = ExtResource("1_72sk1")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rq2b"]
+atlas = ExtResource("1_72sk1")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5e30f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crsvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1urx6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rq2b")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_mu0cb"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.9), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-4, 0), Vector2(4, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_540em"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w5g82"]
+_data = {
+"RESET": SubResource("Animation_540em"),
+"idle": SubResource("Animation_mu0cb")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jij0p"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iwbyp"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0veil"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_aysje"]
+states/Start/position = Vector2(265, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_jij0p")
+states/idle/position = Vector2(548, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_iwbyp"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_0veil")]
+graph_offset = Vector2(-26, 1)
+
+[node name="Jet" type="CharacterBody2D"]
+script = ExtResource("1_bjiut")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_5v08r")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5e30f")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_w5g82")
+}
+tree_root = SubResource("AnimationNodeStateMachine_aysje")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_w5g82")
+}
