@@ -1,11 +1,31 @@
-[gd_scene format=3 uid="uid://chxouorombqcj"]
+[gd_scene load_steps=4 format=3 uid="uid://chxouorombqcj"]
 
-[node name="Sand" type="Node2D"]
+[ext_resource type="Script" path="res://Scripts/Sand.gd" id="1_uq2g3"]
 
-[node name="Wall" type="Polygon2D" parent="."]
-position = Vector2(-14, -50)
-polygon = PackedVector2Array(-221, -35, -245, 794, 149, 772, 303, 486, 303.575, 138.66, 98, -58.99)
+[sub_resource type="Gradient" id="Gradient_gj48j"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.1, 1)
+colors = PackedColorArray(1, 1, 0.756863, 0.784314, 0.588921, 0.588921, 0.445733, 0.588921, 0, 0, 0, 0)
+metadata/_snap_enabled = true
 
-[node name="Area2D" type="Area2D" parent="Wall"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j7akx"]
+gradient = SubResource("Gradient_gj48j")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall/Area2D"]
+[node name="Sand" type="Node2D" node_paths=PackedStringArray("sandArray")]
+script = ExtResource("1_uq2g3")
+sandArray = [NodePath("Sand/PolygonSand"), NodePath("Sand/PolygonSand2")]
+speed = 200.0
+
+[node name="Sand" type="Node2D" parent="."]
+
+[node name="PolygonSand" type="Polygon2D" parent="Sand"]
+z_index = -9
+position = Vector2(-44, -2)
+texture = SubResource("GradientTexture1D_j7akx")
+polygon = PackedVector2Array(-221, -35, -245, 794, 149, 772, 303, 528.05, 303.575, 184.23, 98, -59.57)
+
+[node name="PolygonSand2" type="Polygon2D" parent="Sand"]
+z_index = -9
+position = Vector2(-45, -828)
+texture = SubResource("GradientTexture1D_j7akx")
+polygon = PackedVector2Array(-221, -35, -245, 794, 149, 772, 303, 528.05, 303.575, 184.23, 98, -59.57)

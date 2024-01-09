@@ -4,8 +4,16 @@ uniform vec2 VectorNoiseAmount = vec2(5.5,80.5);
 uniform float Offset = 2344.0;
 uniform float ColumnAmount = 3.0;
 uniform float RowAmount = 5.0;
-uniform vec3 waterColor = vec3(0.0,0.0,1.0);
+uniform vec4 waterColor : source_color = vec4(0.0,0.0,1.0,1.0);
 uniform float speed = 1.0;
+
+
+uniform int typeID : hint_range(0, 2) = 0;
+uniform float smoothStepMin = 0.1;
+uniform float smoothStepMax = 0.9;
+
+uniform float circleRadius = 1.0;
+
 
 vec2 random(vec2 uv) {;
 	return vec2(fract(sin(dot(uv.xy,
@@ -45,8 +53,20 @@ void fragment() {
 	st.y -= TIME * speed;
 	float worley = worley(st, ColumnAmount, RowAmount);
 	vec3 clampedWorley = clamp(vec3(worley),0.3,1.0);
-	vec3 col = mix(clampedWorley,waterColor,0.9);
 	
-	COLOR = vec4(col, 1.0);
+	vec3 col = mix(clampedWorley,waterColor.rgb,0.9);
 	
+	switch(typeID){
+		case 0:
+			COLOR = vec4(col, 1.0);
+			break;
+		case 1:
+			float sm = smoothstep(smoothStepMin,smoothStepMax,UV.x);
+			COLOR = vec4(col,sm);
+			break;
+		case 2:
+			float d = 1.0 - distance(vec2(0.5,0.5),UV) * circleRadius;
+			COLOR = vec4(col,d);
+			break;
+	}
 }

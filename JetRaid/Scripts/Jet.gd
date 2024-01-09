@@ -12,10 +12,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if(Input.is_action_pressed("Left")):
-		position.x -= moveSpeed
+		velocity.x -= moveSpeed
 		animSprite.flip_h = true
 	if(Input.is_action_pressed("Right")):
-		position.x += moveSpeed
+		velocity.x += moveSpeed
 		animSprite.flip_h = false
 		
 	SetShadow()

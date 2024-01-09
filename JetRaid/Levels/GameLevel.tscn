@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cs2b3uuuav0ll"]
+[gd_scene load_steps=7 format=3 uid="uid://cs2b3uuuav0ll"]
 
 [ext_resource type="PackedScene" uid="uid://bu0pcaaepchoq" path="res://Scenes/Jet.tscn" id="1_qcp3e"]
 [ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="2_ocjke"]
-[ext_resource type="Shader" path="res://Shaders/Water.gdshader" id="2_y3b87"]
+[ext_resource type="Shader" path="res://Shaders/Ground_Water.gdshader" id="2_y3b87"]
+[ext_resource type="PackedScene" uid="uid://d1ij0b1nvnino" path="res://Scenes/LandPlot.tscn" id="4_njdin"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8mxh"]
 shader = ExtResource("2_y3b87")
@@ -10,8 +11,25 @@ shader_parameter/VectorNoiseAmount = Vector2(5.5, 80.5)
 shader_parameter/Offset = 100.0
 shader_parameter/ColumnAmount = 12.0
 shader_parameter/RowAmount = 3.0
-shader_parameter/waterColor = Vector3(0.4, 0.8, 1)
+shader_parameter/waterColor = Color(0, 0.894118, 1, 1)
 shader_parameter/speed = 0.2
+shader_parameter/typeID = 0
+shader_parameter/smoothStepMin = 0.1
+shader_parameter/smoothStepMax = 0.9
+shader_parameter/circleRadius = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w6hn1"]
+shader = ExtResource("2_y3b87")
+shader_parameter/VectorNoiseAmount = Vector2(1, 1)
+shader_parameter/Offset = 1.0
+shader_parameter/ColumnAmount = 2.0
+shader_parameter/RowAmount = 2.0
+shader_parameter/waterColor = Color(0.980392, 0.937255, 0.607843, 1)
+shader_parameter/speed = 0.2
+shader_parameter/typeID = 1
+shader_parameter/smoothStepMin = 0.9
+shader_parameter/smoothStepMax = 0.1
+shader_parameter/circleRadius = 1.0
 
 [node name="GameLevel" type="Node2D"]
 
@@ -19,8 +37,28 @@ shader_parameter/speed = 0.2
 position = Vector2(560, 559)
 
 [node name="Water" type="Sprite2D" parent="."]
-z_index = -10
+z_index = -100
 material = SubResource("ShaderMaterial_q8mxh")
-position = Vector2(577.75, 326.75)
-scale = Vector2(1156.5, 654.5)
+position = Vector2(575.75, 323.75)
+scale = Vector2(1152.5, 648.5)
 texture = ExtResource("2_ocjke")
+
+[node name="SandWalls" type="Node2D" parent="."]
+
+[node name="Sand" type="Sprite2D" parent="SandWalls"]
+z_index = -10
+material = SubResource("ShaderMaterial_w6hn1")
+position = Vector2(256, 324)
+scale = Vector2(512, 648)
+texture = ExtResource("2_ocjke")
+
+[node name="Sand2" type="Sprite2D" parent="SandWalls"]
+z_index = -10
+material = SubResource("ShaderMaterial_w6hn1")
+position = Vector2(895.146, 323.747)
+rotation = 3.14159
+scale = Vector2(515.866, -648.491)
+texture = ExtResource("2_ocjke")
+
+[node name="LandPlot" parent="SandWalls" instance=ExtResource("4_njdin")]
+position = Vector2(576, 256)
