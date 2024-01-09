@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhncxfrja12hl"]
+
+[ext_resource type="Script" path="res://Scripts/WallSpawner.gd" id="1_kgnq5"]
+[ext_resource type="PackedScene" uid="uid://d1ij0b1nvnino" path="res://Scenes/LandPlot.tscn" id="2_hsn4g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5b4ck"]
+size = Vector2(192, 32)
+
+[node name="WallHandler" type="Node2D" node_paths=PackedStringArray("rigidWallAreas", "wallInstances")]
+script = ExtResource("1_kgnq5")
+wallScenes = Array[PackedScene]([ExtResource("2_hsn4g")])
+rigidWallAreas = [NodePath("SideWallAreas/WallArea"), NodePath("SideWallAreas/WallArea2")]
+wallInstances = [NodePath("InitialWalls/LandPlot"), NodePath("InitialWalls/LandPlot2"), NodePath("InitialWalls/LandPlot3"), NodePath("InitialWalls/LandPlot4"), NodePath("InitialWalls/LandPlot5"), NodePath("InitialWalls/LandPlot6"), NodePath("InitialWalls/LandPlot7"), NodePath("InitialWalls/LandPlot8"), NodePath("InitialWalls/LandPlot9"), NodePath("InitialWalls/LandPlot10"), NodePath("InitialWalls/LandPlot11"), NodePath("InitialWalls/LandPlot12"), NodePath("InitialWalls/LandPlot13"), NodePath("InitialWalls/LandPlot14")]
+
+[node name="InitialWalls" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="LandPlot" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, 100)
+
+[node name="LandPlot2" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, 200)
+
+[node name="LandPlot3" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, 300)
+
+[node name="LandPlot4" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, 400)
+
+[node name="LandPlot5" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, 500)
+
+[node name="LandPlot6" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, 600)
+
+[node name="LandPlot7" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, 100)
+
+[node name="LandPlot8" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, 200)
+
+[node name="LandPlot9" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, 300)
+
+[node name="LandPlot10" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, 400)
+
+[node name="LandPlot11" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, 500)
+
+[node name="LandPlot12" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, 600)
+
+[node name="LandPlot13" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, 0)
+
+[node name="LandPlot14" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, 0)
+
+[node name="SideWallAreas" type="Node2D" parent="."]
+
+[node name="WallArea" type="Area2D" parent="SideWallAreas"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SideWallAreas/WallArea"]
+position = Vector2(96, -16)
+shape = SubResource("RectangleShape2D_5b4ck")
+
+[node name="WallArea2" type="Area2D" parent="SideWallAreas"]
+position = Vector2(960, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SideWallAreas/WallArea2"]
+position = Vector2(96, -16)
+shape = SubResource("RectangleShape2D_5b4ck")

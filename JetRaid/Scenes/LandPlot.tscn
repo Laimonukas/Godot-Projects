@@ -2,6 +2,7 @@
 
 [ext_resource type="Shader" path="res://Shaders/Ground_Water.gdshader" id="1_0kkk3"]
 [ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="2_8smuk"]
+[ext_resource type="Texture2D" uid="uid://b6g7n7dhd6u25" path="res://Assets/Rock.png" id="3_qt573"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1tfu"]
 shader = ExtResource("1_0kkk3")
@@ -14,20 +15,28 @@ shader_parameter/speed = 0.1
 shader_parameter/typeID = 2
 shader_parameter/smoothStepMin = 0.1
 shader_parameter/smoothStepMax = 0.9
-shader_parameter/circleRadius = 2.0
+shader_parameter/circleRadius = 1.595
 
-[sub_resource type="Gradient" id="Gradient_cagxr"]
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_wxexw"]
-gradient = SubResource("Gradient_cagxr")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfq1y"]
+size = Vector2(88, 128)
 
 [node name="LandPlot" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_r1tfu")
-scale = Vector2(100, 60)
+position = Vector2(2.38419e-07, -2)
+scale = Vector2(224, 88)
 texture = ExtResource("2_8smuk")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-texture = SubResource("GradientTexture1D_wxexw")
-polygon = PackedVector2Array(-54, -100, 55, -99, 44, -25, 32, 4, -32, 5)
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(-4.5, -64)
+scale = Vector2(0.726563, 1)
+texture = ExtResource("3_qt573")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-4, -64)
+shape = SubResource("RectangleShape2D_yfq1y")
