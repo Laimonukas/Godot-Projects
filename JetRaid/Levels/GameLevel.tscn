@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="2_ocjke"]
 [ext_resource type="Shader" path="res://Shaders/Ground_Water.gdshader" id="2_y3b87"]
 [ext_resource type="PackedScene" uid="uid://bhncxfrja12hl" path="res://Scenes/WallHandler.tscn" id="4_bk1o0"]
+[ext_resource type="Material" uid="uid://db8vqff41wg4b" path="res://Materials/SandLeft.tres" id="5_nnsb8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8mxh"]
 shader = ExtResource("2_y3b87")
@@ -16,19 +17,6 @@ shader_parameter/speed = 0.2
 shader_parameter/typeID = 0
 shader_parameter/smoothStepMin = 0.1
 shader_parameter/smoothStepMax = 0.9
-shader_parameter/circleRadius = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_w6hn1"]
-shader = ExtResource("2_y3b87")
-shader_parameter/VectorNoiseAmount = Vector2(1, 1)
-shader_parameter/Offset = 1.0
-shader_parameter/ColumnAmount = 2.0
-shader_parameter/RowAmount = 2.0
-shader_parameter/waterColor = Color(0.980392, 0.937255, 0.607843, 1)
-shader_parameter/speed = 0.2
-shader_parameter/typeID = 1
-shader_parameter/smoothStepMin = 0.9
-shader_parameter/smoothStepMax = 0.1
 shader_parameter/circleRadius = 1.0
 
 [node name="GameLevel" type="Node2D"]
@@ -45,19 +33,21 @@ scale = Vector2(1152.5, 648.5)
 texture = ExtResource("2_ocjke")
 
 [node name="WallHandler" parent="." instance=ExtResource("4_bk1o0")]
+z_index = -10
 
 [node name="SandWalls" type="Node2D" parent="."]
+z_index = -50
 
 [node name="Sand" type="Sprite2D" parent="SandWalls"]
 z_index = -10
-material = SubResource("ShaderMaterial_w6hn1")
+material = ExtResource("5_nnsb8")
 position = Vector2(256, 324)
 scale = Vector2(512, 648)
 texture = ExtResource("2_ocjke")
 
 [node name="Sand2" type="Sprite2D" parent="SandWalls"]
 z_index = -10
-material = SubResource("ShaderMaterial_w6hn1")
+material = ExtResource("5_nnsb8")
 position = Vector2(895.146, 323.747)
 rotation = 3.14159
 scale = Vector2(515.866, -648.491)

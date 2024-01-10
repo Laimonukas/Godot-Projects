@@ -1,16 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhncxfrja12hl"]
+[gd_scene load_steps=6 format=3 uid="uid://bhncxfrja12hl"]
 
 [ext_resource type="Script" path="res://Scripts/WallSpawner.gd" id="1_kgnq5"]
 [ext_resource type="PackedScene" uid="uid://d1ij0b1nvnino" path="res://Scenes/LandPlot.tscn" id="2_hsn4g"]
+[ext_resource type="Material" uid="uid://dfnwk76kuirfj" path="res://Materials/SandCircle.tres" id="3_r8y5v"]
+[ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="4_i7edn"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5b4ck"]
-size = Vector2(192, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqsdo"]
+size = Vector2(320, 320)
 
-[node name="WallHandler" type="Node2D" node_paths=PackedStringArray("rigidWallAreas", "wallInstances")]
+[node name="WallHandler" type="Node2D" node_paths=PackedStringArray("initialWallInstances", "rockFormation")]
+y_sort_enabled = true
 script = ExtResource("1_kgnq5")
 wallScenes = Array[PackedScene]([ExtResource("2_hsn4g")])
-rigidWallAreas = [NodePath("SideWallAreas/WallArea"), NodePath("SideWallAreas/WallArea2")]
-wallInstances = [NodePath("InitialWalls/LandPlot"), NodePath("InitialWalls/LandPlot2"), NodePath("InitialWalls/LandPlot3"), NodePath("InitialWalls/LandPlot4"), NodePath("InitialWalls/LandPlot5"), NodePath("InitialWalls/LandPlot6"), NodePath("InitialWalls/LandPlot7"), NodePath("InitialWalls/LandPlot8"), NodePath("InitialWalls/LandPlot9"), NodePath("InitialWalls/LandPlot10"), NodePath("InitialWalls/LandPlot11"), NodePath("InitialWalls/LandPlot12"), NodePath("InitialWalls/LandPlot13"), NodePath("InitialWalls/LandPlot14")]
+initialWallInstances = [NodePath("InitialWalls/LandPlot"), NodePath("InitialWalls/LandPlot2"), NodePath("InitialWalls/LandPlot3"), NodePath("InitialWalls/LandPlot4"), NodePath("InitialWalls/LandPlot5"), NodePath("InitialWalls/LandPlot6"), NodePath("InitialWalls/LandPlot7"), NodePath("InitialWalls/LandPlot8"), NodePath("InitialWalls/LandPlot9"), NodePath("InitialWalls/LandPlot10"), NodePath("InitialWalls/LandPlot11"), NodePath("InitialWalls/LandPlot12"), NodePath("InitialWalls/LandPlot13"), NodePath("InitialWalls/LandPlot14"), NodePath("InitialWalls/LandPlot15"), NodePath("InitialWalls/LandPlot16")]
+rockFormation = NodePath("RockFormation")
 
 [node name="InitialWalls" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -57,17 +60,50 @@ position = Vector2(100, 0)
 [node name="LandPlot14" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
 position = Vector2(1050, 0)
 
-[node name="SideWallAreas" type="Node2D" parent="."]
+[node name="LandPlot15" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(100, -104)
 
-[node name="WallArea" type="Area2D" parent="SideWallAreas"]
+[node name="LandPlot16" parent="InitialWalls" instance=ExtResource("2_hsn4g")]
+position = Vector2(1050, -104)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SideWallAreas/WallArea"]
-position = Vector2(96, -16)
-shape = SubResource("RectangleShape2D_5b4ck")
+[node name="RockFormation" type="Area2D" parent="."]
+y_sort_enabled = true
+position = Vector2(136, 128)
 
-[node name="WallArea2" type="Area2D" parent="SideWallAreas"]
-position = Vector2(960, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RockFormation"]
+y_sort_enabled = true
+position = Vector2(0, -80)
+shape = SubResource("RectangleShape2D_bqsdo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SideWallAreas/WallArea2"]
-position = Vector2(96, -16)
-shape = SubResource("RectangleShape2D_5b4ck")
+[node name="LandPlot" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(-120, -96)
+
+[node name="LandPlot2" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(-40, -40)
+
+[node name="LandPlot3" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(72, -40)
+
+[node name="LandPlot4" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(-104, 24)
+
+[node name="LandPlot5" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(-4, 48)
+
+[node name="LandPlot6" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(88, 80)
+
+[node name="LandPlot7" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(-88, 112)
+
+[node name="LandPlot8" parent="RockFormation/CollisionShape2D" instance=ExtResource("2_hsn4g")]
+position = Vector2(21, 152)
+
+[node name="Sprite2D" type="Sprite2D" parent="RockFormation"]
+z_index = -1
+material = ExtResource("3_r8y5v")
+position = Vector2(-8, -64)
+rotation = -0.82205
+scale = Vector2(287.158, 320.199)
+skew = 0.359538
+texture = ExtResource("4_i7edn")

@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dfnwk76kuirfj"]
+
+[ext_resource type="Shader" path="res://Shaders/Ground_Water.gdshader" id="1_ori6y"]
+
+[resource]
+shader = ExtResource("1_ori6y")
+shader_parameter/VectorNoiseAmount = Vector2(20, 20)
+shader_parameter/Offset = 300.0
+shader_parameter/ColumnAmount = 2.0
+shader_parameter/RowAmount = 2.0
+shader_parameter/waterColor = Color(0.980392, 0.937255, 0.607843, 1)
+shader_parameter/speed = 0.1
+shader_parameter/typeID = 2
+shader_parameter/smoothStepMin = 0.1
+shader_parameter/smoothStepMax = 0.9
+shader_parameter/circleRadius = 1.985
