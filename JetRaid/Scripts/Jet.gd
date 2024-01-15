@@ -4,6 +4,10 @@ extends CharacterBody2D
 @export var animSprite : AnimatedSprite2D
 @export var shadowSprite :AnimatedSprite2D
 @export var animPlayer : AnimationPlayer
+@export var bullet : PackedScene
+@export var fireRate = 0.2
+var cooldown = fireRate
+
 
 func _ready():
 	animPlayer.play("idle")
@@ -17,7 +21,14 @@ func _process(delta):
 	if(Input.is_action_pressed("Right")):
 		velocity.x += moveSpeed
 		animSprite.flip_h = false
-		
+	
+	if Input.is_action_pressed("Shoot"):
+		if cooldown >= 0:
+			cooldown -= delta
+		else:
+			cooldown = fireRate
+			ShootProjectiles()
+	
 	SetShadow()
 	move_and_slide()
 
@@ -26,3 +37,8 @@ func SetShadow():
 	shadowSprite.flip_h = animSprite.flip_h
 	shadowSprite.animation = animSprite.animation
 	shadowSprite.frame = animSprite.frame
+
+func ShootProjectiles():
+	var projectile : CharacterBody2D = bullet.instantiate() 
+	projectile.position = position
+	add_sibling(projectile)

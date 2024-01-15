@@ -75,12 +75,11 @@ void fragment() {
 }"
 
 [resource]
-resource_local_to_scene = true
 shader = SubResource("Shader_f5vtj")
 shader_parameter/VectorNoiseAmount = Vector2(20, 20)
 shader_parameter/Offset = 300.0
-shader_parameter/ColumnAmount = 15.0
-shader_parameter/RowAmount = 15.0
+shader_parameter/ColumnAmount = 2.0
+shader_parameter/RowAmount = 1.0
 shader_parameter/waterColor = Color(0.980392, 0.937255, 0.607843, 1)
 shader_parameter/speed = 0.001
 shader_parameter/typeID = 2

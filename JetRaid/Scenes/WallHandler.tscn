@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bhncxfrja12hl"]
+[gd_scene load_steps=19 format=3 uid="uid://bhncxfrja12hl"]
 
 [ext_resource type="Script" path="res://Scripts/WallSpawner.gd" id="1_kgnq5"]
 [ext_resource type="PackedScene" uid="uid://d1ij0b1nvnino" path="res://Scenes/LandPlot.tscn" id="2_hsn4g"]
@@ -97,6 +97,14 @@ shader_parameter/smoothStepMin = 0.1
 shader_parameter/smoothStepMax = 0.9
 shader_parameter/circleRadius = 2.16
 
+[sub_resource type="Curve" id="Curve_fmedo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_rn8ba"]
+offsets = PackedFloat32Array(0, 0.173333, 0.266667)
+colors = PackedColorArray(1, 0.694118, 0.129412, 1, 1, 1, 0, 1, 0, 0, 0, 1)
+
 [sub_resource type="Shader" id="Shader_mttci"]
 code = "shader_type canvas_item;
 
@@ -172,7 +180,6 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_veury"]
-resource_local_to_scene = true
 shader = SubResource("Shader_mttci")
 shader_parameter/VectorNoiseAmount = Vector2(20, 20)
 shader_parameter/Offset = 300.0
@@ -260,7 +267,6 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cuj8y"]
-resource_local_to_scene = true
 shader = SubResource("Shader_pelkh")
 shader_parameter/VectorNoiseAmount = Vector2(20, 20)
 shader_parameter/Offset = 300.0
@@ -273,13 +279,119 @@ shader_parameter/smoothStepMin = 0.1
 shader_parameter/smoothStepMax = 0.9
 shader_parameter/circleRadius = 2.16
 
-[node name="WallHandler" type="Node2D" node_paths=PackedStringArray("initialWallInstances", "rockFormation", "bridge")]
+[sub_resource type="Animation" id="Animation_g0413"]
+resource_name = "BridgeHit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bridge/BridgeSprites:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(3, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_22wwd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bridge/BridgeSprites:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bridge/CPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Bridge/BridgeSprites:skew")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_x85cm"]
+resource_name = "BridgeDestroy"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bridge/CPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bridge/BridgeSprites:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.869174]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Bridge/BridgeSprites:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dohw4"]
+_data = {
+"BridgeDestroy": SubResource("Animation_x85cm"),
+"BridgeHit": SubResource("Animation_g0413"),
+"RESET": SubResource("Animation_22wwd")
+}
+
+[node name="WallHandler" type="Node2D" node_paths=PackedStringArray("initialWallInstances", "rockFormation", "bridge", "bridgeCollider", "bridgeSpriteParent", "animationPlayer", "bridgeExplosionParticles")]
 y_sort_enabled = true
 script = ExtResource("1_kgnq5")
 wallScenes = Array[PackedScene]([ExtResource("2_hsn4g")])
 initialWallInstances = [NodePath("InitialWalls/LandPlot"), NodePath("InitialWalls/LandPlot2"), NodePath("InitialWalls/LandPlot3"), NodePath("InitialWalls/LandPlot4"), NodePath("InitialWalls/LandPlot5"), NodePath("InitialWalls/LandPlot6"), NodePath("InitialWalls/LandPlot7"), NodePath("InitialWalls/LandPlot8"), NodePath("InitialWalls/LandPlot9"), NodePath("InitialWalls/LandPlot10"), NodePath("InitialWalls/LandPlot11"), NodePath("InitialWalls/LandPlot12"), NodePath("InitialWalls/LandPlot13"), NodePath("InitialWalls/LandPlot14"), NodePath("InitialWalls/LandPlot15"), NodePath("InitialWalls/LandPlot16")]
 rockFormation = NodePath("RockFormation")
 bridge = NodePath("Bridge")
+bridgeCollider = NodePath("Bridge/Area2D")
+bridgeSpriteParent = NodePath("Bridge/BridgeSprites")
+animationPlayer = NodePath("AnimationPlayer")
+bridgeExplosionParticles = NodePath("Bridge/CPUParticles2D")
 
 [node name="InitialWalls" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -377,6 +489,36 @@ texture = ExtResource("4_i7edn")
 [node name="Bridge" type="Node2D" parent="."]
 position = Vector2(576, -1500)
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Bridge"]
+scale = Vector2(6, 1)
+emitting = false
+amount = 300
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.5
+randomness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 128.0
+direction = Vector2(0, 0)
+spread = 150.45
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 10.0
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+orbit_velocity_min = -0.1
+orbit_velocity_max = 0.1
+linear_accel_min = 1.0
+linear_accel_max = 10.0
+angle_min = -145.5
+angle_max = 261.8
+scale_amount_min = 30.0
+scale_amount_max = 50.0
+scale_amount_curve = SubResource("Curve_fmedo")
+color = Color(1, 0.854902, 0, 1)
+color_ramp = SubResource("Gradient_rn8ba")
+
 [node name="BridgeSprites" type="Node2D" parent="Bridge"]
 
 [node name="Sprite2D" type="Sprite2D" parent="Bridge/BridgeSprites"]
@@ -453,6 +595,10 @@ scale = Vector2(6.375, 7.625)
 texture = ExtResource("6_34n6p")
 
 [node name="Area2D" type="Area2D" parent="Bridge"]
+visible = false
+collision_layer = 2
+collision_mask = 2
+monitoring = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Bridge/Area2D"]
 polygon = PackedVector2Array(-576, 8, -472, 0, -296, 64, -256, 144, -128, 24, -8, 0, 120, 16, 256, 120, 456, -8, 552, 0, 736, 96, 744, 136, 760, 144, 760, -48, -752, -56, -752, 136)
@@ -474,3 +620,10 @@ position = Vector2(280, 128)
 scale = Vector2(320, 296.353)
 skew = 0.663225
 texture = ExtResource("4_i7edn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_dohw4")
+}
+
+[connection signal="body_entered" from="Bridge/Area2D" to="." method="_on_area_2d_body_entered"]

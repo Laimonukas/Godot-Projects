@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://bu0pcaaepchoq"]
+[gd_scene load_steps=17 format=3 uid="uid://bu0pcaaepchoq"]
 
 [ext_resource type="Texture2D" uid="uid://dulgids1gv2el" path="res://Assets/Jet.png" id="1_72sk1"]
 [ext_resource type="Script" path="res://Scripts/Jet.gd" id="1_bjiut"]
+[ext_resource type="PackedScene" uid="uid://g1p7ob8eiugt" path="res://Scenes/Projectile.tscn" id="2_lvctn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5v08r"]
 size = Vector2(105, 125)
@@ -34,6 +35,17 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="Curve" id="Curve_jwv5q"]
+min_value = 1.0
+max_value = 3.01
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2e-05, 3.01), 0.0, 0.0, 0, 0, Vector2(0.99999, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.175824), 0.0, 0.0, 0, 0]
+point_count = 4
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_djxka"]
+offsets = PackedFloat32Array(0, 0.0333333, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.906667, 0.906667, 0.906667, 1, 1, 0, 0, 1)
 
 [sub_resource type="Animation" id="Animation_540em"]
 length = 0.001
@@ -136,6 +148,8 @@ script = ExtResource("1_bjiut")
 animSprite = NodePath("MainBody")
 shadowSprite = NodePath("MainBody/Shadow")
 animPlayer = NodePath("AnimationPlayer")
+bullet = ExtResource("2_lvctn")
+fireRate = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -0.5)
@@ -151,6 +165,26 @@ position = Vector2(-34.855, 69.785)
 scale = Vector2(0.518, 0.518)
 sprite_frames = SubResource("SpriteFrames_5e30f")
 offset = Vector2(3.14595, 0)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="MainBody"]
+z_index = -1
+position = Vector2(0, 52.4093)
+amount = 32
+lifetime = 0.3
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector2(0, 1)
+angular_velocity_min = -130.91
+angular_velocity_max = 189.09
+orbit_velocity_min = -0.1
+orbit_velocity_max = 0.1
+angle_min = -116.4
+angle_max = 174.5
+scale_amount_min = 0.6
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_jwv5q")
+color = Color(1, 1, 0, 1)
+color_ramp = SubResource("Gradient_djxka")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 libraries = {
