@@ -1,19 +1,285 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhncxfrja12hl"]
+[gd_scene load_steps=13 format=3 uid="uid://bhncxfrja12hl"]
 
 [ext_resource type="Script" path="res://Scripts/WallSpawner.gd" id="1_kgnq5"]
 [ext_resource type="PackedScene" uid="uid://d1ij0b1nvnino" path="res://Scenes/LandPlot.tscn" id="2_hsn4g"]
-[ext_resource type="Material" uid="uid://dfnwk76kuirfj" path="res://Materials/SandCircle.tres" id="3_r8y5v"]
 [ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="4_i7edn"]
+[ext_resource type="Texture2D" uid="uid://buc2wbtfm6ucn" path="res://Assets/Bridge.png" id="5_i47da"]
+[ext_resource type="Texture2D" uid="uid://bsxikkhldqq6i" path="res://Assets/tree.png" id="6_34n6p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bqsdo"]
 size = Vector2(320, 320)
 
-[node name="WallHandler" type="Node2D" node_paths=PackedStringArray("initialWallInstances", "rockFormation")]
+[sub_resource type="Shader" id="Shader_bjs8e"]
+code = "shader_type canvas_item;
+
+uniform vec2 VectorNoiseAmount = vec2(5.5,80.5);
+uniform float Offset = 2344.0;
+uniform float ColumnAmount = 3.0;
+uniform float RowAmount = 5.0;
+uniform vec4 waterColor : source_color = vec4(0.0,0.0,1.0,1.0);
+uniform float speed = 1.0;
+
+
+uniform int typeID : hint_range(0, 2) = 0;
+uniform float smoothStepMin = 0.1;
+uniform float smoothStepMax = 0.9;
+
+uniform float circleRadius = 1.0;
+
+
+vec2 random(vec2 uv) {;
+	return vec2(fract(sin(dot(uv.xy,
+		clamp(VectorNoiseAmount,vec2(0.1,0.1),vec2(1.0,1.0)))) * Offset));
+}
+
+float worley(vec2 uv, float columns, float rows) {
+	
+	vec2 index_uv = floor(vec2(uv.x * columns, uv.y * rows));
+	vec2 fract_uv = fract(vec2(uv.x * columns, uv.y * rows));
+	
+	float minimum_dist = 1.0;  
+	
+	for (int y= -1; y <= 1; y++) {
+		for (int x= -1; x <= 1; x++) {
+			vec2 neighbor = vec2(float(x),float(y));
+			vec2 point = random(index_uv + neighbor);
+			point = vec2( cos(TIME * point.x * speed), sin(TIME * point.y * speed) ) * 0.5 + 0.5;
+			
+			
+			//point = random(index_uv + neighbor);
+		
+			
+			vec2 diff = neighbor + point - fract_uv;
+			float dist = length(diff);
+			minimum_dist = min(minimum_dist, dist);
+		}
+	}
+	
+	return minimum_dist;
+}
+
+
+
+void fragment() {
+	vec2 st = UV;
+	st.y -= TIME * speed;
+	float worley = worley(st, ColumnAmount, RowAmount);
+	vec3 clampedWorley = clamp(vec3(worley),0.3,1.0);
+	
+	vec3 col = mix(clampedWorley,waterColor.rgb,0.9);
+	
+	switch(typeID){
+		case 0:
+			COLOR = vec4(col, 1.0);
+			break;
+		case 1:
+			float sm = smoothstep(smoothStepMin,smoothStepMax,UV.x);
+			COLOR = vec4(col,sm);
+			break;
+		case 2:
+			float d = 1.0 - distance(vec2(0.5,0.5),UV) * circleRadius;
+			COLOR = vec4(col,d);
+			break;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_keye6"]
+resource_local_to_scene = true
+shader = SubResource("Shader_bjs8e")
+shader_parameter/VectorNoiseAmount = Vector2(20, 20)
+shader_parameter/Offset = 300.0
+shader_parameter/ColumnAmount = 15.0
+shader_parameter/RowAmount = 15.0
+shader_parameter/waterColor = Color(0.980392, 0.937255, 0.607843, 1)
+shader_parameter/speed = 0.001
+shader_parameter/typeID = 2
+shader_parameter/smoothStepMin = 0.1
+shader_parameter/smoothStepMax = 0.9
+shader_parameter/circleRadius = 2.16
+
+[sub_resource type="Shader" id="Shader_mttci"]
+code = "shader_type canvas_item;
+
+uniform vec2 VectorNoiseAmount = vec2(5.5,80.5);
+uniform float Offset = 2344.0;
+uniform float ColumnAmount = 3.0;
+uniform float RowAmount = 5.0;
+uniform vec4 waterColor : source_color = vec4(0.0,0.0,1.0,1.0);
+uniform float speed = 1.0;
+
+
+uniform int typeID : hint_range(0, 2) = 0;
+uniform float smoothStepMin = 0.1;
+uniform float smoothStepMax = 0.9;
+
+uniform float circleRadius = 1.0;
+
+
+vec2 random(vec2 uv) {;
+	return vec2(fract(sin(dot(uv.xy,
+		clamp(VectorNoiseAmount,vec2(0.1,0.1),vec2(1.0,1.0)))) * Offset));
+}
+
+float worley(vec2 uv, float columns, float rows) {
+	
+	vec2 index_uv = floor(vec2(uv.x * columns, uv.y * rows));
+	vec2 fract_uv = fract(vec2(uv.x * columns, uv.y * rows));
+	
+	float minimum_dist = 1.0;  
+	
+	for (int y= -1; y <= 1; y++) {
+		for (int x= -1; x <= 1; x++) {
+			vec2 neighbor = vec2(float(x),float(y));
+			vec2 point = random(index_uv + neighbor);
+			point = vec2( cos(TIME * point.x * speed), sin(TIME * point.y * speed) ) * 0.5 + 0.5;
+			
+			
+			//point = random(index_uv + neighbor);
+		
+			
+			vec2 diff = neighbor + point - fract_uv;
+			float dist = length(diff);
+			minimum_dist = min(minimum_dist, dist);
+		}
+	}
+	
+	return minimum_dist;
+}
+
+
+
+void fragment() {
+	vec2 st = UV;
+	st.y -= TIME * speed;
+	float worley = worley(st, ColumnAmount, RowAmount);
+	vec3 clampedWorley = clamp(vec3(worley),0.3,1.0);
+	
+	vec3 col = mix(clampedWorley,waterColor.rgb,0.9);
+	
+	switch(typeID){
+		case 0:
+			COLOR = vec4(col, 1.0);
+			break;
+		case 1:
+			float sm = smoothstep(smoothStepMin,smoothStepMax,UV.x);
+			COLOR = vec4(col,sm);
+			break;
+		case 2:
+			float d = 1.0 - distance(vec2(0.5,0.5),UV) * circleRadius;
+			COLOR = vec4(col,d);
+			break;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_veury"]
+resource_local_to_scene = true
+shader = SubResource("Shader_mttci")
+shader_parameter/VectorNoiseAmount = Vector2(20, 20)
+shader_parameter/Offset = 300.0
+shader_parameter/ColumnAmount = 15.0
+shader_parameter/RowAmount = 15.0
+shader_parameter/waterColor = Color(0.27451, 0.286275, 0.0901961, 1)
+shader_parameter/speed = 0.001
+shader_parameter/typeID = 2
+shader_parameter/smoothStepMin = 0.1
+shader_parameter/smoothStepMax = 0.9
+shader_parameter/circleRadius = 2.16
+
+[sub_resource type="Shader" id="Shader_pelkh"]
+code = "shader_type canvas_item;
+
+uniform vec2 VectorNoiseAmount = vec2(5.5,80.5);
+uniform float Offset = 2344.0;
+uniform float ColumnAmount = 3.0;
+uniform float RowAmount = 5.0;
+uniform vec4 waterColor : source_color = vec4(0.0,0.0,1.0,1.0);
+uniform float speed = 1.0;
+
+
+uniform int typeID : hint_range(0, 2) = 0;
+uniform float smoothStepMin = 0.1;
+uniform float smoothStepMax = 0.9;
+
+uniform float circleRadius = 1.0;
+
+
+vec2 random(vec2 uv) {;
+	return vec2(fract(sin(dot(uv.xy,
+		clamp(VectorNoiseAmount,vec2(0.1,0.1),vec2(1.0,1.0)))) * Offset));
+}
+
+float worley(vec2 uv, float columns, float rows) {
+	
+	vec2 index_uv = floor(vec2(uv.x * columns, uv.y * rows));
+	vec2 fract_uv = fract(vec2(uv.x * columns, uv.y * rows));
+	
+	float minimum_dist = 1.0;  
+	
+	for (int y= -1; y <= 1; y++) {
+		for (int x= -1; x <= 1; x++) {
+			vec2 neighbor = vec2(float(x),float(y));
+			vec2 point = random(index_uv + neighbor);
+			point = vec2( cos(TIME * point.x * speed), sin(TIME * point.y * speed) ) * 0.5 + 0.5;
+			
+			
+			//point = random(index_uv + neighbor);
+		
+			
+			vec2 diff = neighbor + point - fract_uv;
+			float dist = length(diff);
+			minimum_dist = min(minimum_dist, dist);
+		}
+	}
+	
+	return minimum_dist;
+}
+
+
+
+void fragment() {
+	vec2 st = UV;
+	st.y -= TIME * speed;
+	float worley = worley(st, ColumnAmount, RowAmount);
+	vec3 clampedWorley = clamp(vec3(worley),0.3,1.0);
+	
+	vec3 col = mix(clampedWorley,waterColor.rgb,0.9);
+	
+	switch(typeID){
+		case 0:
+			COLOR = vec4(col, 1.0);
+			break;
+		case 1:
+			float sm = smoothstep(smoothStepMin,smoothStepMax,UV.x);
+			COLOR = vec4(col,sm);
+			break;
+		case 2:
+			float d = 1.0 - distance(vec2(0.5,0.5),UV) * circleRadius;
+			COLOR = vec4(col,d);
+			break;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cuj8y"]
+resource_local_to_scene = true
+shader = SubResource("Shader_pelkh")
+shader_parameter/VectorNoiseAmount = Vector2(20, 20)
+shader_parameter/Offset = 300.0
+shader_parameter/ColumnAmount = 15.0
+shader_parameter/RowAmount = 15.0
+shader_parameter/waterColor = Color(0.192157, 0.301961, 0.0705882, 1)
+shader_parameter/speed = 0.001
+shader_parameter/typeID = 2
+shader_parameter/smoothStepMin = 0.1
+shader_parameter/smoothStepMax = 0.9
+shader_parameter/circleRadius = 2.16
+
+[node name="WallHandler" type="Node2D" node_paths=PackedStringArray("initialWallInstances", "rockFormation", "bridge")]
 y_sort_enabled = true
 script = ExtResource("1_kgnq5")
 wallScenes = Array[PackedScene]([ExtResource("2_hsn4g")])
 initialWallInstances = [NodePath("InitialWalls/LandPlot"), NodePath("InitialWalls/LandPlot2"), NodePath("InitialWalls/LandPlot3"), NodePath("InitialWalls/LandPlot4"), NodePath("InitialWalls/LandPlot5"), NodePath("InitialWalls/LandPlot6"), NodePath("InitialWalls/LandPlot7"), NodePath("InitialWalls/LandPlot8"), NodePath("InitialWalls/LandPlot9"), NodePath("InitialWalls/LandPlot10"), NodePath("InitialWalls/LandPlot11"), NodePath("InitialWalls/LandPlot12"), NodePath("InitialWalls/LandPlot13"), NodePath("InitialWalls/LandPlot14"), NodePath("InitialWalls/LandPlot15"), NodePath("InitialWalls/LandPlot16")]
 rockFormation = NodePath("RockFormation")
+bridge = NodePath("Bridge")
 
 [node name="InitialWalls" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -101,9 +367,110 @@ position = Vector2(21, 152)
 
 [node name="Sprite2D" type="Sprite2D" parent="RockFormation"]
 z_index = -1
-material = ExtResource("3_r8y5v")
+material = SubResource("ShaderMaterial_keye6")
 position = Vector2(-8, -64)
 rotation = -0.82205
 scale = Vector2(287.158, 320.199)
 skew = 0.359538
+texture = ExtResource("4_i7edn")
+
+[node name="Bridge" type="Node2D" parent="."]
+position = Vector2(576, -1500)
+
+[node name="BridgeSprites" type="Node2D" parent="Bridge"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Bridge/BridgeSprites"]
+self_modulate = Color(0.32549, 0.341176, 0.662745, 1)
+texture = ExtResource("5_i47da")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Bridge/BridgeSprites"]
+self_modulate = Color(0.32549, 0.341176, 0.662745, 1)
+position = Vector2(-496, 0)
+texture = ExtResource("5_i47da")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Bridge/BridgeSprites"]
+self_modulate = Color(0.32549, 0.341176, 0.662745, 1)
+position = Vector2(504, 0)
+texture = ExtResource("5_i47da")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Bridge/BridgeSprites"]
+self_modulate = Color(0, 0, 0.262745, 0.4)
+z_index = -1
+position = Vector2(88, 64)
+scale = Vector2(1, 0.828125)
+skew = 0.855211
+texture = ExtResource("5_i47da")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Bridge/BridgeSprites"]
+self_modulate = Color(0, 0, 0.262745, 0.4)
+z_index = -1
+position = Vector2(-414, 64)
+scale = Vector2(1, 0.828125)
+skew = 0.855211
+texture = ExtResource("5_i47da")
+
+[node name="Sprite2D6" type="Sprite2D" parent="Bridge/BridgeSprites"]
+self_modulate = Color(0, 0, 0.262745, 0.4)
+z_index = -1
+position = Vector2(640, 40)
+scale = Vector2(1, 0.828125)
+skew = 0.855211
+texture = ExtResource("5_i47da")
+
+[node name="Trees" type="Node2D" parent="Bridge"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Bridge/Trees"]
+self_modulate = Color(0.513726, 0.643137, 0.156863, 1)
+position = Vector2(-264, 40)
+scale = Vector2(6.375, 7.625)
+texture = ExtResource("6_34n6p")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Bridge/Trees"]
+self_modulate = Color(0.513726, 0.643137, 0.156863, 1)
+position = Vector2(256, 32)
+scale = Vector2(6.375, 7.625)
+texture = ExtResource("6_34n6p")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Bridge/Trees"]
+self_modulate = Color(0.360784, 0.196078, 0.156863, 1)
+z_index = -1
+position = Vector2(312, 24)
+scale = Vector2(6.375, 7.625)
+texture = ExtResource("6_34n6p")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Bridge/Trees"]
+self_modulate = Color(0.360784, 0.196078, 0.156863, 1)
+z_index = -1
+position = Vector2(-304, 48)
+scale = Vector2(6.375, 7.625)
+texture = ExtResource("6_34n6p")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Bridge/Trees"]
+self_modulate = Color(0.360784, 0.196078, 0.156863, 1)
+z_index = -1
+position = Vector2(-152, 7.99999)
+scale = Vector2(6.375, 7.625)
+texture = ExtResource("6_34n6p")
+
+[node name="Area2D" type="Area2D" parent="Bridge"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Bridge/Area2D"]
+polygon = PackedVector2Array(-576, 8, -472, 0, -296, 64, -256, 144, -128, 24, -8, 0, 120, 16, 256, 120, 456, -8, 552, 0, 736, 96, 744, 136, 760, 144, 760, -48, -752, -56, -752, 136)
+
+[node name="Ground" type="Node2D" parent="Bridge"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Bridge/Ground"]
+z_index = -2
+material = SubResource("ShaderMaterial_veury")
+position = Vector2(-241.966, 131.235)
+scale = Vector2(320, 296.353)
+skew = 0.663225
+texture = ExtResource("4_i7edn")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Bridge/Ground"]
+z_index = -2
+material = SubResource("ShaderMaterial_cuj8y")
+position = Vector2(280, 128)
+scale = Vector2(320, 296.353)
+skew = 0.663225
 texture = ExtResource("4_i7edn")

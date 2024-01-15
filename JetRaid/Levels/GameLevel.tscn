@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cs2b3uuuav0ll"]
+[gd_scene load_steps=9 format=3 uid="uid://cs2b3uuuav0ll"]
 
 [ext_resource type="PackedScene" uid="uid://bu0pcaaepchoq" path="res://Scenes/Jet.tscn" id="1_qcp3e"]
+[ext_resource type="Script" path="res://Levels/GameLevel.gd" id="1_rghty"]
 [ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="2_ocjke"]
 [ext_resource type="Shader" path="res://Shaders/Ground_Water.gdshader" id="2_y3b87"]
 [ext_resource type="PackedScene" uid="uid://bhncxfrja12hl" path="res://Scenes/WallHandler.tscn" id="4_bk1o0"]
@@ -19,7 +20,14 @@ shader_parameter/smoothStepMin = 0.1
 shader_parameter/smoothStepMax = 0.9
 shader_parameter/circleRadius = 1.0
 
-[node name="GameLevel" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q4ecf"]
+size = Vector2(64, 648)
+
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("wallHandler", "waterNode", "sandNodes")]
+script = ExtResource("1_rghty")
+wallHandler = NodePath("WallHandler")
+waterNode = NodePath("Water")
+sandNodes = [NodePath("SandWalls/Sand"), NodePath("SandWalls/Sand2")]
 
 [node name="Jet" parent="." instance=ExtResource("1_qcp3e")]
 position = Vector2(560, 559)
@@ -52,3 +60,17 @@ position = Vector2(895.146, 323.747)
 rotation = 3.14159
 scale = Vector2(515.866, -648.491)
 texture = ExtResource("2_ocjke")
+
+[node name="Borders" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D"]
+position = Vector2(28, 324)
+shape = SubResource("RectangleShape2D_q4ecf")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D2"]
+position = Vector2(1120, 324)
+shape = SubResource("RectangleShape2D_q4ecf")

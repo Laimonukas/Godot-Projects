@@ -4,6 +4,7 @@ extends Node2D
 @export var initialWallInstances : Array[Node2D]
 @export var speed : float = 100.0
 @export var rockFormation : Area2D
+@export var bridge : Node2D
 var rockFormationCollider : CollisionShape2D
 var rng = RandomNumberGenerator.new()
 
@@ -35,7 +36,12 @@ func _process(delta):
 				inst.position.x = rng.randf_range(1000,1100)
 			else:
 				inst.position.x = rng.randf_range(50,150)
-				
+	
+	bridge.position.y += delta * speed
+	if bridge.position.y > 1000:
+		bridge.position.y = -1500
+	
+	
 	handleRockFormation(delta)
 
 func handleRockFormation(delta):
