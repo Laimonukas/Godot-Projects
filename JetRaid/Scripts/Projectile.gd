@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name ProjectileClass
+
 @export var moveSpeed : float = 400
 @export var direction : Vector2 = Vector2(0.0,-1.0)
 @export var maxDistance = 2000

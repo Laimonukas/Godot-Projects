@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cs2b3uuuav0ll"]
+[gd_scene load_steps=9 format=3 uid="uid://cs2b3uuuav0ll"]
 
 [ext_resource type="PackedScene" uid="uid://bu0pcaaepchoq" path="res://Scenes/Jet.tscn" id="1_qcp3e"]
 [ext_resource type="Script" path="res://Levels/GameLevel.gd" id="1_rghty"]
@@ -6,7 +6,6 @@
 [ext_resource type="Shader" path="res://Shaders/Ground_Water.gdshader" id="2_y3b87"]
 [ext_resource type="PackedScene" uid="uid://bhncxfrja12hl" path="res://Scenes/WallHandler.tscn" id="4_bk1o0"]
 [ext_resource type="Material" uid="uid://db8vqff41wg4b" path="res://Materials/SandLeft.tres" id="5_nnsb8"]
-[ext_resource type="PackedScene" uid="uid://g1p7ob8eiugt" path="res://Scenes/Projectile.tscn" id="7_eelop"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8mxh"]
 shader = ExtResource("2_y3b87")
@@ -65,16 +64,17 @@ texture = ExtResource("2_ocjke")
 [node name="Borders" type="Node2D" parent="."]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Borders"]
+collision_layer = 8
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D"]
 position = Vector2(28, 324)
 shape = SubResource("RectangleShape2D_q4ecf")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="Borders"]
+collision_layer = 8
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D2"]
 position = Vector2(1120, 324)
 shape = SubResource("RectangleShape2D_q4ecf")
-
-[node name="CharacterBody2D" parent="." instance=ExtResource("7_eelop")]
-position = Vector2(408, 416)

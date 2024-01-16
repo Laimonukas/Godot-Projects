@@ -102,8 +102,8 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_rn8ba"]
-offsets = PackedFloat32Array(0, 0.173333, 0.266667)
-colors = PackedColorArray(1, 0.694118, 0.129412, 1, 1, 1, 0, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0, 0.66, 0.813333)
+colors = PackedColorArray(1, 0.694118, 0.129412, 1, 1, 0.215686, 0, 1, 0.0627451, 0, 0, 1)
 
 [sub_resource type="Shader" id="Shader_mttci"]
 code = "shader_type canvas_item;
@@ -279,68 +279,13 @@ shader_parameter/smoothStepMin = 0.1
 shader_parameter/smoothStepMax = 0.9
 shader_parameter/circleRadius = 2.16
 
-[sub_resource type="Animation" id="Animation_g0413"]
-resource_name = "BridgeHit"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Bridge/BridgeSprites:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(3, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_22wwd"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Bridge/BridgeSprites:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Bridge/CPUParticles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Bridge/BridgeSprites:skew")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="Animation" id="Animation_x85cm"]
 resource_name = "BridgeDestroy"
 length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Bridge/CPUParticles2D:emitting")
+tracks/0/path = NodePath("Bridge/Explosion:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -374,6 +319,61 @@ tracks/2/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_g0413"]
+resource_name = "BridgeHit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bridge/BridgeSprites:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(3, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_22wwd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bridge/BridgeSprites:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bridge/Explosion:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Bridge/BridgeSprites:skew")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dohw4"]
 _data = {
 "BridgeDestroy": SubResource("Animation_x85cm"),
@@ -391,7 +391,7 @@ bridge = NodePath("Bridge")
 bridgeCollider = NodePath("Bridge/Area2D")
 bridgeSpriteParent = NodePath("Bridge/BridgeSprites")
 animationPlayer = NodePath("AnimationPlayer")
-bridgeExplosionParticles = NodePath("Bridge/CPUParticles2D")
+bridgeExplosionParticles = NodePath("Bridge/Explosion")
 
 [node name="InitialWalls" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -489,7 +489,7 @@ texture = ExtResource("4_i7edn")
 [node name="Bridge" type="Node2D" parent="."]
 position = Vector2(576, -1500)
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Bridge"]
+[node name="Explosion" type="CPUParticles2D" parent="Bridge"]
 scale = Vector2(6, 1)
 emitting = false
 amount = 300
@@ -517,6 +517,30 @@ scale_amount_min = 30.0
 scale_amount_max = 50.0
 scale_amount_curve = SubResource("Curve_fmedo")
 color = Color(1, 0.854902, 0, 1)
+color_ramp = SubResource("Gradient_rn8ba")
+
+[node name="Hit" type="CPUParticles2D" parent="Bridge"]
+z_index = 1
+emitting = false
+amount = 50
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.5
+randomness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 27.16
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, -980)
+initial_velocity_min = 182.82
+initial_velocity_max = 243.42
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_fmedo")
+color = Color(1, 0.745098, 0, 1)
 color_ramp = SubResource("Gradient_rn8ba")
 
 [node name="BridgeSprites" type="Node2D" parent="Bridge"]
@@ -597,8 +621,7 @@ texture = ExtResource("6_34n6p")
 [node name="Area2D" type="Area2D" parent="Bridge"]
 visible = false
 collision_layer = 2
-collision_mask = 2
-monitoring = false
+collision_mask = 6
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Bridge/Area2D"]
 polygon = PackedVector2Array(-576, 8, -472, 0, -296, 64, -256, 144, -128, 24, -8, 0, 120, 16, 256, 120, 456, -8, 552, 0, 736, 96, 744, 136, 760, 144, 760, -48, -752, -56, -752, 136)

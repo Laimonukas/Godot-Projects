@@ -82,15 +82,10 @@ func HandleBridgeLogic(delta):
 		currentBridgeHitpoint = bridgeHitPoints
 		bridgeSpriteParent.visible = true
 	
-	print(currentBridgeHitpoint)
-	print(bridgeSpriteParent.visible)
-	if currentBridgeHitpoint > 0 and bridgeSpriteParent.visible and not bridgeExplosionParticles.emitting :
+	if currentBridgeHitpoint > 0 and bridgeSpriteParent.visible:
 		if bridge.position.y > 50:
 			bridgeCollider.monitoring = true
-	else:
-		bridgeCollider.monitoring = false
-		bridgeSpriteParent.visible = false
-		bridgeExplosionParticles.emitting = true
+
 		
 
 
@@ -103,9 +98,24 @@ func RandomPoint(origin,extent):
 
 
 func _on_area_2d_body_entered(body):
-	animationPlayer.play("BridgeHit")
-	currentBridgeHitpoint -= 1
-	body.queue_free()
+	var hitParticles : CPUParticles2D = $Bridge/Hit
+	match body.collision_layer:
+		2:
+			animationPlayer.play("BridgeHit")
+			hitParticles.global_position = body.global_position
+			hitParticles.emitting = true
+			currentBridgeHitpoint -= 1
+			if currentBridgeHitpoint <= 0:
+				bridgeCollider.set_deferred("monitoring",false)
+				bridgeSpriteParent.visible = false
+				bridgeExplosionParticles.emitting = true
+			body.queue_free()
+		14:
+			print("ssss")
+		_:
+			#Catch all
+			print("JetBridgeCollision")
+			print(body.collision_layer)
 
 
 

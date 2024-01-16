@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bu0pcaaepchoq"]
+[gd_scene load_steps=20 format=3 uid="uid://bu0pcaaepchoq"]
 
 [ext_resource type="Texture2D" uid="uid://dulgids1gv2el" path="res://Assets/Jet.png" id="1_72sk1"]
 [ext_resource type="Script" path="res://Scripts/Jet.gd" id="1_bjiut"]
@@ -85,6 +85,57 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainBody:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:immune")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0c2wr"]
+resource_name = "collided"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainBody:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.5, 0.7, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 0.513726), Color(1, 1, 1, 1), Color(1, 0, 0, 0.513726), Color(1, 1, 1, 1), Color(1, 0, 0, 0.513726), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:immune")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_mu0cb"]
 resource_name = "idle"
@@ -129,21 +180,33 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w5g82"]
 _data = {
 "RESET": SubResource("Animation_540em"),
+"collided": SubResource("Animation_0c2wr"),
 "idle": SubResource("Animation_mu0cb")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eh2dl"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kam7y"]
+animation = &"collided"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_75qkq"]
 animation = &"idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7bcjw"]
-advance_mode = 2
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_lbu6u"]
-states/idle/node = SubResource("AnimationNodeAnimation_eh2dl")
-states/idle/position = Vector2(458, 100)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_7bcjw")]
+states/Start/position = Vector2(182, 107)
+states/collided/node = SubResource("AnimationNodeAnimation_kam7y")
+states/collided/position = Vector2(450, 180)
+states/idle/node = SubResource("AnimationNodeAnimation_75qkq")
+states/idle/position = Vector2(442, 107)
+
+[sub_resource type="Curve" id="Curve_bhg7v"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0659341), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_0a2t4"]
+colors = PackedColorArray(1, 0.764706, 0.105882, 1, 0, 0, 0, 1)
 
 [node name="Jet" type="CharacterBody2D" node_paths=PackedStringArray("animSprite", "shadowSprite", "animPlayer")]
+collision_layer = 14
+collision_mask = 8
 script = ExtResource("1_bjiut")
 animSprite = NodePath("MainBody")
 shadowSprite = NodePath("MainBody/Shadow")
@@ -166,7 +229,7 @@ scale = Vector2(0.518, 0.518)
 sprite_frames = SubResource("SpriteFrames_5e30f")
 offset = Vector2(3.14595, 0)
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="MainBody"]
+[node name="Fire" type="CPUParticles2D" parent="MainBody"]
 z_index = -1
 position = Vector2(0, 52.4093)
 amount = 32
@@ -197,3 +260,24 @@ anim_player = NodePath("../AnimationPlayer")
 libraries = {
 "": SubResource("AnimationLibrary_w5g82")
 }
+
+[node name="Hit" type="CPUParticles2D" parent="."]
+position = Vector2(0, -24.285)
+emitting = false
+amount = 64
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+lifetime_randomness = 0.5
+direction = Vector2(0, 1)
+initial_velocity_min = 80.71
+initial_velocity_max = 318.03
+angular_velocity_min = -344.55
+angular_velocity_max = 213.64
+radial_accel_min = -14.14
+radial_accel_max = 28.28
+scale_amount_min = 10.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_bhg7v")
+color_ramp = SubResource("Gradient_0a2t4")

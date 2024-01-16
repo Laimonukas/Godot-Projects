@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name  jetClass
 
 @export var moveSpeed = 10
 @export var animSprite : AnimatedSprite2D
@@ -6,6 +7,8 @@ extends CharacterBody2D
 @export var animPlayer : AnimationPlayer
 @export var bullet : PackedScene
 @export var fireRate = 0.2
+@export var immune : bool = false
+@export var healthPoints = 3
 var cooldown = fireRate
 
 
@@ -31,6 +34,9 @@ func _process(delta):
 	
 	SetShadow()
 	move_and_slide()
+	
+	
+	
 
 
 func SetShadow():
@@ -42,3 +48,10 @@ func ShootProjectiles():
 	var projectile : CharacterBody2D = bullet.instantiate() 
 	projectile.position = position
 	add_sibling(projectile)
+	
+func JetCollided():
+	if !immune:
+		animPlayer.play("collided")
+		$Hit.emitting = true
+		healthPoints -= 1
+	
