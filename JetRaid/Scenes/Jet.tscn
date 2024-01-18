@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bu0pcaaepchoq"]
+[gd_scene load_steps=19 format=3 uid="uid://bu0pcaaepchoq"]
 
 [ext_resource type="Texture2D" uid="uid://dulgids1gv2el" path="res://Assets/Jet.png" id="1_72sk1"]
 [ext_resource type="Script" path="res://Scripts/Jet.gd" id="1_bjiut"]
@@ -52,55 +52,55 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MainBody:frame")
+tracks/0/path = NodePath("MainBody:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
+"update": 0,
+"values": [Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("MainBody:scale")
+tracks/1/path = NodePath("MainBody:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 1)]
+"values": [Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("MainBody:offset")
+tracks/2/path = NodePath("MainBody:self_modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("MainBody:self_modulate")
+tracks/3/path = NodePath(".:immune")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"update": 1,
+"values": [false]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath(".:immune")
+tracks/4/path = NodePath("Explosion:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -108,6 +108,42 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainBody:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MainBody/Fire:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("MainBody:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_0c2wr"]
@@ -137,40 +173,103 @@ tracks/1/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_s3jw3"]
+resource_name = "destroyed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainBody:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.00393]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainBody:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.2, 0.2)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainBody:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.0784314)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainBody/Fire:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainBody:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+
 [sub_resource type="Animation" id="Animation_mu0cb"]
 resource_name = "idle"
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MainBody:frame")
+tracks/0/path = NodePath("MainBody:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MainBody:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.965936, 1, 1.07177),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(0.95, 0.95), Vector2(1, 1)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MainBody:offset")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainBody:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.3, 0.7, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
@@ -181,21 +280,9 @@ tracks/2/keys = {
 _data = {
 "RESET": SubResource("Animation_540em"),
 "collided": SubResource("Animation_0c2wr"),
+"destroyed": SubResource("Animation_s3jw3"),
 "idle": SubResource("Animation_mu0cb")
 }
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kam7y"]
-animation = &"collided"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_75qkq"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_lbu6u"]
-states/Start/position = Vector2(182, 107)
-states/collided/node = SubResource("AnimationNodeAnimation_kam7y")
-states/collided/position = Vector2(450, 180)
-states/idle/node = SubResource("AnimationNodeAnimation_75qkq")
-states/idle/position = Vector2(442, 107)
 
 [sub_resource type="Curve" id="Curve_bhg7v"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0659341), 0.0, 0.0, 0, 0]
@@ -203,6 +290,11 @@ point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_0a2t4"]
 colors = PackedColorArray(1, 0.764706, 0.105882, 1, 0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_a7k3s"]
+offsets = PackedFloat32Array(0, 0.1, 0.3, 0.5, 1)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1, 0.258824, 0, 0, 1, 0.0885154, 0.0885154, 0.0885154, 0.938375, 0.309804, 0.309804, 0.309804, 0.784314)
+metadata/_snap_enabled = true
 
 [node name="Jet" type="CharacterBody2D" node_paths=PackedStringArray("animSprite", "shadowSprite", "animPlayer")]
 collision_layer = 14
@@ -249,13 +341,6 @@ scale_amount_curve = SubResource("Curve_jwv5q")
 color = Color(1, 1, 0, 1)
 color_ramp = SubResource("Gradient_djxka")
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_w5g82")
-}
-tree_root = SubResource("AnimationNodeStateMachine_lbu6u")
-anim_player = NodePath("../AnimationPlayer")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_w5g82")
@@ -281,3 +366,27 @@ scale_amount_min = 10.0
 scale_amount_max = 10.0
 scale_amount_curve = SubResource("Curve_bhg7v")
 color_ramp = SubResource("Gradient_0a2t4")
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 150
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 73.4
+direction = Vector2(0, 1)
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 50.0
+angular_velocity_min = -87.27
+angular_velocity_max = 130.91
+orbit_velocity_min = -0.1
+orbit_velocity_max = 0.1
+scale_amount_max = 20.0
+color_ramp = SubResource("Gradient_a7k3s")
+
+[connection signal="jetDestroyed" from="." to="." method="_on_jet_destroyed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

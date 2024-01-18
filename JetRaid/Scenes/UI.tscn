@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfuo5t52tubpt"]
+
+[ext_resource type="Script" path="res://Scripts/UI.gd" id="1_3nb3a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47g8t"]
+bg_color = Color(1, 0, 0.00784314, 0.0784314)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4o853"]
+bg_color = Color(0.458824, 0.564706, 0.984314, 0.705882)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amxt7"]
+bg_color = Color(0.721569, 0, 0.00784314, 0.705882)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3nb3a")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="FuelBar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = -8.0
+offset_right = 288.0
+offset_bottom = 19.0
+theme_override_styles/background = SubResource("StyleBoxFlat_47g8t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4o853")
+step = 1.0
+value = 50.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Control/FuelBar"]
+layout_mode = 0
+offset_left = 72.0
+offset_right = 136.0
+offset_bottom = 27.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Fuel
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPBar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = -56.0
+offset_right = 288.0
+offset_bottom = -29.0
+theme_override_styles/background = SubResource("StyleBoxFlat_47g8t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_amxt7")
+max_value = 6.0
+step = 0.5
+value = 6.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Control/HPBar"]
+layout_mode = 0
+offset_left = 72.0
+offset_right = 136.0
+offset_bottom = 27.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "HP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 32.0
+offset_right = 288.0
+offset_bottom = 55.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Score: "
+vertical_alignment = 1

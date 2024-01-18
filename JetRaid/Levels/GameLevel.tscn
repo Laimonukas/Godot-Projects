@@ -1,11 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://cs2b3uuuav0ll"]
+[gd_scene load_steps=15 format=3 uid="uid://cs2b3uuuav0ll"]
 
 [ext_resource type="PackedScene" uid="uid://bu0pcaaepchoq" path="res://Scenes/Jet.tscn" id="1_qcp3e"]
-[ext_resource type="Script" path="res://Levels/GameLevel.gd" id="1_rghty"]
+[ext_resource type="Script" path="res://Scripts/GameLevel.gd" id="1_rghty"]
+[ext_resource type="PackedScene" uid="uid://dliokykdaxq0t" path="res://Scenes/GameOverScene.tscn" id="2_658k8"]
 [ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="2_ocjke"]
 [ext_resource type="Shader" path="res://Shaders/Ground_Water.gdshader" id="2_y3b87"]
+[ext_resource type="PackedScene" uid="uid://dfuo5t52tubpt" path="res://Scenes/UI.tscn" id="3_kkt73"]
 [ext_resource type="PackedScene" uid="uid://bhncxfrja12hl" path="res://Scenes/WallHandler.tscn" id="4_bk1o0"]
 [ext_resource type="Material" uid="uid://db8vqff41wg4b" path="res://Materials/SandLeft.tres" id="5_nnsb8"]
+[ext_resource type="PackedScene" uid="uid://ci74jnnq1cok" path="res://Scenes/EnemyHelicopter.tscn" id="9_ywfen"]
+[ext_resource type="PackedScene" uid="uid://iva3xkb8d7x5" path="res://Scenes/EnemyJet.tscn" id="10_j7m7g"]
+[ext_resource type="PackedScene" uid="uid://dh78po40m3p0m" path="res://Scenes/EnemyBoat.tscn" id="11_jvmav"]
+[ext_resource type="PackedScene" uid="uid://dyp70qgatyxli" path="res://Scenes/FuelNode.tscn" id="12_fkcq8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8mxh"]
 shader = ExtResource("2_y3b87")
@@ -23,15 +29,19 @@ shader_parameter/circleRadius = 1.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q4ecf"]
 size = Vector2(64, 648)
 
-[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("wallHandler", "waterNode", "sandNodes")]
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("wallHandler", "waterNode")]
 script = ExtResource("1_rghty")
 wallHandler = NodePath("WallHandler")
 waterNode = NodePath("Water")
-sandNodes = [NodePath("SandWalls/Sand"), NodePath("SandWalls/Sand2")]
+
+[node name="GameOverScene" parent="." instance=ExtResource("2_658k8")]
+visible = false
 
 [node name="Jet" parent="." instance=ExtResource("1_qcp3e")]
 position = Vector2(560, 559)
 scale = Vector2(0.499617, 0.5776)
+
+[node name="Ui" parent="Jet" instance=ExtResource("3_kkt73")]
 
 [node name="Water" type="Sprite2D" parent="."]
 z_index = -100
@@ -78,3 +88,14 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D2"]
 position = Vector2(1120, 324)
 shape = SubResource("RectangleShape2D_q4ecf")
+
+[node name="Helicopter" parent="." groups=["Enemy"] instance=ExtResource("9_ywfen")]
+position = Vector2(64, 0)
+
+[node name="EnemyJet" parent="." groups=["Enemy"] instance=ExtResource("10_j7m7g")]
+position = Vector2(453.517, -872)
+
+[node name="Boat" parent="." groups=["Enemy"] instance=ExtResource("11_jvmav")]
+position = Vector2(546.522, -864)
+
+[node name="FuelNode" parent="." instance=ExtResource("12_fkcq8")]

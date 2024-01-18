@@ -1,5 +1,8 @@
 extends Node2D
 
+class_name wallsHandler
+
+
 @export var wallScenes :Array[PackedScene]
 @export var initialWallInstances : Array[Node2D]
 @export var speed : float = 100.0
@@ -10,9 +13,13 @@ extends Node2D
 @export var animationPlayer: AnimationPlayer
 @export var bridgeHitPoints = 4
 @export var bridgeExplosionParticles : CPUParticles2D
+
 var currentBridgeHitpoint = bridgeHitPoints
 var rockFormationCollider : CollisionShape2D
 var rng = RandomNumberGenerator.new()
+
+signal bridgeDestroyed
+signal jetDestroyed
 
 func _ready():
 	for inst in initialWallInstances:
@@ -109,9 +116,10 @@ func _on_area_2d_body_entered(body):
 				bridgeCollider.set_deferred("monitoring",false)
 				bridgeSpriteParent.visible = false
 				bridgeExplosionParticles.emitting = true
+				bridgeDestroyed.emit()
 			body.queue_free()
 		14:
-			print("ssss")
+			jetDestroyed.emit()
 		_:
 			#Catch all
 			print("JetBridgeCollision")

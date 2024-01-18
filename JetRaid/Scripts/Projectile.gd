@@ -16,3 +16,9 @@ func _process(delta):
 	if distanceTraveled >= maxDistance:
 		queue_free()
 	move_and_slide()
+
+
+func _on_area_2d_body_entered(body):
+	if body.name == "Jet":
+		body.JetCollided()
+		queue_free()

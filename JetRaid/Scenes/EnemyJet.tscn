@@ -1,0 +1,140 @@
+[gd_scene load_steps=13 format=3 uid="uid://iva3xkb8d7x5"]
+
+[ext_resource type="Script" path="res://Scripts/EnemyAI.gd" id="1_wbcm8"]
+[ext_resource type="PackedScene" uid="uid://g1p7ob8eiugt" path="res://Scenes/Projectile.tscn" id="2_2krmq"]
+[ext_resource type="Texture2D" uid="uid://dulgids1gv2el" path="res://Assets/Jet.png" id="3_w4ta0"]
+
+[sub_resource type="Curve2D" id="Curve2D_sfg4a"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -357.517, 224, 0, 0, 0, 0, -357.517, 1248, 0, 0, 0, 0, 538.483, 1248, 0, 0, 0, 0, 538.483, 984, 0, 0, 0, 0, -293.517, 984, 0, 0, 0, 0, -293.517, 1312, 0, 0, 0, 0, 90.4828, 1120, 0, 0, 0, 0, 410.483, 1312)
+}
+point_count = 8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8guts"]
+size = Vector2(128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmybe"]
+atlas = ExtResource("3_w4ta0")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5e30f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmybe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 14.0
+}]
+
+[sub_resource type="Animation" id="Animation_mu0cb"]
+resource_name = "idle"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w5g82"]
+_data = {
+"idle": SubResource("Animation_mu0cb")
+}
+
+[sub_resource type="Curve" id="Curve_bhg7v"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0659341), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_0a2t4"]
+colors = PackedColorArray(1, 0.764706, 0.105882, 1, 0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_a7k3s"]
+offsets = PackedFloat32Array(0, 0.1, 0.3, 0.5, 1)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1, 0.258824, 0, 0, 1, 0.0885154, 0.0885154, 0.0885154, 0.938375, 0.309804, 0.309804, 0.309804, 0.784314)
+metadata/_snap_enabled = true
+
+[node name="Path2D" type="Path2D"]
+position = Vector2(485.517, -864)
+curve = SubResource("Curve2D_sfg4a")
+script = ExtResource("1_wbcm8")
+endLoopCd = 0.0
+bulletScene = ExtResource("2_2krmq")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(-357.517, 224)
+rotation = 1.5708
+loop = false
+
+[node name="Area2D" type="Area2D" parent="PathFollow2D"]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Area2D"]
+shape = SubResource("RectangleShape2D_8guts")
+
+[node name="MainBody" type="AnimatedSprite2D" parent="PathFollow2D"]
+self_modulate = Color(1, 0, 0, 1)
+rotation = 1.5708
+scale = Vector2(0.975214, 0.975214)
+sprite_frames = SubResource("SpriteFrames_5e30f")
+autoplay = "default"
+frame_progress = 0.557426
+offset = Vector2(1.65241, 0)
+
+[node name="Shadow" type="AnimatedSprite2D" parent="PathFollow2D/MainBody"]
+self_modulate = Color(0, 0, 0, 0.313726)
+z_index = -1
+position = Vector2(-34.855, 69.785)
+scale = Vector2(0.518, 0.518)
+sprite_frames = SubResource("SpriteFrames_5e30f")
+autoplay = "default"
+frame_progress = 0.282348
+offset = Vector2(3.14595, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PathFollow2D"]
+root_node = NodePath("")
+libraries = {
+"": SubResource("AnimationLibrary_w5g82")
+}
+
+[node name="Hit" type="CPUParticles2D" parent="PathFollow2D"]
+position = Vector2(24.285, 0)
+rotation = 1.5708
+emitting = false
+amount = 64
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+lifetime_randomness = 0.5
+direction = Vector2(0, 1)
+initial_velocity_min = 80.71
+initial_velocity_max = 318.03
+angular_velocity_min = -344.55
+angular_velocity_max = 213.64
+radial_accel_min = -14.14
+radial_accel_max = 28.28
+scale_amount_min = 10.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_bhg7v")
+color_ramp = SubResource("Gradient_0a2t4")
+
+[node name="Explosion" type="CPUParticles2D" parent="PathFollow2D"]
+rotation = 1.5708
+emitting = false
+amount = 150
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 73.4
+direction = Vector2(0, 1)
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 50.0
+angular_velocity_min = -87.27
+angular_velocity_max = 130.91
+orbit_velocity_min = -0.1
+orbit_velocity_max = 0.1
+scale_amount_max = 20.0
+color_ramp = SubResource("Gradient_a7k3s")
+
+[connection signal="body_entered" from="PathFollow2D/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="finished" from="PathFollow2D/Explosion" to="." method="_on_explosion_finished"]

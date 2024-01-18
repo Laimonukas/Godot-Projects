@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://dyp70qgatyxli"]
+
+[ext_resource type="Texture2D" uid="uid://f572bd2n5nek" path="res://Assets/icon.svg" id="1_1ecrk"]
+[ext_resource type="Script" path="res://Scripts/FuelNode.gd" id="1_k2hin"]
+
+[sub_resource type="Curve" id="Curve_sq7l3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_jktql"]
+offsets = PackedFloat32Array(0, 0.66, 0.813333)
+colors = PackedColorArray(1, 0.694118, 0.129412, 1, 1, 0.215686, 0, 1, 0.0627451, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cks1q"]
+size = Vector2(64, 64)
+
+[sub_resource type="Curve2D" id="Curve2D_f7yan"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 256, -512, 0, 0, 0, 0, 832, -512)
+}
+point_count = 2
+
+[node name="FuelNode" type="Node2D"]
+script = ExtResource("1_k2hin")
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+position = Vector2(256, -505.775)
+emitting = false
+amount = 300
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.5
+randomness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 128.0
+direction = Vector2(0, 0)
+spread = 150.45
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 10.0
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+orbit_velocity_min = -0.1
+orbit_velocity_max = 0.1
+linear_accel_min = 1.0
+linear_accel_max = 10.0
+angle_min = -145.5
+angle_max = 261.8
+scale_amount_min = 30.0
+scale_amount_max = 50.0
+scale_amount_curve = SubResource("Curve_sq7l3")
+color = Color(1, 0.854902, 0, 1)
+color_ramp = SubResource("Gradient_jktql")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(255.5, -505.775)
+scale = Vector2(0.507812, 0.5)
+texture = ExtResource("1_1ecrk")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+position = Vector2(0.984619, 0)
+scale = Vector2(1.96923, 2)
+collision_layer = 2
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+shape = SubResource("RectangleShape2D_cks1q")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_f7yan")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(256, -512)
+
+[connection signal="finished" from="Explosion" to="." method="_on_explosion_finished"]
+[connection signal="body_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_body_entered"]

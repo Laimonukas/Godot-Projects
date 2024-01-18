@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://g1p7ob8eiugt"]
+[gd_scene load_steps=7 format=3 uid="uid://g1p7ob8eiugt"]
 
 [ext_resource type="Texture2D" uid="uid://cc1x66utxd2k0" path="res://Assets/Pixel.png" id="1_5dcvw"]
 [ext_resource type="Script" path="res://Scripts/Projectile.gd" id="1_33tf5"]
@@ -12,6 +12,9 @@ point_count = 3
 [sub_resource type="Gradient" id="Gradient_i6x5w"]
 offsets = PackedFloat32Array(0, 0.38, 0.98)
 colors = PackedColorArray(1, 1, 1, 1, 0.896999, 0.326531, 0.326531, 1, 0.847059, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_op38q"]
+size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eow56"]
 size = Vector2(16, 16)
@@ -46,5 +49,14 @@ scale_amount_curve = SubResource("Curve_400aq")
 color = Color(1, 0.792157, 0.129412, 1)
 color_ramp = SubResource("Gradient_i6x5w")
 
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_op38q")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_eow56")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
