@@ -26,7 +26,7 @@ Links:
 ------------
 ## **JetRaid**
 Links:
-- Itch.io - [Link](https://laimonukas.itch.io/JetRaid"Link")
+- Itch.io - [Link](https://laimonukas.itch.io/JetRaid "Link")
 - Project - [Readme](JetRaid/)
 - Based on 20 games Challenge - [Link](https://20_games_challenge.gitlab.io/challenge/ "Link")
 
