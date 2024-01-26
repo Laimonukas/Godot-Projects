@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://b82dsk8qtkkuj"]
+
+[ext_resource type="Script" path="res://Scripts/QuaternionEx.gd" id="1_lfos2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ab4op"]
+
+[node name="QuaternionEx" type="Node3D" node_paths=PackedStringArray("cube", "pointer")]
+script = ExtResource("1_lfos2")
+cube = NodePath("Cube")
+pointer = NodePath("Pointer")
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.999758, 0.0219973, 0, 0.0219973, 0.999758, 0, 0, 0, -1, 0, 0, 0)
+rotation_edit_mode = 1
+mesh = SubResource("BoxMesh_ab4op")
+
+[node name="CubeForward" type="MeshInstance3D" parent="Cube"]
+transform = Transform3D(0.525, 0, 0, 0, 0.525, 0, 0, 0, 0.525, 0, 0, -0.721499)
+mesh = SubResource("BoxMesh_ab4op")
+skeleton = NodePath("../..")
+
+[node name="Pointer" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.03458, 0.0747028, 3.55424)
+mesh = SubResource("BoxMesh_ab4op")
+skeleton = NodePath("../Cube")
