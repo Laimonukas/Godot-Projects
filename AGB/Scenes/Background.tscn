@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddvl4e4yx10s4"]
+
+[ext_resource type="Texture2D" uid="uid://c70g1svwc5fpj" path="res://Assets/Pixel.png" id="1_i3yl1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fo804"]
+size = Vector2(1152, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mf3v6"]
+size = Vector2(1152, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2jbi"]
+size = Vector2(49, 458)
+
+[node name="Background" type="Node2D"]
+z_index = -100
+
+[node name="Buildings" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buildings"]
+position = Vector2(576, 96)
+shape = SubResource("RectangleShape2D_fo804")
+
+[node name="BuildingSprites" type="Sprite2D" parent="Buildings"]
+self_modulate = Color(1, 1, 0.556863, 1)
+position = Vector2(576, 96)
+scale = Vector2(1152, 192)
+texture = ExtResource("1_i3yl1")
+
+[node name="StreetSprites" type="Sprite2D" parent="."]
+self_modulate = Color(0.431373, 0.431373, 0.431373, 1)
+position = Vector2(576, 300)
+scale = Vector2(1152, 216)
+texture = ExtResource("1_i3yl1")
+
+[node name="StreetSprites3" type="Sprite2D" parent="StreetSprites"]
+self_modulate = Color(0.431373, 0.431373, 0.431373, 1)
+position = Vector2(0, 1.08333)
+scale = Vector2(1, 1.05556)
+texture = ExtResource("1_i3yl1")
+
+[node name="StreetSprites2" type="Sprite2D" parent="StreetSprites"]
+position = Vector2(0, 0.527778)
+scale = Vector2(1, 0.0925926)
+texture = ExtResource("1_i3yl1")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+position = Vector2(0, 648)
+
+[node name="BuildingSprites" type="Sprite2D" parent="Walls"]
+self_modulate = Color(1, 1, 0.556863, 1)
+position = Vector2(576, 96)
+scale = Vector2(1152, 192)
+texture = ExtResource("1_i3yl1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2(576, 96)
+shape = SubResource("RectangleShape2D_mf3v6")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-24.5, -227)
+shape = SubResource("RectangleShape2D_x2jbi")

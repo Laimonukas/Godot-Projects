@@ -1,8 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://csd4bt22hydot"]
+[gd_scene load_steps=4 format=3 uid="uid://csd4bt22hydot"]
 
 [ext_resource type="PackedScene" uid="uid://b1gjj6kfi8gt1" path="res://Scenes/PlayerCharacter.tscn" id="1_ml8tv"]
+[ext_resource type="PackedScene" uid="uid://ddvl4e4yx10s4" path="res://Scenes/Background.tscn" id="2_0iiyu"]
+[ext_resource type="PackedScene" uid="uid://dm0hcgoxikna" path="res://Scenes/ThugCharacter.tscn" id="3_ttgdx"]
 
 [node name="MainLevel" type="Node2D"]
 
-[node name="PlayerCharacter" parent="." instance=ExtResource("1_ml8tv")]
+[node name="Background" parent="." instance=ExtResource("2_0iiyu")]
+
+[node name="Characters" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Thug" parent="Characters" instance=ExtResource("3_ttgdx")]
+position = Vector2(870, 341)
+
+[node name="PlayerCharacter" parent="Characters" instance=ExtResource("1_ml8tv")]
 position = Vector2(546, 298)
+
+[node name="Thug2" parent="Characters" instance=ExtResource("3_ttgdx")]
+position = Vector2(223, 269)
+
+[node name="Thug3" parent="Characters" instance=ExtResource("3_ttgdx")]
+position = Vector2(0, 330)

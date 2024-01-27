@@ -1,9 +1,10 @@
 extends CharacterBody2D
 
-class_name CharacterController
+class_name PlayerController
 
 ## Nodes
 @export var animPlayer : AnimationPlayer
+@export var specialAnimPlayer : AnimationPlayer
 @export var playerBody : Node2D
 
 ## set variables
@@ -11,6 +12,11 @@ class_name CharacterController
 @export var maxVelocity : float = 400.0
 @export var attackCooldown : float = 0.4
 @export var attackResetCooldown : float = 1.0
+@export var attackCount :int = 2
+@export var immunityCooldown : float = 1.0
+
+## signals:
+signal playerDied
 
 ## other
 enum state {idle,walking, attacking}
@@ -20,6 +26,9 @@ var attackTimer : float = attackCooldown
 var attackResetTimer : float = attackResetCooldown
 var playerRotX : float = 1.0
 var isMoving = false
+var isImmune = false
+var immunityTimer = immunityCooldown
+
 
 
 
@@ -35,6 +44,7 @@ func _process(delta):
 	HandlePlayerRotation(delta)
 	HandleAttackCycle(delta)
 	CheckIdle()
+	HandleImmunity(delta)
 	HandleAnimStates()
 	
 	
@@ -125,13 +135,38 @@ func HandleAttackCycle(delta):
 		if attackTimer <= 0:
 			attackTimer = attackCooldown
 			currentState = state.attacking
+			attackResetTimer = attackResetCooldown
 
 
 
-
+## reset to idle after attacking animation
 func _on_animation_player_animation_finished(anim_name : String):
 	if anim_name.contains("Attack"):
 		currentAttackCount += 1
-		if currentAttackCount > 3:
+		if currentAttackCount > attackCount:
 			currentAttackCount = 0
 		currentState = state.idle
+
+
+
+## check for attack immunity and reduce its timer
+func HandleImmunity(delta):
+	if isImmune:
+		immunityTimer -= delta
+	
+	if immunityTimer <= 0:
+		isImmune = false
+		immunityTimer = immunityCooldown
+
+
+## function for getting hurt
+func Hurt(attackIntensity : int = 0):
+	if !isImmune:
+		specialAnimPlayer.play("global/HurtAnim")
+		isImmune = true
+
+## attack area
+func _on_attack_area_body_entered(body):
+	if body.is_class("CharacterBody2D"):
+		var AI : AIController = body
+		AI.Hurt(currentAttackCount)
