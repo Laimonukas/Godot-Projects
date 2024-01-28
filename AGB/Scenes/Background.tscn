@@ -1,6 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddvl4e4yx10s4"]
+[gd_scene load_steps=10 format=3 uid="uid://ddvl4e4yx10s4"]
 
+[ext_resource type="Texture2D" uid="uid://by8w7k4f8lcol" path="res://Assets/house-0003.png" id="1_e8p8k"]
 [ext_resource type="Texture2D" uid="uid://c70g1svwc5fpj" path="res://Assets/Pixel.png" id="1_i3yl1"]
+[ext_resource type="Texture2D" uid="uid://50tdjylufwus" path="res://Assets/house-0002.png" id="2_qf447"]
+[ext_resource type="Texture2D" uid="uid://c47rmkoypsjud" path="res://Assets/house-0001.png" id="3_fqgsb"]
+[ext_resource type="Texture2D" uid="uid://bnh1yubnat7jq" path="res://Assets/curb.png" id="4_5j2db"]
+[ext_resource type="Texture2D" uid="uid://b14wj4x3dhxf7" path="res://Assets/House-0004.png" id="4_yiwsq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fo804"]
 size = Vector2(1152, 192)
@@ -22,11 +27,38 @@ collision_mask = 3
 position = Vector2(576, 96)
 shape = SubResource("RectangleShape2D_fo804")
 
-[node name="BuildingSprites" type="Sprite2D" parent="Buildings"]
-self_modulate = Color(1, 1, 0.556863, 1)
-position = Vector2(576, 96)
-scale = Vector2(1152, 192)
-texture = ExtResource("1_i3yl1")
+[node name="House" type="Sprite2D" parent="Buildings"]
+position = Vector2(120, 80)
+scale = Vector2(4.75, 4)
+texture = ExtResource("1_e8p8k")
+
+[node name="House2" type="Sprite2D" parent="Buildings/House"]
+position = Vector2(60.6316, 1.90735e-06)
+texture = ExtResource("2_qf447")
+
+[node name="House3" type="Sprite2D" parent="Buildings/House"]
+position = Vector2(116.211, -8)
+texture = ExtResource("3_fqgsb")
+
+[node name="House5" type="Sprite2D" parent="Buildings/House"]
+position = Vector2(235.789, -8)
+texture = ExtResource("3_fqgsb")
+
+[node name="House4" type="Sprite2D" parent="Buildings/House"]
+position = Vector2(178.526, -10)
+texture = ExtResource("4_yiwsq")
+
+[node name="Curb" type="Sprite2D" parent="Buildings"]
+position = Vector2(128, 176)
+texture = ExtResource("4_5j2db")
+
+[node name="Curb2" type="Sprite2D" parent="Buildings/Curb"]
+position = Vector2(512, 0)
+texture = ExtResource("4_5j2db")
+
+[node name="Curb3" type="Sprite2D" parent="Buildings/Curb"]
+position = Vector2(1024, 0)
+texture = ExtResource("4_5j2db")
 
 [node name="StreetSprites" type="Sprite2D" parent="."]
 self_modulate = Color(0.431373, 0.431373, 0.431373, 1)
@@ -60,4 +92,8 @@ shape = SubResource("RectangleShape2D_mf3v6")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-24.5, -227)
+shape = SubResource("RectangleShape2D_x2jbi")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1176, -227)
 shape = SubResource("RectangleShape2D_x2jbi")

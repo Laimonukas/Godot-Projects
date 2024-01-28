@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://is6sfft4d3x5"]
+[gd_scene load_steps=5 format=3 uid="uid://is6sfft4d3x5"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_bdsa0"]
 [ext_resource type="PackedScene" uid="uid://ereb4cj2qu1o" path="res://Scenes/WaveStartUI.tscn" id="2_iy2ll"]
+[ext_resource type="PackedScene" uid="uid://bt4h0rkkwh3" path="res://Scenes/EndUI.tscn" id="3_40dhj"]
+[ext_resource type="AudioStream" uid="uid://wb1vwfqip086" path="res://Assets/Sounds/pickupCoin.wav" id="4_v6jtl"]
 
 [node name="GameManager" type="Node2D" node_paths=PackedStringArray("waveUi")]
 script = ExtResource("1_bdsa0")
@@ -11,3 +13,10 @@ waveUi = NodePath("CanvasLayer/WaveStartUi")
 
 [node name="WaveStartUi" parent="CanvasLayer" node_paths=PackedStringArray("gManager") instance=ExtResource("2_iy2ll")]
 gManager = NodePath("../..")
+
+[node name="EndUi" parent="CanvasLayer" instance=ExtResource("3_40dhj")]
+visible = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_v6jtl")
+volume_db = -20.0

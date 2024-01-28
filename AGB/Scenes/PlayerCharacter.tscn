@@ -1,11 +1,15 @@
-[gd_scene load_steps=26 format=3 uid="uid://b1gjj6kfi8gt1"]
+[gd_scene load_steps=30 format=3 uid="uid://b1gjj6kfi8gt1"]
 
 [ext_resource type="Texture2D" uid="uid://bd3fwicyy6k8s" path="res://Assets/Grandma-Sheet01.png" id="1_onkv2"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter.gd" id="1_w63a2"]
+[ext_resource type="AudioStream" uid="uid://dsyxq2tywbd8b" path="res://Assets/Sounds/hitHurt.wav" id="2_gyo3g"]
 [ext_resource type="PackedScene" uid="uid://b5sfdp1pjqci4" path="res://Scenes/RandomChatter.tscn" id="2_qa47g"]
 [ext_resource type="Texture2D" uid="uid://rnosgwkuh8mw" path="res://Assets/circle.png" id="3_vnhqj"]
 [ext_resource type="Texture2D" uid="uid://cd77ycdsohjbu" path="res://Assets/handbag.png" id="3_w54k8"]
+[ext_resource type="AudioStream" uid="uid://dly1kg8y6w3i4" path="res://Assets/Sounds/hitHurt (1).wav" id="3_xvnxn"]
+[ext_resource type="AudioStream" uid="uid://cgywg1gse1h77" path="res://Assets/Sounds/laserShoot.wav" id="4_0wc7g"]
 [ext_resource type="Texture2D" uid="uid://dje2ph8gm6uib" path="res://Assets/attack.png" id="5_csy5s"]
+[ext_resource type="AudioStream" uid="uid://dddyt67dku7k7" path="res://Assets/Sounds/blipSelect.wav" id="5_vctr8"]
 [ext_resource type="Animation" uid="uid://bqsr6vdqs4rqo" path="res://Assets/Animations/HurtAnim.res" id="6_2khwl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oi7wa"]
@@ -1028,13 +1032,15 @@ point_count = 3
 [sub_resource type="Gradient" id="Gradient_os1ej"]
 colors = PackedColorArray(1, 0.313726, 0.0470588, 1, 0, 0, 0, 0.301961)
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "specialAnimPlayer", "playerBody", "particle")]
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "specialAnimPlayer", "playerBody", "particle", "audioStream")]
 y_sort_enabled = true
 script = ExtResource("1_w63a2")
 animPlayer = NodePath("AnimationPlayer")
 specialAnimPlayer = NodePath("SpecialPlayer")
 playerBody = NodePath("BodySprites")
 particle = NodePath("DieParticle")
+audioStream = NodePath("AudioStreamPlayer")
+sounds = Array[AudioStream]([ExtResource("2_gyo3g"), ExtResource("3_xvnxn"), ExtResource("4_0wc7g"), ExtResource("5_vctr8")])
 
 [node name="RandomChatter" parent="." instance=ExtResource("2_qa47g")]
 position = Vector2(0, -52)
@@ -1120,6 +1126,7 @@ libraries = {
 zoom = Vector2(1.5, 1.5)
 limit_left = 0
 limit_top = 0
+limit_right = 1150
 limit_bottom = 640
 
 [node name="SpecialPlayer" type="AnimationPlayer" parent="."]
@@ -1146,6 +1153,9 @@ scale_amount_min = 2.0
 scale_amount_max = 15.0
 scale_amount_curve = SubResource("Curve_3348m")
 color_initial_ramp = SubResource("Gradient_os1ej")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -12.0
 
 [connection signal="body_entered" from="BodySprites/AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

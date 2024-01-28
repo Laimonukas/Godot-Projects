@@ -13,6 +13,7 @@ var scoreMultiplier : int = 1
 var score : int = 0
 var wave : int = 1
 var highScore : int = GlobalUtils.highScore
+var endTimer : float = 3.0
 
 func _ready():
 	aiManager.connect("scoreIncreased",IncreaseScore)
@@ -31,8 +32,10 @@ func _process(delta):
 		if score > GlobalUtils.highScore:
 			GlobalUtils.highScore = score
 			GlobalUtils.SaveGame()
+	HandlePlayerEnd(delta)
 
 func IncreaseScore(increaseAmount : int):
+	$AudioStreamPlayer.play()
 	comboTimer = comboCooldown
 	unrealizedScore += increaseAmount
 	scoreMultiplier += 1
@@ -40,6 +43,7 @@ func IncreaseScore(increaseAmount : int):
 
 func WaveDone():
 	wave += 1
+	$AudioStreamPlayer.play()
 	if score > GlobalUtils.highScore:
 		GlobalUtils.highScore = score
 		GlobalUtils.SaveGame()
@@ -56,4 +60,13 @@ func PlayerDied():
 		
 func WaveIntroEnded():
 	aiManager.SpawnEnemies(wave * 5)
+	
+
+func HandlePlayerEnd(delta):
+	if playerController == null:
+		endTimer -=delta
+		if endTimer <= 0:
+			$CanvasLayer/EndUi.visible = true
+			if Input.is_action_pressed("Attack"):
+				get_tree().change_scene_to_file("res://Levels/MainLevel.tscn")
 

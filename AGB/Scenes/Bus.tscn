@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://beemt6oom6xxy"]
+
+[ext_resource type="Script" path="res://Scripts/Bus.gd" id="1_xbsi5"]
+[ext_resource type="Texture2D" uid="uid://c70g1svwc5fpj" path="res://Assets/Pixel.png" id="2_ywboe"]
+[ext_resource type="Texture2D" uid="uid://br07i21nyq4if" path="res://Assets/bus.png" id="3_k5ckp"]
+[ext_resource type="AudioStream" uid="uid://db5pkrt81o6gh" path="res://Assets/Sounds/synth.wav" id="4_bai6s"]
+
+[sub_resource type="Curve2D" id="Curve2D_p7ua2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -320, -32, 0, 0, 0, 0, 2112, -24)
+}
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tkxso"]
+size = Vector2(408.525, 158.657)
+
+[node name="Bus" type="Node2D" node_paths=PackedStringArray("busArea", "pathFollower")]
+z_index = -2
+script = ExtResource("1_xbsi5")
+busArea = NodePath("Path2D/PathFollow2D/Area2D")
+pathFollower = NodePath("Path2D/PathFollow2D")
+
+[node name="groundIndication" type="Sprite2D" parent="."]
+position = Vector2(992, -32)
+scale = Vector2(1984, 192)
+texture = ExtResource("2_ywboe")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_p7ua2")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-320, -32)
+rotation = 0.00328946
+loop = false
+
+[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D"]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
+position = Vector2(107.999, -0.355261)
+shape = SubResource("RectangleShape2D_tkxso")
+
+[node name="BusSprite" type="Sprite2D" parent="Path2D/PathFollow2D/Area2D"]
+position = Vector2(106.116, -4.17659)
+scale = Vector2(6.8905, 5.73531)
+texture = ExtResource("3_k5ckp")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_bai6s")
+volume_db = -24.0
+
+[connection signal="body_entered" from="Path2D/PathFollow2D/Area2D" to="." method="_on_area_2d_body_entered"]

@@ -7,6 +7,7 @@ class_name PlayerController
 @export var specialAnimPlayer : AnimationPlayer
 @export var playerBody : Node2D
 @export var particle : CPUParticles2D
+@export var audioStream : AudioStreamPlayer
 
 ## set variables
 @export var moveSpeed : float = 50.0
@@ -16,6 +17,7 @@ class_name PlayerController
 @export var attackCount :int = 2
 @export var immunityCooldown : float = 1.0
 @export var healthPoint : int = 10
+@export var sounds : Array[AudioStream]
 
 ## signals:
 signal playerDied
@@ -164,8 +166,12 @@ func HandleImmunity(delta):
 func Hurt(attackIntensity : int = 1):
 	if !isImmune:
 		specialAnimPlayer.play("global/HurtAnim")
+		audioStream.set_stream(sounds[1]) 
+		audioStream.play()
 		healthPoint -= attackIntensity
 		if healthPoint <= 0:
+			audioStream.set_stream(sounds[3]) 
+			audioStream.play()
 			particle.emitting = true
 			playerBody.visible = false
 			playerDied.emit()
@@ -178,6 +184,8 @@ func Hurt(attackIntensity : int = 1):
 func _on_attack_area_body_entered(body):
 	if body.is_class("CharacterBody2D"):
 		var AI : AIController = body
+		audioStream.set_stream(sounds[0]) 
+		audioStream.play()
 		AI.Hurt(currentAttackCount)
 
 

@@ -19,4 +19,5 @@ func _process(delta):
 		$PanelContainer/VBoxContainer/ScoreLabel.text = "Score: "+ str(gManager.score)
 		$PanelContainer/VBoxContainer/HighScoreLabel.text = "HighScore: " + str(GlobalUtils.highScore)
 	else:
-		queue_free()
+		#queue_free()
+		pass
