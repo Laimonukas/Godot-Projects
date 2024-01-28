@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8y53wdqm2vht"]
+
+[ext_resource type="Script" path="res://Scripts/SpecialAttack.gd" id="1_66hsi"]
+[ext_resource type="Texture2D" uid="uid://c70g1svwc5fpj" path="res://Assets/Pixel.png" id="1_jg661"]
+
+[sub_resource type="Curve" id="Curve_25e6f"]
+_data = [Vector2(0, 0.989011), 0.0, 0.0, 0, 0, Vector2(1, 0.032967), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vara"]
+size = Vector2(48, 88)
+
+[node name="SpecialAttack" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_66hsi")
+
+[node name="BG" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+z_index = -5
+position = Vector2(16.25, -11.75)
+scale = Vector2(1152.5, 648.5)
+texture = ExtResource("1_jg661")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 1280
+randomness = 0.5
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 7.46
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.1
+initial_velocity_max = 20.2
+linear_accel_min = -20.2
+linear_accel_max = 20.2
+radial_accel_min = -16.16
+radial_accel_max = 14.14
+angle_min = -72.7
+angle_max = 145.5
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_25e6f")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_5vara")
+
+[connection signal="specialEnded" from="." to="." method="_on_special_ended"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

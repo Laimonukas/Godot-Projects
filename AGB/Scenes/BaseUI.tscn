@@ -1,0 +1,120 @@
+[gd_scene load_steps=8 format=3 uid="uid://bfgilufia2qi7"]
+
+[ext_resource type="FontVariation" uid="uid://blmg3pk2xtfl4" path="res://Assets/new_font_variation.tres" id="1_6dist"]
+[ext_resource type="Script" path="res://Scripts/BaseUI.gd" id="1_ic1hc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0oqv6"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kac31"]
+content_margin_left = 50.0
+content_margin_right = 50.0
+bg_color = Color(0.113725, 0, 0, 1)
+skew = Vector2(0.8, 0)
+corner_detail = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aet08"]
+bg_color = Color(0.164706, 0.6, 0.6, 1)
+skew = Vector2(0.8, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bpouj"]
+content_margin_left = 10.0
+content_margin_right = 15.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_21acy"]
+bg_color = Color(0.756863, 0, 0.152941, 1)
+skew = Vector2(0.8, 0)
+
+[node name="BaseUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ic1hc")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 101.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("1_6dist")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_0oqv6")
+text = "Score: XXXXXXXXX"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("1_6dist")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_0oqv6")
+text = "HighScore: XXXXXXXXX"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_direction = 3
+layout_mode = 2
+
+[node name="MultiplierProgressBar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_styles/background = SubResource("StyleBoxFlat_kac31")
+theme_override_styles/fill = SubResource("StyleBoxFlat_aet08")
+max_value = 5.0
+value = 5.0
+
+[node name="ScoreMultiplierLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("1_6dist")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bpouj")
+text = "Multiplier: X3"
+horizontal_alignment = 2
+vertical_alignment = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_direction = 3
+layout_mode = 2
+
+[node name="HPProgressBar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_styles/background = SubResource("StyleBoxFlat_kac31")
+theme_override_styles/fill = SubResource("StyleBoxFlat_21acy")
+max_value = 10.0
+value = 5.0
+
+[node name="HPLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("1_6dist")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bpouj")
+text = "Health Points:"
+horizontal_alignment = 2
+vertical_alignment = 3

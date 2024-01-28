@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://dm0hcgoxikna"]
+[gd_scene load_steps=27 format=3 uid="uid://dm0hcgoxikna"]
 
 [ext_resource type="Script" path="res://Scripts/AICharacter.gd" id="1_e5clh"]
 [ext_resource type="Texture2D" uid="uid://c1dkvqe4hnjyi" path="res://Assets/ThugSheet.png" id="2_06mf5"]
+[ext_resource type="PackedScene" uid="uid://b5sfdp1pjqci4" path="res://Scenes/RandomChatter.tscn" id="2_cng4w"]
 [ext_resource type="Texture2D" uid="uid://rnosgwkuh8mw" path="res://Assets/circle.png" id="4_xrnfa"]
 [ext_resource type="Animation" uid="uid://bqsr6vdqs4rqo" path="res://Assets/Animations/HurtAnim.res" id="5_drh6b"]
 [ext_resource type="Texture2D" uid="uid://dje2ph8gm6uib" path="res://Assets/attack.png" id="5_dv18d"]
@@ -736,7 +737,17 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6e0pp"]
 size = Vector2(229, 104)
 
-[node name="Thug" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "specialAnimPlayer", "playerBody")]
+[sub_resource type="Curve" id="Curve_2ejos"]
+min_value = 0.99
+max_value = 25.0
+_data = [Vector2(0, 9.43308), 0.0, 0.0, 0, 0, Vector2(0.370787, 21.8338), 0.0, 0.0, 0, 0, Vector2(1, 2.57308), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_1s3j1"]
+offsets = PackedFloat32Array(0.0333333, 0.486667, 1)
+colors = PackedColorArray(1, 0, 0.419608, 1, 1, 0.172549, 0, 1, 0.882353, 0.780392, 0, 0)
+
+[node name="Thug" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "specialAnimPlayer", "playerBody", "dieParticles")]
 y_sort_enabled = true
 collision_layer = 2
 collision_mask = 2
@@ -744,9 +755,13 @@ script = ExtResource("1_e5clh")
 animPlayer = NodePath("AnimationPlayer")
 specialAnimPlayer = NodePath("SpecialPlayer")
 playerBody = NodePath("BodySprites")
-moveSpeed = 30.0
+dieParticles = NodePath("DieParticle")
 maxVelocity = 300.0
 attackCount = 1
+
+[node name="RandomChatter" parent="." instance=ExtResource("2_cng4w")]
+position = Vector2(0, -67)
+quotes = Array[String](["I didn't choose the thug life; the thug life chose me.", "I didn't choose the thug life; the thug life chose me... and then asked for a resume.", "I'm not a thug; I'm a hugs specialist.", "I'm a gangster on social media. My posts are straight fire!", "I'm so tough; I can open a bag of chips with one hand.", "I've got 99 problems, and they're all notifications on my phone.", "I'm not a gangster; I'm a gangsta-rapper. I rap about flowers and rainbows.", "I'm the kind of thug who returns shopping carts. No one messes with that kind of dangerous.", "I'm on a seafood diet. I see food, and I eat it... thug life.", "I'm not a criminal; I just accidentally wore a ski mask to the grocery store.", "I'm so gangster; I floss with barbed wire.", "I got a tattoo of a barcode. Thug life, but with a price tag.", "I don't break the law; I just bend it like Beckham.", "I'm the kind of thug who uses 'LOL' in real-life conversations.", "I'm on a stealth mission to find the last cookie in the jar.", "My rap sheet? It's more like a grocery list... of things I forgot to buy.", "I'm the reason Waldo is hiding.", "I walk into a room, and the WiFi connects automatically. Thug priorities.", "I'm so street, my GPS says 'You have reached your destination, bro.", "I got arrested for being too handsome. The mugshot was too good."])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(4, 0)
@@ -784,7 +799,6 @@ texture = ExtResource("4_xrnfa")
 
 [node name="AttackArea" type="Area2D" parent="BodySprites"]
 collision_layer = 0
-collision_mask = 2
 monitoring = false
 monitorable = false
 
@@ -815,6 +829,28 @@ libraries = {
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_6e0pp")
 
+[node name="DieParticle" type="CPUParticles2D" parent="."]
+process_mode = 3
+emitting = false
+amount = 64
+one_shot = true
+explosiveness = 0.89
+randomness = 1.0
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 46.25
+direction = Vector2(0, 1)
+spread = 180.0
+gravity = Vector2(0, 0)
+angular_velocity_min = -145.45
+angular_velocity_max = 130.91
+angle_min = -87.3
+angle_max = 101.8
+scale_amount_curve = SubResource("Curve_2ejos")
+color_initial_ramp = SubResource("Gradient_1s3j1")
+
+[connection signal="body_entered" from="BodySprites/AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="AgroArea" to="." method="_on_agro_area_body_entered"]
 [connection signal="body_exited" from="AgroArea" to="." method="_on_agro_area_body_exited"]
+[connection signal="finished" from="DieParticle" to="." method="_on_die_particle_finished"]

@@ -6,6 +6,7 @@ class_name PlayerController
 @export var animPlayer : AnimationPlayer
 @export var specialAnimPlayer : AnimationPlayer
 @export var playerBody : Node2D
+@export var particle : CPUParticles2D
 
 ## set variables
 @export var moveSpeed : float = 50.0
@@ -14,6 +15,7 @@ class_name PlayerController
 @export var attackResetCooldown : float = 1.0
 @export var attackCount :int = 2
 @export var immunityCooldown : float = 1.0
+@export var healthPoint : int = 10
 
 ## signals:
 signal playerDied
@@ -28,7 +30,6 @@ var playerRotX : float = 1.0
 var isMoving = false
 var isImmune = false
 var immunityTimer = immunityCooldown
-
 
 
 
@@ -160,13 +161,25 @@ func HandleImmunity(delta):
 
 
 ## function for getting hurt
-func Hurt(attackIntensity : int = 0):
+func Hurt(attackIntensity : int = 1):
 	if !isImmune:
 		specialAnimPlayer.play("global/HurtAnim")
+		healthPoint -= attackIntensity
+		if healthPoint <= 0:
+			particle.emitting = true
+			playerBody.visible = false
+			playerDied.emit()
+			#process_mode = Node.PROCESS_MODE_DISABLED
 		isImmune = true
+
+
 
 ## attack area
 func _on_attack_area_body_entered(body):
 	if body.is_class("CharacterBody2D"):
 		var AI : AIController = body
 		AI.Hurt(currentAttackCount)
+
+
+func _on_die_particle_finished():
+	queue_free()

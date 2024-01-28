@@ -1,0 +1,137 @@
+[gd_scene load_steps=5 format=3 uid="uid://ereb4cj2qu1o"]
+
+[ext_resource type="Script" path="res://Scripts/WaveStartUI.gd" id="1_thpro"]
+
+[sub_resource type="Animation" id="Animation_4q7xo"]
+resource_name = "WaveStart"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1.7, 1.8, 2, 2.1, 2.3, 3.8, 3.9, 4.1, 4.2, 4.4, 5.9, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1300, 200), Vector2(400, 200), Vector2(400, 200), Vector2(-600, 200), Vector2(1600, 200), Vector2(1300, 200), Vector2(400, 200), Vector2(400, 200), Vector2(-600, 200), Vector2(-600, 200), Vector2(1300, 200), Vector2(400, 200), Vector2(400, 200), Vector2(-600, 200)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.8, 2, 2.1, 3.9, 4.1, 4.2, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, true, false, false, true, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["Ready!", "Set !", "Ready!"]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(4.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"UpdateWaveCount"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_6p443"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1300, 200)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Ready!"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dom6w"]
+_data = {
+"RESET": SubResource("Animation_6p443"),
+"WaveStart": SubResource("Animation_4q7xo")
+}
+
+[node name="WaveStartUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_thpro")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_dom6w")
+}
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1300.0
+offset_top = 200.0
+offset_right = 1507.0
+offset_bottom = 288.0
+rotation = 0.174533
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 30
+theme_override_constants/shadow_offset_y = 35
+theme_override_constants/outline_size = 25
+theme_override_constants/shadow_outline_size = 15
+theme_override_constants/line_spacing = 15
+theme_override_font_sizes/font_size = 64
+text = "Ready!"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

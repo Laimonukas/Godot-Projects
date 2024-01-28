@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5sfdp1pjqci4"]
+
+[ext_resource type="Script" path="res://Scripts/RandomChatter.gd" id="1_epebi"]
+
+[node name="RandomChatter" type="Node2D" node_paths=PackedStringArray("labelNode")]
+script = ExtResource("1_epebi")
+labelNode = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -185.0
+offset_top = -31.0
+offset_right = 185.0
+offset_bottom = 29.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Waste not, want not.xxxxxxxxx xxxxxxxxxxxxxxx xxxxx xxxxx xxxxxxxxxxxxxx"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

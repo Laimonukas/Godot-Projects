@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://is6sfft4d3x5"]
+
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_bdsa0"]
+[ext_resource type="PackedScene" uid="uid://ereb4cj2qu1o" path="res://Scenes/WaveStartUI.tscn" id="2_iy2ll"]
+
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("waveUi")]
+script = ExtResource("1_bdsa0")
+waveUi = NodePath("CanvasLayer/WaveStartUi")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="WaveStartUi" parent="CanvasLayer" node_paths=PackedStringArray("gManager") instance=ExtResource("2_iy2ll")]
+gManager = NodePath("../..")

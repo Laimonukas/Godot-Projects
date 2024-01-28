@@ -8,6 +8,7 @@ class_name AIController
 @export var specialAnimPlayer : AnimationPlayer
 @export var playerBody : Node2D
 @export var playerController : PlayerController
+@export var dieParticles : CPUParticles2D
 
 ## set variables
 @export var moveSpeed : float = 50.0
@@ -15,10 +16,11 @@ class_name AIController
 var attackCooldown : float = 2.0
 @export var attackResetCooldown : float = 1.0
 @export var attackCount :int = 2
+@export var destination : Vector2 = Vector2(0.0,0.0)
+@export var healthPoints : int = 5
 
 ## signals:
 signal aiDied
-
 
 ## other
 enum state {idle,walking, attacking}
@@ -28,7 +30,6 @@ var attackTimer : float = attackCooldown
 var attackResetTimer : float = attackResetCooldown
 var playerRotX : float = 1.0
 var isMoving = false
-var destination : Vector2
 var isAggroed = false
 var rng = RandomNumberGenerator.new()
 
@@ -39,6 +40,7 @@ func _ready():
 	animPlayer.queue("Idle")
 	attackCooldown = rng.randf_range(1.0,2.0)
 	ChangeThugVariation()
+	
 	
 	
 
@@ -160,12 +162,14 @@ func _on_animation_player_animation_finished(anim_name : String):
 		
 		
 
-func Hurt(attackIntensity : int = 0):
+func Hurt(attackIntensity : int = 1):
 	specialAnimPlayer.play("global/HurtAnim")
 	if playerController != null:
 		velocity += -(playerController.global_position - global_position).normalized() * moveSpeed * 100 * float(attackIntensity)
 	move_and_slide()
-	
+	healthPoints -= attackIntensity
+	if healthPoints <= 0:
+		emit_signal("aiDied")
 	
 
 ## aggro range 
@@ -184,8 +188,30 @@ func _on_agro_area_body_exited(body):
 		attackResetTimer = attackResetCooldown + attackCooldown
 
 
-
+## adding a little scale and color variation to sprites
 func ChangeThugVariation():
 	playerBody.scale = playerBody.scale * rng.randf_range(0.8,1.4)
 	var color : Color = Color(rng.randf_range(0.1,1.0),rng.randf_range(0.1,1.0),rng.randf_range(0.1,1.0),1.0)
 	playerBody.modulate = playerBody.modulate.blend(color)
+
+
+
+## on successfull attack
+func _on_attack_area_body_entered(body):
+	if body.name == "PlayerCharacter":
+		if playerController != null:
+			playerController.Hurt(currentAttackCount)
+		else:
+			playerController = body
+			playerController.Hurt(currentAttackCount)
+			
+
+
+func DieFunction():
+	playerBody.visible = false
+	dieParticles.emitting = true
+	#process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func _on_die_particle_finished():
+	queue_free()

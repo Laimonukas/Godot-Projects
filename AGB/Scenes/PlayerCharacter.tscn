@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://b1gjj6kfi8gt1"]
+[gd_scene load_steps=26 format=3 uid="uid://b1gjj6kfi8gt1"]
 
 [ext_resource type="Texture2D" uid="uid://bd3fwicyy6k8s" path="res://Assets/Grandma-Sheet01.png" id="1_onkv2"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter.gd" id="1_w63a2"]
+[ext_resource type="PackedScene" uid="uid://b5sfdp1pjqci4" path="res://Scenes/RandomChatter.tscn" id="2_qa47g"]
 [ext_resource type="Texture2D" uid="uid://rnosgwkuh8mw" path="res://Assets/circle.png" id="3_vnhqj"]
 [ext_resource type="Texture2D" uid="uid://cd77ycdsohjbu" path="res://Assets/handbag.png" id="3_w54k8"]
 [ext_resource type="Texture2D" uid="uid://dje2ph8gm6uib" path="res://Assets/attack.png" id="5_csy5s"]
@@ -1020,12 +1021,24 @@ _data = {
 "HurtAnim": ExtResource("6_2khwl")
 }
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "specialAnimPlayer", "playerBody")]
+[sub_resource type="Curve" id="Curve_3348m"]
+_data = [Vector2(0.0280899, 0.21978), 0.0, 0.0, 0, 0, Vector2(0.241573, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.186813), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_os1ej"]
+colors = PackedColorArray(1, 0.313726, 0.0470588, 1, 0, 0, 0, 0.301961)
+
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "specialAnimPlayer", "playerBody", "particle")]
 y_sort_enabled = true
 script = ExtResource("1_w63a2")
 animPlayer = NodePath("AnimationPlayer")
 specialAnimPlayer = NodePath("SpecialPlayer")
 playerBody = NodePath("BodySprites")
+particle = NodePath("DieParticle")
+
+[node name="RandomChatter" parent="." instance=ExtResource("2_qa47g")]
+position = Vector2(0, -52)
+quotes = Array[String](["Eat your vegetables", "I have eyes in the back of my head, you know.", "Back in my day, we didn't have all these fancy gadgets. We had to use our imagination!", "Money doesn't grow on trees, you know!", "You're going out in that?", "A watched pot never boils", "I used to walk to school uphill, both ways, in the snow!", "If you make that face, it'll stay that way!", "Don't sit too close to the TV; it'll ruin your eyes!", "When I was your age, we had one channel, and we were happy with it!", "I'm not just talking to hear my own voice, you know!", "I've got half a mind to give you a piece of my mind!", "I didn't raise you to act like this!", "The nerve of some people!", "I've had enough of your shenanigans!", "Back in my day, we respected our elders!", "You're testing my patience, dear.", "This is the last straw!", "I've got a good mind to wash your mouth out with soap!", "I can't believe you'd do such a thing!", "I never thought I'd see the day...", "I'm not just disappointed; I'm downright upset!"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(4, 0)
@@ -1114,5 +1127,26 @@ libraries = {
 "global": SubResource("AnimationLibrary_ufi72")
 }
 
+[node name="DieParticle" type="CPUParticles2D" parent="."]
+process_mode = 3
+emitting = false
+amount = 128
+one_shot = true
+explosiveness = 0.8
+randomness = 0.8
+lifetime_randomness = 0.8
+emission_shape = 1
+emission_sphere_radius = 41.92
+gravity = Vector2(0, 0)
+angular_velocity_min = -160.0
+angular_velocity_max = 45.08
+orbit_velocity_min = -0.01
+orbit_velocity_max = 0.01
+scale_amount_min = 2.0
+scale_amount_max = 15.0
+scale_amount_curve = SubResource("Curve_3348m")
+color_initial_ramp = SubResource("Gradient_os1ej")
+
 [connection signal="body_entered" from="BodySprites/AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="finished" from="DieParticle" to="." method="_on_die_particle_finished"]
