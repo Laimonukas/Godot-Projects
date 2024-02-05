@@ -21,3 +21,4 @@
 */Assets/
 *.tmp
 */addons/
+*savegame.bin

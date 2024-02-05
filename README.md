@@ -30,4 +30,10 @@ Links:
 - Project - [Readme](JetRaid/)
 - Based on 20 games Challenge - [Link](https://20_games_challenge.gitlab.io/challenge/ "Link")
 
+## **AngryGrandmaBattlegrounds**
+Links:
+- Itch.io - [Link](https://laimonukas.itch.io/angrygrandmabattlegrounds "Link")
+- Project - [Readme](AGB/)
+- Made for GlobalGameJam '24
+
 
