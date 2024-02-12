@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardBaseStats" load_steps=2 format=3 uid="uid://dlcdv6prrdrt5"]
+
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="1_fi0eb"]
+
+[resource]
+script = ExtResource("1_fi0eb")
+healthPoints = 1
+armorPoints = 1
+attackPoints = 1

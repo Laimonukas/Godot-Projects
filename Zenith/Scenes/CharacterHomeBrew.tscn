@@ -439,17 +439,17 @@ surface_material_override/0 = ExtResource("2_1167q")
 transform = Transform3D(0.999835, 0, 0, 0, 0.999832, 0, 0, 0, 0.99984, 0.108567, 0.878504, -0.0270323)
 
 [node name="L_Knee" type="Marker3D" parent="Armature/GeneralSkeleton/IKHelpers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0915513, 0.562928, 0.218167)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.269465, 0.823123, 0.334969)
 
 [node name="L_FootPos" type="Marker3D" parent="Armature/GeneralSkeleton/IKHelpers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0932408, 0.20535, 0.0189051)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.412238, 0.449065, 0.301812)
 
 [node name="L_Helper" type="Marker3D" parent="Armature/GeneralSkeleton/IKHelpers/L_FootPos"]
 transform = Transform3D(0.999829, 0, 0, 0, 0.999422, 0, 0, 0, 0.999852, -0.00965744, 0.38237, 0.391691)
 visible = false
 
 [node name="LeftLowerLeg" type="BoneAttachment3D" parent="Armature/GeneralSkeleton"]
-transform = Transform3D(0.999499, 0.0307792, 0.0074061, 0.0232835, -0.873217, 0.486775, 0.0214497, -0.486359, -0.873496, 0.0915513, 0.562928, 0.218167)
+transform = Transform3D(0.223841, 0.0920045, 0.970273, 0.0265505, -0.995741, 0.0882942, 0.974264, 0.00599739, -0.22533, 0.269465, 0.823123, 0.334969)
 bone_name = "LeftLowerLeg"
 bone_idx = 33
 override_pose = true
@@ -457,7 +457,7 @@ use_external_skeleton = true
 external_skeleton = NodePath("..")
 
 [node name="LeftUpperLeg" type="BoneAttachment3D" parent="Armature/GeneralSkeleton"]
-transform = Transform3D(-0.997601, -0.0424763, -0.0546679, -1.19234e-07, -0.789653, 0.613553, -0.0692302, 0.612081, 0.787759, 0.108567, 0.878504, -0.0270323)
+transform = Transform3D(-0.913803, 0.401486, 0.0614218, -2.28346e-08, -0.151227, 0.988499, 0.406157, 0.903293, 0.138191, 0.108567, 0.878504, -0.0270323)
 bone_name = "LeftUpperLeg"
 bone_idx = 32
 override_pose = true

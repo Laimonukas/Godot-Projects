@@ -21,8 +21,14 @@ func _ready():
 
 func _process(delta):
 	if Engine.is_editor_hint():
-		RotateBone(leftLeg,leftFoot)
+		#RotateBone(leftLeg,leftFoot)
+		RotateMarkers()
 		pass
+
+func RotateMarkers():
+	leftKnee.look_at(leftFoot.global_position,Vector3.FORWARD)
+
+
 
 func RotateBone(boneRange : Array[BoneAttachment3D], target :Marker3D):
 	

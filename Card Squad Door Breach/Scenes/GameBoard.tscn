@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cowq3g1ehpnxn"]
+
+[ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="1_u6xt5"]
+[ext_resource type="PackedScene" uid="uid://bwfhf1o5sf62b" path="res://Scenes/CardDeck.tscn" id="2_w651n"]
+[ext_resource type="PackedScene" uid="uid://cun404bl4ag5j" path="res://Scenes/card_base.tscn" id="3_751q4"]
+
+[node name="GameBoard" type="Node2D"]
+
+[node name="BoardSprite" type="Sprite2D" parent="."]
+modulate = Color(0.0392157, 0.0392157, 0.0392157, 1)
+position = Vector2(576, 324)
+scale = Vector2(1152, 648)
+texture = ExtResource("1_u6xt5")
+
+[node name="CardDeck" parent="." instance=ExtResource("2_w651n")]
+position = Vector2(64, 384)
+cardScenes = Array[PackedScene]([ExtResource("3_751q4")])
