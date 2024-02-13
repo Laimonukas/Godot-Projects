@@ -10,7 +10,7 @@
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("playerDeck", "playerHand") instance=ExtResource("1_qevo1")]
 playerDeck = NodePath("../CardDeck")
-playerHand = NodePath("../Camera2D/PlayerHand")
+playerHand = NodePath("../PlayerHand")
 
 [node name="BoardSprite" type="Sprite2D" parent="."]
 modulate = Color(0.0392157, 0.0392157, 0.0392157, 1)
@@ -22,8 +22,4 @@ texture = ExtResource("1_u6xt5")
 position = Vector2(64, 384)
 cardScenes = Array[PackedScene]([ExtResource("3_751q4")])
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 320)
-
-[node name="PlayerHand" parent="Camera2D" instance=ExtResource("4_rjx0n")]
-position = Vector2(-576, -320)
+[node name="PlayerHand" parent="." instance=ExtResource("4_rjx0n")]
