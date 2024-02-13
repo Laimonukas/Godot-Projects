@@ -4,7 +4,6 @@ class_name CardDeck
 @export var cardScenes : Array[PackedScene]
 @export var maxCardAmount : int = 20
 
-var currentCardCount : int = 0
 var rng = RandomNumberGenerator.new()
 var deck = []
 
@@ -17,8 +16,11 @@ func _ready():
 			var card : CardBase = cardScenes.pick_random().instantiate()
 			add_child(card)
 			card.currentFaceState = card.faceStates.FaceDown
+			card.currentPlayState = card.playStates.InDeck
 			card.global_position = global_position
+			card.parentNode = self
 			deck.append(card)
+		deck.shuffle()
 
 func DrawCard():
 	if deck.size() > 0:

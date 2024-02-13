@@ -1,5 +1,28 @@
-[gd_scene format=3 uid="uid://dhsaqyuqt7abo"]
+[gd_scene load_steps=2 format=3 uid="uid://dhsaqyuqt7abo"]
 
-[node name="PlayerHand" type="Node2D"]
+[ext_resource type="Script" path="res://Scripts/PlayerHand.gd" id="1_3r3pg"]
+
+[node name="PlayerHand" type="Node2D" node_paths=PackedStringArray("handSlots")]
+script = ExtResource("1_3r3pg")
+handSlots = [NodePath("Slots/Slot1"), NodePath("Slots/Slot2"), NodePath("Slots/Slot3"), NodePath("Slots/Slot4"), NodePath("Slots/Slot5"), NodePath("Slots/Slot6")]
 
 [node name="Slots" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Slot1" type="Node2D" parent="Slots"]
+position = Vector2(320, 512)
+
+[node name="Slot2" type="Node2D" parent="Slots"]
+position = Vector2(448, 512)
+
+[node name="Slot3" type="Node2D" parent="Slots"]
+position = Vector2(576, 512)
+
+[node name="Slot4" type="Node2D" parent="Slots"]
+position = Vector2(704, 512)
+
+[node name="Slot5" type="Node2D" parent="Slots"]
+position = Vector2(832, 512)
+
+[node name="Slot6" type="Node2D" parent="Slots"]
+position = Vector2(960, 512)

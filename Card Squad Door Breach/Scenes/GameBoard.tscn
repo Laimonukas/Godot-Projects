@@ -1,10 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cowq3g1ehpnxn"]
+[gd_scene load_steps=6 format=3 uid="uid://cowq3g1ehpnxn"]
 
+[ext_resource type="PackedScene" uid="uid://bcjlhxydgsrqm" path="res://Scenes/GameManager.tscn" id="1_qevo1"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="1_u6xt5"]
 [ext_resource type="PackedScene" uid="uid://bwfhf1o5sf62b" path="res://Scenes/CardDeck.tscn" id="2_w651n"]
 [ext_resource type="PackedScene" uid="uid://cun404bl4ag5j" path="res://Scenes/card_base.tscn" id="3_751q4"]
+[ext_resource type="PackedScene" uid="uid://dhsaqyuqt7abo" path="res://Scenes/PlayerHand.tscn" id="4_rjx0n"]
 
 [node name="GameBoard" type="Node2D"]
+
+[node name="GameManager" parent="." node_paths=PackedStringArray("playerDeck", "playerHand") instance=ExtResource("1_qevo1")]
+playerDeck = NodePath("../CardDeck")
+playerHand = NodePath("../Camera2D/PlayerHand")
 
 [node name="BoardSprite" type="Sprite2D" parent="."]
 modulate = Color(0.0392157, 0.0392157, 0.0392157, 1)
@@ -15,3 +21,9 @@ texture = ExtResource("1_u6xt5")
 [node name="CardDeck" parent="." instance=ExtResource("2_w651n")]
 position = Vector2(64, 384)
 cardScenes = Array[PackedScene]([ExtResource("3_751q4")])
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 320)
+
+[node name="PlayerHand" parent="Camera2D" instance=ExtResource("4_rjx0n")]
+position = Vector2(-576, -320)
