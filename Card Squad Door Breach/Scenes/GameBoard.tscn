@@ -1,25 +1,236 @@
-[gd_scene load_steps=6 format=3 uid="uid://cowq3g1ehpnxn"]
+[gd_scene load_steps=8 format=3 uid="uid://cowq3g1ehpnxn"]
 
 [ext_resource type="PackedScene" uid="uid://bcjlhxydgsrqm" path="res://Scenes/GameManager.tscn" id="1_qevo1"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="1_u6xt5"]
 [ext_resource type="PackedScene" uid="uid://bwfhf1o5sf62b" path="res://Scenes/CardDeck.tscn" id="2_w651n"]
 [ext_resource type="PackedScene" uid="uid://cun404bl4ag5j" path="res://Scenes/card_base.tscn" id="3_751q4"]
 [ext_resource type="PackedScene" uid="uid://dhsaqyuqt7abo" path="res://Scenes/PlayerHand.tscn" id="4_rjx0n"]
+[ext_resource type="PackedScene" uid="uid://ba626mvdwdwi" path="res://Scenes/CardBoardSlot.tscn" id="6_ia24x"]
+[ext_resource type="Script" path="res://Scripts/CardSlotsGridOrganizer.gd" id="6_lju6a"]
 
 [node name="GameBoard" type="Node2D"]
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("playerDeck", "playerHand") instance=ExtResource("1_qevo1")]
-playerDeck = NodePath("../CardDeck")
+playerDeck = NodePath("../MoveableNodes/CardDeck")
 playerHand = NodePath("../PlayerHand")
 
-[node name="BoardSprite" type="Sprite2D" parent="."]
+[node name="PlayerHand" parent="." node_paths=PackedStringArray("moveableNodes", "moveableBoundsNode") instance=ExtResource("4_rjx0n")]
+moveableNodes = NodePath("../MoveableNodes")
+moveableBoundsNode = NodePath("../MoveableNodes/BoardSprite")
+
+[node name="MoveableNodes" type="Node2D" parent="."]
+z_index = -1
+
+[node name="BoardSprite" type="Sprite2D" parent="MoveableNodes"]
 modulate = Color(0.0392157, 0.0392157, 0.0392157, 1)
-position = Vector2(576, 324)
-scale = Vector2(1152, 648)
+position = Vector2(1152, 704)
+scale = Vector2(2304, 1408)
 texture = ExtResource("1_u6xt5")
 
-[node name="CardDeck" parent="." instance=ExtResource("2_w651n")]
-position = Vector2(64, 384)
+[node name="CardDeck" parent="MoveableNodes" instance=ExtResource("2_w651n")]
+position = Vector2(96, 384)
 cardScenes = Array[PackedScene]([ExtResource("3_751q4")])
 
-[node name="PlayerHand" parent="." instance=ExtResource("4_rjx0n")]
+[node name="CardSlots" type="Node2D" parent="MoveableNodes"]
+script = ExtResource("6_lju6a")
+
+[node name="Slot0" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
+position = Vector2(320, 192)
+
+[node name="Slot1" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(576, 192)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [1, 0]
+
+[node name="Slot2" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(832, 192)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [2, 0]
+
+[node name="Slot3" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1088, 192)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [3, 0]
+
+[node name="Slot4" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1344, 192)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [4, 0]
+
+[node name="Slot5" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1600, 192)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [5, 0]
+
+[node name="Slot6" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1856, 192)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [6, 0]
+
+[node name="Slot7" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(2112, 192)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [7, 0]
+
+[node name="Slot8" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(320, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [0, 1]
+
+[node name="Slot9" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(576, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [1, 1]
+
+[node name="Slot10" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(832, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [2, 1]
+
+[node name="Slot11" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1088, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [3, 1]
+
+[node name="Slot12" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1344, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [4, 1]
+
+[node name="Slot13" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1600, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [5, 1]
+
+[node name="Slot14" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1856, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [6, 1]
+
+[node name="Slot15" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(2112, 448)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [7, 1]
+
+[node name="Slot16" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(320, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [0, 2]
+
+[node name="Slot17" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(576, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [1, 2]
+
+[node name="Slot18" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(832, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [2, 2]
+
+[node name="Slot19" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1088, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [3, 2]
+
+[node name="Slot20" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1344, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [4, 2]
+
+[node name="Slot21" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1600, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [5, 2]
+
+[node name="Slot22" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1856, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [6, 2]
+
+[node name="Slot23" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(2112, 704)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [7, 2]
+
+[node name="Slot24" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(320, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [0, 3]
+
+[node name="Slot25" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(576, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [1, 3]
+
+[node name="Slot26" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(832, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [2, 3]
+
+[node name="Slot27" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1088, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [3, 3]
+
+[node name="Slot28" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1344, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [4, 3]
+
+[node name="Slot29" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1600, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [5, 3]
+
+[node name="Slot30" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1856, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [6, 3]
+
+[node name="Slot31" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(2112, 960)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [7, 3]
+
+[node name="Slot32" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(320, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [0, 4]
+
+[node name="Slot33" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(576, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [1, 4]
+
+[node name="Slot34" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(832, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [2, 4]
+
+[node name="Slot35" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1088, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [3, 4]
+
+[node name="Slot36" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1344, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [4, 4]
+
+[node name="Slot37" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1600, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [5, 4]
+
+[node name="Slot38" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(1856, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [6, 4]
+
+[node name="Slot39" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("spriteNode") instance=ExtResource("6_ia24x")]
+position = Vector2(2112, 1216)
+spriteNode = NodePath("../Slot0/SlotSprite")
+gridCoords = [7, 4]
+
+[node name="CardBase" parent="MoveableNodes" instance=ExtResource("3_751q4")]
+position = Vector2(320, 192)

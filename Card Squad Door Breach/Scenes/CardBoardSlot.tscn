@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba626mvdwdwi"]
+
+[ext_resource type="Script" path="res://Scripts/CardBoardSlot.gd" id="1_xqp13"]
+[ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="2_t0v86"]
+
+[node name="CardBoardSlot" type="Node2D" node_paths=PackedStringArray("spriteNode")]
+script = ExtResource("1_xqp13")
+spriteNode = NodePath("SlotSprite")
+greenHighlightColor = Color(0, 0.784314, 0, 0.588235)
+redHighlightColor = Color(0.784314, 0, 0, 0.588235)
+
+[node name="SlotSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.588235, 0.588235, 0.588235, 0.588235)
+position = Vector2(-1.90735e-06, 0)
+scale = Vector2(256, 256)
+texture = ExtResource("2_t0v86")

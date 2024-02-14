@@ -3,15 +3,17 @@ class_name PlayerHand
 
 @export var handSlots : Array[Node2D]
 
-@export var maxCameraZoom : float = 5
-@export var minCameraZoom : float = 0.5
+@export var maxCameraZoom : float = 0.5
+@export var minCameraZoom : float = 2.0
 @export var zoomSpeed : float = 0.2
 @export var dragSensitivity : float = 1.0
-@export var camNode : Camera2D
-
+@export var zoomFloat : float = 1.0
+@export var moveableNodes : Node2D
+@export var moveableBoundsNode : Node2D
 
 var currentCardCount : int = 0
 var pickedUpCard : CardBase
+var dragging : bool = false
 
 func ReturnEmptySlot():
 	for slot in handSlots:
@@ -20,9 +22,26 @@ func ReturnEmptySlot():
 	return null
 	
 func _input(event):
-	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		position -= event.relative * dragSensitivity / camNode.zoom 
+	var offset = moveableBoundsNode.scale
+	offset.x = -(offset.x * zoomFloat) + (offset.x * 0.5)
+	offset.y = -(offset.y * zoomFloat) + (offset.y * 0.465)
+	
+	
+	if event is InputEventMouseMotion \
+	and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) \
+	and moveableNodes != null:
+		moveableNodes.position += event.relative * dragSensitivity * zoomFloat
+		dragging = true
+	else:
+		dragging = false
 
-
-
+	if Input.is_action_pressed("CamZoomIn"):
+		zoomFloat = clampf(zoomFloat + zoomSpeed,maxCameraZoom,minCameraZoom)
+		moveableNodes.scale = Vector2(zoomFloat,zoomFloat)
+	elif Input.is_action_pressed("CamZoomOut"):
+		zoomFloat = clampf(zoomFloat - zoomSpeed,maxCameraZoom,minCameraZoom)
+		moveableNodes.scale = Vector2(zoomFloat,zoomFloat)
+		
+	moveableNodes.position.x = clampf(moveableNodes.position.x,offset.x, 0.0)
+	moveableNodes.position.y = clampf(moveableNodes.position.y,offset.y, 0.0)
 

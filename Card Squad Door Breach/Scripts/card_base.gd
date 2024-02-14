@@ -26,6 +26,7 @@ func _ready():
 func _process(delta):
 	HandleMoving(delta)
 	HandlePickUp()
+	HandleCamDrag()
 
 
 
@@ -51,23 +52,19 @@ func _on_collision_area_mouse_entered():
 	mouseHover = true
 	match currentPlayState:
 		playStates.InHand:
-			var originalTransform = parentNode.global_transform
-			var newTransform : Transform2D = Transform2D(0.0,\
-				originalTransform.get_scale(),\
-				originalTransform.get_skew(),Vector2(originalTransform.get_origin().x,\
-					originalTransform.get_origin().y - 100.0))
-			MoveCard(newTransform)
-		playStates.OnBoard:
-			pass
+			if !playerHandNode.dragging:
+				var originalTransform = parentNode.global_transform
+				var newTransform : Transform2D = Transform2D(0.0,\
+					originalTransform.get_scale(),\
+					originalTransform.get_skew(),Vector2(originalTransform.get_origin().x,\
+						originalTransform.get_origin().y - 100.0))
+				MoveCard(newTransform)
 
 func _on_collision_area_mouse_exited():
 	mouseHover = false
 	match currentPlayState:
 		playStates.InHand:
 			MoveCard(parentNode.global_transform)
-		playStates.IsPickedUp:
-			MoveCard(parentNode.global_transform)
-			currentPlayState = playStates.InHand
 	
 func MoveCard(destinationT : Transform2D):
 	destinationTransform = destinationT
@@ -89,8 +86,7 @@ func HandlePickUp():
 			if playerHandNode.pickedUpCard == self:
 				match currentPlayState:
 					playStates.InHand:
-						var mousePos = get_viewport().get_mouse_position()
-						global_position = mousePos
+						global_position = get_global_mouse_position()
 			else:
 				MoveCard(parentNode.global_transform)
 		elif Input.is_action_just_released("LMouse"):
@@ -98,4 +94,14 @@ func HandlePickUp():
 			match currentPlayState:
 				playStates.InHand:
 					MoveCard(parentNode.global_transform)
+
+func HandleCamDrag():
+	if playerHandNode !=null:
+		if playerHandNode.dragging:
+			mouseHover = false
+			playerHandNode.pickedUpCard = null
+			match currentPlayState:
+				playStates.InHand:
+					MoveCard(parentNode.global_transform)
+		
 
