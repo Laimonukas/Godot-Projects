@@ -2,6 +2,7 @@ extends Node2D
 
 @export var playerDeck : CardDeck
 @export var playerHand : PlayerHand
+@export var slotsManager : SlotsManager
 
 var playerHandSlots : Array[Node2D]
 
@@ -24,6 +25,7 @@ func DrawCardForPlayer():
 		drawnCard.currentPlayState = drawnCard.playStates.InHand
 		drawnCard.parentNode = emptySlot
 		drawnCard.playerHandNode = playerHand
+		drawnCard.slotsManager = slotsManager
 		playerHand.currentCardCount += 1
 		
 	

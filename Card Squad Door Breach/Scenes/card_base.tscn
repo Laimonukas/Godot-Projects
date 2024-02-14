@@ -1,13 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://cun404bl4ag5j"]
+[gd_scene load_steps=7 format=3 uid="uid://cun404bl4ag5j"]
 
 [ext_resource type="Script" path="res://Scripts/card_base.gd" id="1_vq8p4"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="2_i2l0r"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="3_ix7dn"]
+[ext_resource type="Resource" uid="uid://bljas4vvg1o5k" path="res://Resources/PlacementTags.tres" id="3_u43np"]
 
-[sub_resource type="Resource" id="Resource_rbkpk"]
+[sub_resource type="Resource" id="Resource_2t424"]
 script = ExtResource("2_i2l0r")
 healthPoints = 1
-armorPoints = 2
+armorPoints = 1
 attackPoints = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8v71s"]
@@ -16,7 +17,8 @@ size = Vector2(128, 192)
 [node name="CardBase" type="Node2D"]
 script = ExtResource("1_vq8p4")
 currentFaceState = 1
-statsSheet = SubResource("Resource_rbkpk")
+statsSheet = SubResource("Resource_2t424")
+placementResource = ExtResource("3_u43np")
 
 [node name="CardSprite" type="Sprite2D" parent="."]
 scale = Vector2(128, 192)

@@ -6,6 +6,8 @@ class_name CardBoardSlot
 @export var redHighlightColor : Color
 @export var gridCoords = [0,0]
 @export var isVisible : bool = false
+@export var slotTags : Array
+
 
 var defaultColor
 

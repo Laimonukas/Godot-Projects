@@ -11,14 +11,20 @@ enum playStates {InDeck, InHand, OnBoard, IsPickedUp}
 @export var team : cardTeam
 @export var currentFaceState : faceStates
 @export var currentPlayState : playStates
-@export var statsSheet : CardBaseStats
-@export var showStats : bool = false
+@export var slotsManager : SlotsManager
+
+
 
 var mouseHover : bool = false
 var destinationTransform : Transform2D
 var destinationWeight : float = 1.0
 var parentNode : Node2D
 var playerHandNode : PlayerHand
+
+#resources
+@export var statsSheet : CardBaseStats
+@export var placementResource : PlacementTags
+
 
 func _ready():
 	pass
@@ -82,11 +88,11 @@ func HandlePickUp():
 				match currentPlayState:
 					playStates.InHand:
 						playerHandNode.pickedUpCard = self
-			
 			if playerHandNode.pickedUpCard == self:
 				match currentPlayState:
 					playStates.InHand:
 						global_position = get_global_mouse_position()
+						QueryForPlacement()
 			else:
 				MoveCard(parentNode.global_transform)
 		elif Input.is_action_just_released("LMouse"):
@@ -105,3 +111,9 @@ func HandleCamDrag():
 					MoveCard(parentNode.global_transform)
 		
 
+func QueryForPlacement():
+	if slotsManager != null:
+		var placementSlots = slotsManager.QuerySlots(placementResource.tagsArray)
+		for slot : CardBoardSlot in placementSlots:
+			slot.HighlightSlot(1)
+		
