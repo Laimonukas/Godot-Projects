@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cowq3g1ehpnxn"]
+[gd_scene load_steps=11 format=3 uid="uid://cowq3g1ehpnxn"]
 
 [ext_resource type="PackedScene" uid="uid://bcjlhxydgsrqm" path="res://Scenes/GameManager.tscn" id="1_qevo1"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="1_u6xt5"]
@@ -7,6 +7,17 @@
 [ext_resource type="PackedScene" uid="uid://dhsaqyuqt7abo" path="res://Scenes/PlayerHand.tscn" id="4_rjx0n"]
 [ext_resource type="PackedScene" uid="uid://ba626mvdwdwi" path="res://Scenes/CardBoardSlot.tscn" id="6_ia24x"]
 [ext_resource type="Script" path="res://Scripts/CardSlotsGridOrganizer.gd" id="6_lju6a"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="8_faukv"]
+
+[sub_resource type="Resource" id="Resource_5uwk0"]
+resource_local_to_scene = true
+script = ExtResource("8_faukv")
+tags = Array[String](["player", "personnel", "moveable", "unrevealed"])
+
+[sub_resource type="Environment" id="Environment_g5tkd"]
+background_mode = 3
+glow_enabled = true
+glow_hdr_threshold = 0.5
 
 [node name="GameBoard" type="Node2D"]
 
@@ -20,7 +31,7 @@ moveableNodes = NodePath("../MoveableNodes")
 moveableBoundsNode = NodePath("../MoveableNodes/BoardSprite")
 
 [node name="MoveableNodes" type="Node2D" parent="."]
-z_index = -1
+z_index = -10
 
 [node name="BoardSprite" type="Sprite2D" parent="MoveableNodes"]
 modulate = Color(0.0392157, 0.0392157, 0.0392157, 1)
@@ -29,6 +40,8 @@ scale = Vector2(2304, 1408)
 texture = ExtResource("1_u6xt5")
 
 [node name="CardDeck" parent="MoveableNodes" instance=ExtResource("2_w651n")]
+z_index = -5
+z_as_relative = false
 position = Vector2(96, 384)
 cardScenes = Array[PackedScene]([ExtResource("3_751q4")])
 
@@ -40,10 +53,16 @@ slots = [NodePath("Slot0"), NodePath("Slot1"), NodePath("Slot2"), NodePath("Slot
 position = Vector2(320, 192)
 slotTags = ["empty", "deployZone"]
 
-[node name="Slot1" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
+[node name="Slot1" parent="MoveableNodes/CardSlots" node_paths=PackedStringArray("placedCard") instance=ExtResource("6_ia24x")]
 position = Vector2(576, 192)
 gridCoords = [1, 0]
-slotTags = ["empty", "deployZone"]
+slotTags = ["deployZone", "player", "personnel", "moveable", "unrevealed"]
+placedCard = NodePath("CardBase")
+
+[node name="CardBase" parent="MoveableNodes/CardSlots/Slot1" node_paths=PackedStringArray("slotsManager") instance=ExtResource("3_751q4")]
+currentPlayState = 2
+slotsManager = NodePath("../..")
+cardTags = SubResource("Resource_5uwk0")
 
 [node name="Slot2" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 192)
@@ -234,3 +253,6 @@ slotTags = ["empty"]
 position = Vector2(2112, 1216)
 gridCoords = [7, 4]
 slotTags = ["empty"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_g5tkd")

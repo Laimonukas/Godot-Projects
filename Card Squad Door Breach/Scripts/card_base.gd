@@ -2,13 +2,9 @@ extends Node2D
 
 class_name CardBase
 
-enum cardTypes {Personnel, Equipment, Tactics, Mission, Obstacle}
-enum cardTeam {Player, Enemy, Neutral}
 enum faceStates {FaceUp, FaceDown}
 enum playStates {InDeck, InHand, OnBoard, IsPickedUp}
 
-@export var type : cardTypes
-@export var team : cardTeam
 @export var currentFaceState : faceStates
 @export var currentPlayState : playStates
 @export var slotsManager : SlotsManager
@@ -28,6 +24,7 @@ var flipToFront = false
 #resources
 @export var statsSheet : CardBaseStats
 @export var placementResource : PlacementTags
+@export var cardTags : CardTags
 
 
 func _ready():
@@ -44,7 +41,7 @@ func _process(delta):
 
 
 func PlacementAction():
-	pass
+	print("PlacementAction")
 	
 func BasicAction():
 	pass
@@ -60,6 +57,12 @@ func DieAction():
 
 func PlayAction():
 	pass
+	
+func MovementAction():
+	print("MovementAction")
+	
+func RevealAction():
+	print("RevealAction")
 
 func _on_collision_area_mouse_entered():
 	if playerHandNode != null and playerHandNode.pickedUpCard != self:
@@ -80,6 +83,8 @@ func _on_collision_area_mouse_exited():
 		match currentPlayState:
 			playStates.InHand:
 				MoveCard(parentNode.global_transform)
+			playStates.OnBoard:
+				MoveCard(parentNode.global_transform)
 	
 func MoveCard(destinationT : Transform2D):
 	destinationTransform = destinationT
@@ -98,32 +103,56 @@ func HandlePickUp():
 					playStates.InHand:
 						playerHandNode.pickedUpCard = self
 						closestSlot = null
+					playStates.OnBoard:
+						playerHandNode.pickedUpCard = self
+						closestSlot = null
 			if playerHandNode.pickedUpCard == self:
 				match currentPlayState:
 					playStates.InHand:
 						QueryForPlacement()
 						closestSlot = GetClosestSlotToMouse()
 						if closestSlot != null:
-							closestSlot.HighlightSlot(2)
+							closestSlot.HighlightSlot(3)
 							MoveCard(closestSlot.global_transform)
 						else:
 							var newT : Transform2D = parentNode.global_transform
 							newT.origin = get_global_mouse_position()
 							MoveCard(newT)
+					playStates.OnBoard:
+						if cardTags != null and "moveable" in cardTags.tags:
+							GetActionableSlots()
+							closestSlot = GetClosestSlotToMouse()
+							if closestSlot != null:
+								closestSlot.HighlightSlot(3)
+								MoveCard(closestSlot.global_transform)
+							else:
+								var newT : Transform2D = parentNode.global_transform
+								newT.origin = get_global_mouse_position()
+								MoveCard(newT)
 			else:
 				closestSlot = null
 				MoveCard(parentNode.global_transform)
 		elif Input.is_action_just_released("LMouse"):
-			if closestSlot != null:
-				ChangeParentToSlot(closestSlot)
-				currentPlayState = playStates.OnBoard
+			match currentPlayState:
+				playStates.InHand:
+					if closestSlot != null:
+						ChangeParentToSlot(closestSlot)
+						currentPlayState = playStates.OnBoard
+						PlacementAction()
+					#MoveCard(parentNode.global_transform)
+				playStates.OnBoard:
+					if closestSlot != null:
+						if "empty" in closestSlot.slotTags:
+							ChangeParentToSlot(closestSlot)
+							currentPlayState = playStates.OnBoard
+							MovementAction()
+						if "unrevealed" in closestSlot.slotTags:
+							RevealAction()
 			mouseHover = false
 			playerHandNode.pickedUpCard = null
 			closestSlot = null
 			DeHighlightSlots()
-			match currentPlayState:
-				playStates.InHand:
-					MoveCard(parentNode.global_transform)
+			MoveCard(parentNode.global_transform)		
 
 func HandleCamDrag():
 	if playerHandNode !=null:
@@ -146,9 +175,9 @@ func DeHighlightSlots():
 		for slot : CardBoardSlot in placementSlots:
 			slot.HighlightSlot(0)
 			
-func GetClosestSlotToMouse(distance : float = 50.0):
-	if placementSlots.size() > 0:
-		for slot :CardBoardSlot in placementSlots:
+func GetClosestSlotToMouse(slotArray=placementSlots, distance : float = 50.0):
+	if slotArray.size() > 0:
+		for slot :CardBoardSlot in slotArray:
 			if slot.global_position.distance_to(get_global_mouse_position()) < distance:
 				return slot
 	return null
@@ -156,11 +185,20 @@ func GetClosestSlotToMouse(distance : float = 50.0):
 func ChangeParentToSlot(slot : CardBoardSlot):
 	if slot != null:
 		var gPos = global_position
-		get_parent().remove_child(self)
+		var parent = get_parent()
+		if parent is CardBoardSlot:
+			parent.placedCard = null
+			parent.slotTags.append("empty")
+		parent.remove_child(self)
 		slot.add_child(self)
 		global_position = gPos
 		parentNode = slot
+		if cardTags != null:
+			slot.slotTags.append_array(cardTags.tags)
 		slot.slotTags.erase("empty")
+		slot.placedCard = self
+		return parent
+	return null
 		
 func HandleFlipping(delta):
 	if flippingWeight < 1.0:
@@ -183,3 +221,12 @@ func FlipCard():
 	else:
 		flipToFront = true
 		currentFaceState = faceStates.FaceUp
+
+func GetActionableSlots():
+	#var actionableSlots = []
+	var movementTags = ["empty","unrevealed"]
+	if slotsManager != null:
+		placementSlots = slotsManager.QueryMovementSlots(movementTags,parentNode.gridCoords)
+		for slot in placementSlots:
+			slot.HighlightSlot(1)
+
