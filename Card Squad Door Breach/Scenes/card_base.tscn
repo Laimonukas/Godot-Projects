@@ -14,21 +14,30 @@ attackPoints = 1
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8v71s"]
 size = Vector2(128, 192)
 
-[node name="CardBase" type="Node2D"]
+[node name="CardBase" type="Node2D" node_paths=PackedStringArray("frontFace", "backFace")]
 script = ExtResource("1_vq8p4")
 currentFaceState = 1
+frontFace = NodePath("FrontView")
+backFace = NodePath("BackView")
 statsSheet = SubResource("Resource_2t424")
 placementResource = ExtResource("3_u43np")
 
-[node name="CardSprite" type="Sprite2D" parent="."]
+[node name="FrontView" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(128, 192)
 texture = ExtResource("3_ix7dn")
 
-[node name="CollisionArea" type="Area2D" parent="CardSprite"]
-scale = Vector2(0.0078125, 0.00520833)
+[node name="BackView" type="Sprite2D" parent="."]
+self_modulate = Color(0.647059, 0, 0, 1)
+position = Vector2(-3.8147e-06, 0)
+scale = Vector2(128, 192)
+texture = ExtResource("3_ix7dn")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CardSprite/CollisionArea"]
+[node name="CollisionArea" type="Area2D" parent="."]
+scale = Vector2(1, 0.999999)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
 shape = SubResource("RectangleShape2D_8v71s")
 
-[connection signal="mouse_entered" from="CardSprite/CollisionArea" to="." method="_on_collision_area_mouse_entered"]
-[connection signal="mouse_exited" from="CardSprite/CollisionArea" to="." method="_on_collision_area_mouse_exited"]
+[connection signal="mouse_entered" from="CollisionArea" to="." method="_on_collision_area_mouse_entered"]
+[connection signal="mouse_exited" from="CollisionArea" to="." method="_on_collision_area_mouse_exited"]

@@ -15,7 +15,7 @@ func _process(delta):
 
 func DrawCardForPlayer():
 	var emptySlot = playerHand.ReturnEmptySlot()
-	if emptySlot != null and playerHand.currentCardCount != 6:
+	if emptySlot != null: #and playerHand.currentCardCount != 6:
 		var drawnCard : CardBase = playerDeck.DrawCard()
 		var gTransform = drawnCard.global_transform
 		drawnCard.get_parent().remove_child(drawnCard)
@@ -26,6 +26,7 @@ func DrawCardForPlayer():
 		drawnCard.parentNode = emptySlot
 		drawnCard.playerHandNode = playerHand
 		drawnCard.slotsManager = slotsManager
+		drawnCard.FlipCard()
 		playerHand.currentCardCount += 1
 		
 	
