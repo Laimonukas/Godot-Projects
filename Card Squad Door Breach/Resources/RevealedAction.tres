@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="RevealedAction" load_steps=2 format=3 uid="uid://c84bobcluhcfp"]
+
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/RevealedAction.gd" id="1_cvh2d"]
+
+[resource]
+script = ExtResource("1_cvh2d")

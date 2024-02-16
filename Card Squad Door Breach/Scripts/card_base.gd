@@ -10,27 +10,32 @@ enum playStates {InDeck, InHand, OnBoard, IsPickedUp}
 @export var slotsManager : SlotsManager
 @export var frontFace : Sprite2D
 @export var backFace : Sprite2D
+@export var parentNode : Node2D
+@export var playerHandNode : PlayerHand
 
 
 var mouseHover : bool = false
 var destinationTransform : Transform2D
 var destinationWeight : float = 1.0
-var parentNode : Node2D
-var playerHandNode : PlayerHand
 var placementSlots = []
 var closestSlot : CardBoardSlot
 var flippingWeight : float = 1.0
 var flipToFront = false
+
 #resources
 @export var statsSheet : CardBaseStats
 @export var placementResource : PlacementTags
 @export var cardTags : CardTags
-
+@export var revealActionResource : RevealAction
+@export var revealedActionResource : RevealedAction
 
 func _ready():
 	if currentFaceState == faceStates.FaceDown:
 		backFace.visible = true
 		frontFace.visible = false
+	else:
+		backFace.visible = false
+		frontFace.visible = true
 
 func _process(delta):
 	HandleMoving(delta)
@@ -50,7 +55,7 @@ func ExtraAction():
 	pass
 
 func AttackAction():
-	pass
+	print("AttackAction")
 
 func DieAction():
 	pass
@@ -61,8 +66,20 @@ func PlayAction():
 func MovementAction():
 	print("MovementAction")
 	
-func RevealAction():
-	print("RevealAction")
+func RevealAction(initiator : CardBase = null,target : CardBase = null):
+	if initiator != null:
+		if revealActionResource != null:
+			revealActionResource.Action(self,target)
+	if target != null and "revealed" not in target.cardTags.tags:
+		target.cardTags.tags.erase("unrevealed")
+		target.cardTags.tags.append("revealed")
+		if target.revealedActionResource != null:
+			target.revealedActionResource.Action(self,target)
+	UpdateParentTags(target)
+	target.FlipCard()
+
+func RevealedAction():
+	pass
 
 func _on_collision_area_mouse_entered():
 	if playerHandNode != null and playerHandNode.pickedUpCard != self:
@@ -76,6 +93,11 @@ func _on_collision_area_mouse_entered():
 						originalTransform.get_skew(),Vector2(originalTransform.get_origin().x,\
 							originalTransform.get_origin().y - 100.0))
 					MoveCard(newTransform)
+			playStates.OnBoard:
+				if "moveable" in cardTags.tags and "unrevealed" not in cardTags.tags:
+					mouseHover = true
+				else:
+					mouseHover = false
 
 func _on_collision_area_mouse_exited():
 	if playerHandNode != null and playerHandNode.pickedUpCard != self:
@@ -147,7 +169,12 @@ func HandlePickUp():
 							currentPlayState = playStates.OnBoard
 							MovementAction()
 						if "unrevealed" in closestSlot.slotTags:
-							RevealAction()
+							RevealAction(self,closestSlot.placedCard)
+						if "player" in cardTags.tags:
+							if "enemy" in closestSlot.slotTags:
+								AttackAction()
+						elif "enemy" in cardTags.tags:
+								pass
 			mouseHover = false
 			playerHandNode.pickedUpCard = null
 			closestSlot = null
@@ -229,4 +256,12 @@ func GetActionableSlots():
 		placementSlots = slotsManager.QueryMovementSlots(movementTags,parentNode.gridCoords)
 		for slot in placementSlots:
 			slot.HighlightSlot(1)
+
+func UpdateParentTags(target : CardBase = null):
+	if slotsManager != null:
+		if parentNode is CardBoardSlot:
+			slotsManager.UpdateTags(parentNode)
+		if target != null:
+			if target.parentNode != null:
+				slotsManager.UpdateTags(target.parentNode)
 

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="RevealAction" load_steps=2 format=3 uid="uid://cvlrrqikftodm"]
+
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/RevealAction.gd" id="1_e2m4e"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_e2m4e")
