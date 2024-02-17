@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AttackAction" load_steps=2 format=3 uid="uid://bkom6hnmdxk37"]
+
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/AttackAction.gd" id="1_54lgc"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_54lgc")
+tags = Array[String](["enemy"])

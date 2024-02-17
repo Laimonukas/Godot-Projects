@@ -18,6 +18,7 @@ var mouseHover : bool = false
 var destinationTransform : Transform2D
 var destinationWeight : float = 1.0
 var placementSlots = []
+var actionableSlots = []
 var closestSlot : CardBoardSlot
 var flippingWeight : float = 1.0
 var flipToFront = false
@@ -28,6 +29,8 @@ var flipToFront = false
 @export var cardTags : CardTags
 @export var revealActionResource : RevealAction
 @export var revealedActionResource : RevealedAction
+@export var attackActionResource : AttackAction
+@export var extraActionResource : ExtraAction
 
 func _ready():
 	if currentFaceState == faceStates.FaceDown:
@@ -51,11 +54,15 @@ func PlacementAction():
 func BasicAction():
 	pass
 
-func ExtraAction():
-	pass
+func ExtraAction(initiator : CardBase = null,target : CardBase = null):
+	if extraActionResource != null:
+		extraActionResource.Action(initiator,target)
+		print("ExtraAction")
 
-func AttackAction():
-	print("AttackAction")
+func AttackAction(initiator : CardBase = null,target : CardBase = null):
+	if attackActionResource != null:
+		attackActionResource.Action(initiator,target)
+		print("AttackAction")
 
 func DieAction():
 	pass
@@ -77,9 +84,10 @@ func RevealAction(initiator : CardBase = null,target : CardBase = null):
 			target.revealedActionResource.Action(self,target)
 	UpdateParentTags(target)
 	target.FlipCard()
+	print("RevealAction")
 
 func RevealedAction():
-	pass
+	print("RevealedAction")
 
 func _on_collision_area_mouse_entered():
 	if playerHandNode != null and playerHandNode.pickedUpCard != self:
@@ -172,9 +180,11 @@ func HandlePickUp():
 							RevealAction(self,closestSlot.placedCard)
 						if "player" in cardTags.tags:
 							if "enemy" in closestSlot.slotTags:
-								AttackAction()
+								AttackAction(self,closestSlot.placedCard)
 						elif "enemy" in cardTags.tags:
 								pass
+						if closestSlot in actionableSlots:
+							ExtraAction()
 			mouseHover = false
 			playerHandNode.pickedUpCard = null
 			closestSlot = null
@@ -196,12 +206,17 @@ func QueryForPlacement():
 		placementSlots = slotsManager.QuerySlots(placementResource.tagsArray)
 		for slot : CardBoardSlot in placementSlots:
 			slot.HighlightSlot(1)
+		
 
 func DeHighlightSlots():
 	if placementSlots.size() > 0:
 		for slot : CardBoardSlot in placementSlots:
 			slot.HighlightSlot(0)
-			
+	if actionableSlots.size() > 0:
+		for slot : CardBoardSlot in actionableSlots:
+			slot.HighlightSlot(0)
+		actionableSlots.clear()
+	
 func GetClosestSlotToMouse(slotArray=placementSlots, distance : float = 50.0):
 	if slotArray.size() > 0:
 		for slot :CardBoardSlot in slotArray:
@@ -250,10 +265,15 @@ func FlipCard():
 		currentFaceState = faceStates.FaceUp
 
 func GetActionableSlots():
-	#var actionableSlots = []
 	var movementTags = ["empty","unrevealed"]
+	actionableSlots.clear()
 	if slotsManager != null:
 		placementSlots = slotsManager.QueryMovementSlots(movementTags,parentNode.gridCoords)
+		var attackSlots = []
+		if attackActionResource != null:
+			attackSlots = slotsManager.QuerySlots(attackActionResource.tags)
+			if attackSlots.size() > 0:
+				placementSlots.append_array(attackSlots)
 		for slot in placementSlots:
 			slot.HighlightSlot(1)
 

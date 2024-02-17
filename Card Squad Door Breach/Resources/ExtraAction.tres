@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ExtraAction" load_steps=2 format=3 uid="uid://wb4rmunyflks"]
+
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/ExtraAction.gd" id="1_co3w2"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_co3w2")
+tags = Array[String](["enemy"])

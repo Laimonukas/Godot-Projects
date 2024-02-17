@@ -6,12 +6,16 @@ class_name SlotsManager
 @export var slots :Array[Node2D] = []
 @export var playerHand : PlayerHand
 
+var visibilitySet = false
+
 func _enter_tree():
 	if Engine.is_editor_hint():
 		slots.clear()
 		for slot : CardBoardSlot in get_children():
+			visibilitySet = false
 			UpdateTags(slot)
 			slots.append(slot)
+		visibilitySet = true
 
 func QuerySlots(tagsArr = []):
 	var returnArr = []
@@ -63,8 +67,16 @@ func UpdateTags(slot : CardBoardSlot = null):
 		
 		if x <= 1 and "deployZone" not in slot.slotTags:
 			slot.slotTags.append("deployZone")
+		
+		if !visibilitySet:
+			visibilitySet = true
+			if x > 2 and "invisible" not in slot.slotTags:
+				slot.slotTags.append("invisible")
+			elif "visible" not in slot.slotTags:
+				slot.slotTags.append("visible")
 			
 		#slot.slotTags = tagsArray
 		if slot.placedCard != null and slot.placedCard.cardTags != null:
 			slot.slotTags.append_array(slot.placedCard.cardTags.tags)
+
 

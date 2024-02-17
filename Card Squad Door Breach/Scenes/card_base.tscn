@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cun404bl4ag5j"]
+[gd_scene load_steps=13 format=3 uid="uid://cun404bl4ag5j"]
 
 [ext_resource type="Script" path="res://Scripts/card_base.gd" id="1_vq8p4"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="2_i2l0r"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="3_ix7dn"]
 [ext_resource type="Resource" uid="uid://bljas4vvg1o5k" path="res://Resources/PlacementTags.tres" id="3_u43np"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="4_y4fdr"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/AttackAction.gd" id="5_7kx66"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/ExtraAction.gd" id="6_rwoed"]
 
 [sub_resource type="Resource" id="Resource_2t424"]
 script = ExtResource("2_i2l0r")
@@ -16,6 +18,14 @@ attackPoints = 1
 resource_local_to_scene = true
 script = ExtResource("4_y4fdr")
 tags = Array[String](["player", "personnel", "moveable", "revealed"])
+
+[sub_resource type="Resource" id="Resource_xsdam"]
+script = ExtResource("5_7kx66")
+tags = Array[String](["enemy"])
+
+[sub_resource type="Resource" id="Resource_rif12"]
+script = ExtResource("6_rwoed")
+tags = Array[String](["player"])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8v71s"]
 size = Vector2(128, 192)
@@ -29,6 +39,8 @@ backFace = NodePath("BackView")
 statsSheet = SubResource("Resource_2t424")
 placementResource = ExtResource("3_u43np")
 cardTags = SubResource("Resource_qif0m")
+attackActionResource = SubResource("Resource_xsdam")
+extraActionResource = SubResource("Resource_rif12")
 
 [node name="FrontView" type="Sprite2D" parent="."]
 visible = false
