@@ -4,11 +4,14 @@
 [ext_resource type="Shader" path="res://Shaders/DitheringShader.gdshader" id="2_02ljc"]
 [ext_resource type="Texture2D" uid="uid://br6tehcimtlj3" path="res://Assets/Sprites/dither.png" id="3_mi1d6"]
 
+<<<<<<< Updated upstream
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dp6h4"]
 shader = ExtResource("2_02ljc")
 shader_parameter/ditherFloat = 8.0
 shader_parameter/ditheringTex = ExtResource("3_mi1d6")
 
+=======
+>>>>>>> Stashed changes
 [node name="PlayerHand" type="Node2D" node_paths=PackedStringArray("handSlots")]
 z_index = 10
 script = ExtResource("1_3r3pg")
@@ -52,6 +55,7 @@ limit_left = 0
 limit_top = 0
 limit_right = 2304
 limit_bottom = 1408
+<<<<<<< Updated upstream
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -60,3 +64,5 @@ material = SubResource("ShaderMaterial_dp6h4")
 offset_right = 1152.0
 offset_bottom = 656.0
 mouse_filter = 2
+=======
+>>>>>>> Stashed changes

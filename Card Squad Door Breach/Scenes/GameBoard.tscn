@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=12 format=3 uid="uid://cowq3g1ehpnxn"]
+=======
+[gd_scene load_steps=15 format=3 uid="uid://cowq3g1ehpnxn"]
+>>>>>>> Stashed changes
 
 [ext_resource type="PackedScene" uid="uid://bcjlhxydgsrqm" path="res://Scenes/GameManager.tscn" id="1_qevo1"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="1_u6xt5"]
@@ -8,6 +12,11 @@
 [ext_resource type="PackedScene" uid="uid://ba626mvdwdwi" path="res://Scenes/CardBoardSlot.tscn" id="6_ia24x"]
 [ext_resource type="Script" path="res://Scripts/CardSlotsGridOrganizer.gd" id="6_lju6a"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="8_faukv"]
+<<<<<<< Updated upstream
+=======
+[ext_resource type="Shader" path="res://Shaders/DitheringShader.gdshader" id="9_d3iug"]
+[ext_resource type="Texture2D" uid="uid://br6tehcimtlj3" path="res://Assets/Sprites/dither.png" id="10_j3sji"]
+>>>>>>> Stashed changes
 
 [sub_resource type="Resource" id="Resource_5uwk0"]
 resource_local_to_scene = true
@@ -26,6 +35,14 @@ glow_intensity = 2.74
 glow_blend_mode = 0
 glow_hdr_threshold = 0.2
 glow_hdr_scale = 4.0
+<<<<<<< Updated upstream
+=======
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a06nu"]
+shader = ExtResource("9_d3iug")
+shader_parameter/ditherFloat = 8.0
+shader_parameter/ditheringTex = ExtResource("10_j3sji")
+>>>>>>> Stashed changes
 
 [node name="GameBoard" type="Node2D"]
 
@@ -78,7 +95,11 @@ cardTags = SubResource("Resource_5uwk0")
 [node name="Slot2" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 192)
 gridCoords = [2, 0]
+<<<<<<< Updated upstream
 slotTags = Array[String](["empty", "invisible"])
+=======
+slotTags = Array[String](["empty", "visible"])
+>>>>>>> Stashed changes
 
 [node name="Slot3" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 192)
@@ -127,7 +148,11 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot10" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 448)
 gridCoords = [2, 1]
+<<<<<<< Updated upstream
 slotTags = Array[String](["empty", "invisible"])
+=======
+slotTags = Array[String](["empty", "visible"])
+>>>>>>> Stashed changes
 
 [node name="Slot11" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 448)
@@ -167,7 +192,11 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot18" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 704)
 gridCoords = [2, 2]
+<<<<<<< Updated upstream
 slotTags = Array[String](["empty", "invisible"])
+=======
+slotTags = Array[String](["empty", "visible"])
+>>>>>>> Stashed changes
 
 [node name="Slot19" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 704)
@@ -207,7 +236,11 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot26" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 960)
 gridCoords = [2, 3]
+<<<<<<< Updated upstream
 slotTags = Array[String](["empty", "invisible"])
+=======
+slotTags = Array[String](["empty", "visible"])
+>>>>>>> Stashed changes
 
 [node name="Slot27" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 960)
@@ -247,7 +280,11 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot34" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 1216)
 gridCoords = [2, 4]
+<<<<<<< Updated upstream
 slotTags = Array[String](["empty", "invisible"])
+=======
+slotTags = Array[String](["empty", "visible"])
+>>>>>>> Stashed changes
 
 [node name="Slot35" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 1216)
@@ -276,3 +313,15 @@ slotTags = Array[String](["empty", "invisible"])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_g5tkd")
+<<<<<<< Updated upstream
+=======
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_a06nu")
+offset_right = 1152.0
+offset_bottom = 656.0
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+>>>>>>> Stashed changes

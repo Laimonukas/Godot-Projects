@@ -11,7 +11,11 @@ yellowHighlightColor = Color(1, 1, 0, 0.588235)
 redHighlightColor = Color(0.784314, 0, 0, 0.588235)
 
 [node name="SlotSprite" type="Sprite2D" parent="."]
+<<<<<<< Updated upstream
 self_modulate = Color(0.588235, 0.588235, 0.588235, 0.588235)
+=======
+self_modulate = Color(0.588235, 1, 1, 0.392157)
+>>>>>>> Stashed changes
 position = Vector2(-1.90735e-06, 0)
 scale = Vector2(256, 256)
 texture = ExtResource("2_t0v86")
