@@ -9,10 +9,7 @@ enum playStates {InDeck, InHand, OnBoard, IsPickedUp}
 @export var currentPlayState : playStates
 @export var slotsManager : SlotsManager
 @export var frontFace : Sprite2D
-<<<<<<< Updated upstream
-=======
 @export var frontControl :Control
->>>>>>> Stashed changes
 @export var backFace : Sprite2D
 @export var parentNode : Node2D
 @export var playerHandNode : PlayerHand
@@ -22,10 +19,6 @@ var mouseHover : bool = false
 var destinationTransform : Transform2D
 var destinationWeight : float = 1.0
 var placementSlots = []
-<<<<<<< Updated upstream
-var actionableSlots = []
-=======
->>>>>>> Stashed changes
 var closestSlot : CardBoardSlot
 var flippingWeight : float = 1.0
 var flipToFront = false
@@ -38,20 +31,12 @@ var flipToFront = false
 @export var revealedActionResource : RevealedAction
 @export var attackActionResource : AttackAction
 @export var extraActionResource : ExtraAction
-<<<<<<< Updated upstream
-=======
 @export var cardInfoResource : CardInfo
->>>>>>> Stashed changes
 
 func _ready():
 	if currentFaceState == faceStates.FaceDown:
 		backFace.visible = true
 		frontFace.visible = false
-<<<<<<< Updated upstream
-	else:
-		backFace.visible = false
-		frontFace.visible = true
-=======
 		frontControl.visible = false
 	else:
 		backFace.visible = false
@@ -68,27 +53,15 @@ func _ready():
 	else:
 		$Control/CardStats.visible = false
 	
->>>>>>> Stashed changes
 
 func _process(delta):
 	HandleMoving(delta)
 	HandleFlipping(delta)
 	HandlePickUp()
 	HandleCamDrag()
-<<<<<<< Updated upstream
-
-
 
 func PlacementAction():
 	print("PlacementAction")
-	
-func BasicAction():
-	pass
-=======
-
-func PlacementAction():
-	print("PlacementAction")
->>>>>>> Stashed changes
 
 func ExtraAction(initiator : CardBase = null,target : CardBase = null):
 	if extraActionResource != null:
@@ -208,23 +181,7 @@ func HandlePickUp():
 					#MoveCard(parentNode.global_transform)
 				playStates.OnBoard:
 					if closestSlot != null:
-<<<<<<< Updated upstream
-						if "empty" in closestSlot.slotTags:
-							ChangeParentToSlot(closestSlot)
-							currentPlayState = playStates.OnBoard
-							MovementAction()
-						if "unrevealed" in closestSlot.slotTags:
-							RevealAction(self,closestSlot.placedCard)
-						if "player" in cardTags.tags:
-							if "enemy" in closestSlot.slotTags:
-								AttackAction(self,closestSlot.placedCard)
-						elif "enemy" in cardTags.tags:
-								pass
-						if closestSlot in actionableSlots:
-							ExtraAction()
-=======
 						HandleActionOnSlot(closestSlot)
->>>>>>> Stashed changes
 			mouseHover = false
 			playerHandNode.pickedUpCard = null
 			closestSlot = null
@@ -240,93 +197,6 @@ func HandleCamDrag():
 				playStates.InHand:
 					MoveCard(parentNode.global_transform)
 		
-<<<<<<< Updated upstream
-
-func QueryForPlacement():
-	if slotsManager != null:
-		placementSlots = slotsManager.QuerySlots(placementResource.tagsArray)
-		for slot : CardBoardSlot in placementSlots:
-			slot.HighlightSlot(1)
-		
-
-func DeHighlightSlots():
-	if placementSlots.size() > 0:
-		for slot : CardBoardSlot in placementSlots:
-			slot.HighlightSlot(0)
-	if actionableSlots.size() > 0:
-		for slot : CardBoardSlot in actionableSlots:
-			slot.HighlightSlot(0)
-		actionableSlots.clear()
-	
-func GetClosestSlotToMouse(slotArray=placementSlots, distance : float = 50.0):
-	if slotArray.size() > 0:
-		for slot :CardBoardSlot in slotArray:
-			if slot.global_position.distance_to(get_global_mouse_position()) < distance:
-				return slot
-	return null
-
-func ChangeParentToSlot(slot : CardBoardSlot):
-	if slot != null:
-		var gPos = global_position
-		var parent = get_parent()
-		if parent is CardBoardSlot:
-			parent.placedCard = null
-			parent.slotTags.append("empty")
-		parent.remove_child(self)
-		slot.add_child(self)
-		global_position = gPos
-		parentNode = slot
-		if cardTags != null:
-			slot.slotTags.append_array(cardTags.tags)
-		slot.slotTags.erase("empty")
-		slot.placedCard = self
-		return parent
-	return null
-		
-func HandleFlipping(delta):
-	if flippingWeight < 1.0:
-		flippingWeight = clampf(flippingWeight + delta * 5, 0.0 , 1.0)
-		var weight : float = flippingWeight * 2.0 - 1.0
-		if weight > -0.1 and weight < 0.1:
-			if flipToFront:
-				frontFace.visible = true
-				backFace.visible = false
-			else:
-				backFace.visible = true
-				frontFace.visible = false
-		scale.x = weight
-
-func FlipCard():
-	flippingWeight = 0.0
-	if currentFaceState == faceStates.FaceUp:
-		flipToFront = false
-		currentFaceState = faceStates.FaceDown
-	else:
-		flipToFront = true
-		currentFaceState = faceStates.FaceUp
-
-func GetActionableSlots():
-	var movementTags = ["empty","unrevealed"]
-	actionableSlots.clear()
-	if slotsManager != null:
-		placementSlots = slotsManager.QueryMovementSlots(movementTags,parentNode.gridCoords)
-		var attackSlots = []
-		if attackActionResource != null:
-			attackSlots = slotsManager.QuerySlots(attackActionResource.tags)
-			if attackSlots.size() > 0:
-				placementSlots.append_array(attackSlots)
-		for slot in placementSlots:
-			slot.HighlightSlot(1)
-
-func UpdateParentTags(target : CardBase = null):
-	if slotsManager != null:
-		if parentNode is CardBoardSlot:
-			slotsManager.UpdateTags(parentNode)
-		if target != null:
-			if target.parentNode != null:
-				slotsManager.UpdateTags(target.parentNode)
-=======
->>>>>>> Stashed changes
 
 func QueryForPlacement():
 	if slotsManager != null:
