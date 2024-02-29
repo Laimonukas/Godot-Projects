@@ -1,7 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://eo1r6xk0phax"]
+[gd_resource type="Resource" script_class="CardTags" load_steps=2 format=3 uid="uid://eo1r6xk0phax"]
 
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="1_7jwif"]
 
 [resource]
-resource_local_to_scene = true
 script = ExtResource("1_7jwif")
+tags = Array[String]([])

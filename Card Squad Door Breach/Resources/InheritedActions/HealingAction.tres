@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dikv0h8t44rtk"]
+
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/InheritedActions/HealingAction.gd" id="1_5kc3c"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_5kc3c")
+amount = 1
+tags = Array[String](["player", "personnel", "revealed"])

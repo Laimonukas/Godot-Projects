@@ -74,8 +74,6 @@ func UpdateTags(slot : CardBoardSlot = null):
 				slot.slotTags.append("invisible")
 			elif "visible" not in slot.slotTags:
 				slot.slotTags.append("visible")
-			
-		#slot.slotTags = tagsArray
 		if slot.placedCard != null and slot.placedCard.cardTags != null:
 			slot.slotTags.append_array(slot.placedCard.cardTags.tags)
 

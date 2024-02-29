@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_fi0eb")
-healthPoints = 1
-armorPoints = 1
-attackPoints = 1
+healthPoints = 0
+armorPoints = 0
+attackPoints = 0
+currentHp = 0

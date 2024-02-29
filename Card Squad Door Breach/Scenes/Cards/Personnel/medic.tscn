@@ -1,0 +1,50 @@
+[gd_scene load_steps=14 format=3 uid="uid://m366t2f0cqjl"]
+
+[ext_resource type="PackedScene" uid="uid://cun404bl4ag5j" path="res://Scenes/card_base.tscn" id="1_e2lac"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="2_qejv0"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/PlacementTags.gd" id="3_884l6"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="3_aklef"]
+[ext_resource type="Resource" uid="uid://dikv0h8t44rtk" path="res://Resources/InheritedActions/HealingAction.tres" id="4_lhidl"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/AttackAction.gd" id="5_t41ht"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/CardInfo.gd" id="5_xpdmp"]
+[ext_resource type="Texture2D" uid="uid://bplo3kysfo76c" path="res://Assets/CardIcons/Sprite-0003.png" id="7_2ef42"]
+
+[sub_resource type="Resource" id="Resource_v8rba"]
+resource_local_to_scene = true
+script = ExtResource("2_qejv0")
+healthPoints = 5
+armorPoints = 1
+attackPoints = 1
+currentHp = 0
+
+[sub_resource type="Resource" id="Resource_sp64h"]
+resource_local_to_scene = true
+script = ExtResource("3_884l6")
+tagsArray = Array[String](["empty", "deployZone"])
+
+[sub_resource type="Resource" id="Resource_757ja"]
+resource_local_to_scene = true
+script = ExtResource("3_aklef")
+tags = Array[String](["player", "personnel", "moveable", "revealed"])
+
+[sub_resource type="Resource" id="Resource_cotni"]
+resource_local_to_scene = true
+script = ExtResource("5_t41ht")
+tags = Array[String](["enemy"])
+
+[sub_resource type="Resource" id="Resource_vk5e5"]
+script = ExtResource("5_xpdmp")
+name = "Medic"
+type = "Personnel"
+description = "Action: Heal friendly personnel"
+
+[node name="CardBase" instance=ExtResource("1_e2lac")]
+statsSheet = SubResource("Resource_v8rba")
+placementResource = SubResource("Resource_sp64h")
+cardTags = SubResource("Resource_757ja")
+attackActionResource = SubResource("Resource_cotni")
+extraActionResource = ExtResource("4_lhidl")
+cardInfoResource = SubResource("Resource_vk5e5")
+
+[node name="Icon" parent="FrontView" index="0"]
+texture = ExtResource("7_2ef42")

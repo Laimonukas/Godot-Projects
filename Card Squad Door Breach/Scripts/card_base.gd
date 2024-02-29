@@ -9,6 +9,7 @@ enum playStates {InDeck, InHand, OnBoard, IsPickedUp}
 @export var currentPlayState : playStates
 @export var slotsManager : SlotsManager
 @export var frontFace : Sprite2D
+@export var frontControl :Control
 @export var backFace : Sprite2D
 @export var parentNode : Node2D
 @export var playerHandNode : PlayerHand
@@ -18,7 +19,6 @@ var mouseHover : bool = false
 var destinationTransform : Transform2D
 var destinationWeight : float = 1.0
 var placementSlots = []
-var actionableSlots = []
 var closestSlot : CardBoardSlot
 var flippingWeight : float = 1.0
 var flipToFront = false
@@ -31,14 +31,28 @@ var flipToFront = false
 @export var revealedActionResource : RevealedAction
 @export var attackActionResource : AttackAction
 @export var extraActionResource : ExtraAction
+@export var cardInfoResource : CardInfo
 
 func _ready():
 	if currentFaceState == faceStates.FaceDown:
 		backFace.visible = true
 		frontFace.visible = false
+		frontControl.visible = false
 	else:
 		backFace.visible = false
 		frontFace.visible = true
+		frontControl.visible = true
+	if cardInfoResource !=null:
+		$Control/NameLabel.text = cardInfoResource.name
+	else:
+		print("CardInfo Null")
+	
+	if statsSheet != null:
+		$Control/CardStats.visible = true
+		UpdateCardStats()
+	else:
+		$Control/CardStats.visible = false
+	
 
 func _process(delta):
 	HandleMoving(delta)
@@ -46,13 +60,8 @@ func _process(delta):
 	HandlePickUp()
 	HandleCamDrag()
 
-
-
 func PlacementAction():
 	print("PlacementAction")
-	
-func BasicAction():
-	pass
 
 func ExtraAction(initiator : CardBase = null,target : CardBase = null):
 	if extraActionResource != null:
@@ -172,19 +181,7 @@ func HandlePickUp():
 					#MoveCard(parentNode.global_transform)
 				playStates.OnBoard:
 					if closestSlot != null:
-						if "empty" in closestSlot.slotTags:
-							ChangeParentToSlot(closestSlot)
-							currentPlayState = playStates.OnBoard
-							MovementAction()
-						if "unrevealed" in closestSlot.slotTags:
-							RevealAction(self,closestSlot.placedCard)
-						if "player" in cardTags.tags:
-							if "enemy" in closestSlot.slotTags:
-								AttackAction(self,closestSlot.placedCard)
-						elif "enemy" in cardTags.tags:
-								pass
-						if closestSlot in actionableSlots:
-							ExtraAction()
+						HandleActionOnSlot(closestSlot)
 			mouseHover = false
 			playerHandNode.pickedUpCard = null
 			closestSlot = null
@@ -211,11 +208,11 @@ func QueryForPlacement():
 func DeHighlightSlots():
 	if placementSlots.size() > 0:
 		for slot : CardBoardSlot in placementSlots:
+			if slot.get_child_count() > 1:
+				UpdateParentTags(slot.get_child(1))
+			else:
+				UpdateSlotTags(slot)
 			slot.HighlightSlot(0)
-	if actionableSlots.size() > 0:
-		for slot : CardBoardSlot in actionableSlots:
-			slot.HighlightSlot(0)
-		actionableSlots.clear()
 	
 func GetClosestSlotToMouse(slotArray=placementSlots, distance : float = 50.0):
 	if slotArray.size() > 0:
@@ -249,10 +246,12 @@ func HandleFlipping(delta):
 		if weight > -0.1 and weight < 0.1:
 			if flipToFront:
 				frontFace.visible = true
+				frontControl.visible = true
 				backFace.visible = false
 			else:
 				backFace.visible = true
 				frontFace.visible = false
+				frontControl.visible = false
 		scale.x = weight
 
 func FlipCard():
@@ -266,12 +265,15 @@ func FlipCard():
 
 func GetActionableSlots():
 	var movementTags = ["empty","unrevealed"]
-	actionableSlots.clear()
 	if slotsManager != null:
 		placementSlots = slotsManager.QueryMovementSlots(movementTags,parentNode.gridCoords)
 		var attackSlots = []
 		if attackActionResource != null:
 			attackSlots = slotsManager.QuerySlots(attackActionResource.tags)
+			if attackSlots.size() > 0:
+				placementSlots.append_array(attackSlots)
+		if extraActionResource !=null:
+			attackSlots = slotsManager.QuerySlots(extraActionResource.tags)
 			if attackSlots.size() > 0:
 				placementSlots.append_array(attackSlots)
 		for slot in placementSlots:
@@ -285,3 +287,42 @@ func UpdateParentTags(target : CardBase = null):
 			if target.parentNode != null:
 				slotsManager.UpdateTags(target.parentNode)
 
+func UpdateSlotTags(target : CardBoardSlot = null):
+	if slotsManager != null and target != null:
+		slotsManager.UpdateTags(target)
+
+func TagsExistInArray(arrayToCheck = [], tagsToCheckFor = []):
+	var foundAll = true
+	for tag in tagsToCheckFor:
+		if tag not in arrayToCheck:
+			foundAll = false
+	return foundAll
+
+func HandleActionOnSlot(slot : CardBoardSlot = null):
+	if slot != null:
+		if "empty" in slot.slotTags:
+			ChangeParentToSlot(slot)
+			currentPlayState = playStates.OnBoard
+			MovementAction()
+			return
+		if "unrevealed" in slot.slotTags:
+			RevealAction(self,slot.placedCard)
+			return
+		if "player" in cardTags.tags:
+			if "enemy" in slot.slotTags:
+				AttackAction(self,slot.placedCard)
+				return
+		elif "enemy" in cardTags.tags:
+				pass
+		if extraActionResource != null:
+			if TagsExistInArray(slot.slotTags,extraActionResource.tags):
+				ExtraAction()
+				return
+
+func UpdateCardStats():
+	if statsSheet != null:
+		$Control/CardStats/HPLabel.text = "HP: " + str(statsSheet.currentHp)
+		$Control/CardStats/ArmorLabel.text = "DP: " + str(statsSheet.armorPoints)
+		$Control/CardStats/AttackLabel.text = "AP: " + str(statsSheet.attackPoints)
+		
+		

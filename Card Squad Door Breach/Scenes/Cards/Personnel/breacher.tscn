@@ -1,0 +1,51 @@
+[gd_scene load_steps=14 format=3 uid="uid://y6w0gnd0mvpu"]
+
+[ext_resource type="PackedScene" uid="uid://cun404bl4ag5j" path="res://Scenes/card_base.tscn" id="1_u72x8"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="2_khens"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/PlacementTags.gd" id="3_l8wf2"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="4_tsnyd"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/AttackAction.gd" id="5_3glt2"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/ExtraAction.gd" id="6_iyeqi"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/CardInfo.gd" id="7_1dmcw"]
+
+[sub_resource type="Resource" id="Resource_v6w58"]
+resource_local_to_scene = true
+script = ExtResource("2_khens")
+healthPoints = 6
+armorPoints = 1
+attackPoints = 2
+currentHp = 0
+
+[sub_resource type="Resource" id="Resource_nfga6"]
+resource_local_to_scene = true
+script = ExtResource("3_l8wf2")
+tagsArray = Array[String](["empty", "deployZone"])
+
+[sub_resource type="Resource" id="Resource_a5buj"]
+resource_local_to_scene = true
+script = ExtResource("4_tsnyd")
+tags = Array[String](["player", "personnel", "moveable", "revealed"])
+
+[sub_resource type="Resource" id="Resource_23de0"]
+resource_local_to_scene = true
+script = ExtResource("5_3glt2")
+tags = Array[String](["enemy"])
+
+[sub_resource type="Resource" id="Resource_1pbr2"]
+resource_local_to_scene = true
+script = ExtResource("6_iyeqi")
+tags = Array[String](["door", "revealed"])
+
+[sub_resource type="Resource" id="Resource_ipt6h"]
+script = ExtResource("7_1dmcw")
+name = "Breacher"
+type = "Personnel"
+description = "Action: Break down doors"
+
+[node name="CardBase" instance=ExtResource("1_u72x8")]
+statsSheet = SubResource("Resource_v6w58")
+placementResource = SubResource("Resource_nfga6")
+cardTags = SubResource("Resource_a5buj")
+attackActionResource = SubResource("Resource_23de0")
+extraActionResource = SubResource("Resource_1pbr2")
+cardInfoResource = SubResource("Resource_ipt6h")

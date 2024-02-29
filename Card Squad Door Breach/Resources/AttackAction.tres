@@ -3,6 +3,5 @@
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/AttackAction.gd" id="1_54lgc"]
 
 [resource]
-resource_local_to_scene = true
 script = ExtResource("1_54lgc")
 tags = Array[String](["enemy"])

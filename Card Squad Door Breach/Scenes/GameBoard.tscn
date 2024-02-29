@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cowq3g1ehpnxn"]
+[gd_scene load_steps=30 format=3 uid="uid://cowq3g1ehpnxn"]
 
 [ext_resource type="PackedScene" uid="uid://bcjlhxydgsrqm" path="res://Scenes/GameManager.tscn" id="1_qevo1"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="1_u6xt5"]
@@ -8,16 +8,83 @@
 [ext_resource type="PackedScene" uid="uid://ba626mvdwdwi" path="res://Scenes/CardBoardSlot.tscn" id="6_ia24x"]
 [ext_resource type="Script" path="res://Scripts/CardSlotsGridOrganizer.gd" id="6_lju6a"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="8_faukv"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="8_hokkk"]
+[ext_resource type="Shader" path="res://Shaders/DitheringShader.gdshader" id="9_d3iug"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/PlacementTags.gd" id="9_o5sqd"]
+[ext_resource type="Texture2D" uid="uid://br6tehcimtlj3" path="res://Assets/Sprites/dither.png" id="10_j3sji"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/AttackAction.gd" id="11_i1qai"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/ExtraAction.gd" id="12_2p1p2"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/CardInfo.gd" id="13_j38rp"]
+
+[sub_resource type="Resource" id="Resource_l5mly"]
+resource_local_to_scene = true
+script = ExtResource("8_hokkk")
+healthPoints = 6
+armorPoints = 0
+attackPoints = 2
+currentHp = 0
+
+[sub_resource type="Resource" id="Resource_q636x"]
+resource_local_to_scene = true
+script = ExtResource("9_o5sqd")
+tagsArray = Array[String](["empty", "deployZone"])
 
 [sub_resource type="Resource" id="Resource_5uwk0"]
 resource_local_to_scene = true
 script = ExtResource("8_faukv")
 tags = Array[String](["player", "personnel", "moveable", "unrevealed"])
 
+[sub_resource type="Resource" id="Resource_jgcj0"]
+resource_local_to_scene = true
+script = ExtResource("11_i1qai")
+tags = Array[String](["enemy"])
+
+[sub_resource type="Resource" id="Resource_6oofu"]
+resource_local_to_scene = true
+script = ExtResource("12_2p1p2")
+tags = Array[String](["door", "revealed"])
+
+[sub_resource type="Resource" id="Resource_qhdik"]
+resource_local_to_scene = true
+script = ExtResource("13_j38rp")
+name = "something"
+type = "Personnel"
+description = "Action: Break down doors"
+
+[sub_resource type="Resource" id="Resource_wr4q6"]
+resource_local_to_scene = true
+script = ExtResource("8_hokkk")
+healthPoints = 6
+armorPoints = 0
+attackPoints = 2
+currentHp = 0
+
+[sub_resource type="Resource" id="Resource_w5cm3"]
+resource_local_to_scene = true
+script = ExtResource("9_o5sqd")
+tagsArray = Array[String](["empty", "deployZone"])
+
 [sub_resource type="Resource" id="Resource_ifjbf"]
 resource_local_to_scene = true
 script = ExtResource("8_faukv")
 tags = Array[String](["enemy", "personnel", "revealed"])
+
+[sub_resource type="Resource" id="Resource_ikmdj"]
+resource_local_to_scene = true
+script = ExtResource("11_i1qai")
+tags = Array[String](["enemy"])
+
+[sub_resource type="Resource" id="Resource_g3rvi"]
+resource_local_to_scene = true
+script = ExtResource("12_2p1p2")
+tags = Array[String](["door", "revealed"])
+
+[sub_resource type="Resource" id="Resource_obmrg"]
+resource_local_to_scene = true
+script = ExtResource("13_j38rp")
+name = "something"
+type = "Personnel"
+description = "Action: Break down doors"
 
 [sub_resource type="Environment" id="Environment_g5tkd"]
 background_mode = 3
@@ -26,6 +93,11 @@ glow_intensity = 2.74
 glow_blend_mode = 0
 glow_hdr_threshold = 0.2
 glow_hdr_scale = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a06nu"]
+shader = ExtResource("9_d3iug")
+shader_parameter/ditherFloat = 8.0
+shader_parameter/ditheringTex = ExtResource("10_j3sji")
 
 [node name="GameBoard" type="Node2D"]
 
@@ -51,7 +123,6 @@ texture = ExtResource("1_u6xt5")
 z_index = -5
 z_as_relative = false
 position = Vector2(96, 384)
-cardScenes = Array[PackedScene]([ExtResource("3_751q4")])
 
 [node name="CardSlots" type="Node2D" parent="MoveableNodes" node_paths=PackedStringArray("slots", "playerHand")]
 script = ExtResource("6_lju6a")
@@ -73,12 +144,17 @@ currentPlayState = 2
 slotsManager = NodePath("../..")
 parentNode = NodePath("..")
 playerHandNode = NodePath("../../../../PlayerHand")
+statsSheet = SubResource("Resource_l5mly")
+placementResource = SubResource("Resource_q636x")
 cardTags = SubResource("Resource_5uwk0")
+attackActionResource = SubResource("Resource_jgcj0")
+extraActionResource = SubResource("Resource_6oofu")
+cardInfoResource = SubResource("Resource_qhdik")
 
 [node name="Slot2" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 192)
 gridCoords = [2, 0]
-slotTags = Array[String](["empty", "invisible"])
+slotTags = Array[String](["empty", "visible"])
 
 [node name="Slot3" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 192)
@@ -107,7 +183,12 @@ currentPlayState = 2
 slotsManager = NodePath("../..")
 parentNode = NodePath("..")
 playerHandNode = NodePath("../../../../PlayerHand")
+statsSheet = SubResource("Resource_wr4q6")
+placementResource = SubResource("Resource_w5cm3")
 cardTags = SubResource("Resource_ifjbf")
+attackActionResource = SubResource("Resource_ikmdj")
+extraActionResource = SubResource("Resource_g3rvi")
+cardInfoResource = SubResource("Resource_obmrg")
 
 [node name="Slot7" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(2112, 192)
@@ -127,7 +208,7 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot10" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 448)
 gridCoords = [2, 1]
-slotTags = Array[String](["empty", "invisible"])
+slotTags = Array[String](["empty", "visible"])
 
 [node name="Slot11" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 448)
@@ -167,7 +248,7 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot18" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 704)
 gridCoords = [2, 2]
-slotTags = Array[String](["empty", "invisible"])
+slotTags = Array[String](["empty", "visible"])
 
 [node name="Slot19" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 704)
@@ -207,7 +288,7 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot26" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 960)
 gridCoords = [2, 3]
-slotTags = Array[String](["empty", "invisible"])
+slotTags = Array[String](["empty", "visible"])
 
 [node name="Slot27" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 960)
@@ -247,7 +328,7 @@ slotTags = Array[String](["empty", "deployZone", "visible"])
 [node name="Slot34" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(832, 1216)
 gridCoords = [2, 4]
-slotTags = Array[String](["empty", "invisible"])
+slotTags = Array[String](["empty", "visible"])
 
 [node name="Slot35" parent="MoveableNodes/CardSlots" instance=ExtResource("6_ia24x")]
 position = Vector2(1088, 1216)
@@ -276,3 +357,12 @@ slotTags = Array[String](["empty", "invisible"])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_g5tkd")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_a06nu")
+offset_right = 1152.0
+offset_bottom = 656.0
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true

@@ -1,18 +1,23 @@
-[gd_scene load_steps=13 format=3 uid="uid://cun404bl4ag5j"]
+[gd_scene load_steps=17 format=3 uid="uid://cun404bl4ag5j"]
 
 [ext_resource type="Script" path="res://Scripts/card_base.gd" id="1_vq8p4"]
-[ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="2_i2l0r"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/BaseCardStats.gd" id="2_ycr7c"]
 [ext_resource type="Texture2D" uid="uid://udoj6m7rda1x" path="res://Assets/Sprites/Pixel.png" id="3_ix7dn"]
 [ext_resource type="Resource" uid="uid://bljas4vvg1o5k" path="res://Resources/PlacementTags.tres" id="3_u43np"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/CardTags.gd" id="4_y4fdr"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/AttackAction.gd" id="5_7kx66"]
 [ext_resource type="Script" path="res://Scripts/ResourceScripts/ExtraAction.gd" id="6_rwoed"]
+[ext_resource type="Script" path="res://Scripts/ResourceScripts/CardInfo.gd" id="7_kmwvt"]
+[ext_resource type="Texture2D" uid="uid://co676dkcs72j3" path="res://Assets/CardIcons/Sprite-0001.png" id="8_djw2c"]
+[ext_resource type="Texture2D" uid="uid://b4ysecnxeoih8" path="res://Assets/CardIcons/Sprite-0010.png" id="9_apvpe"]
 
-[sub_resource type="Resource" id="Resource_2t424"]
-script = ExtResource("2_i2l0r")
-healthPoints = 1
+[sub_resource type="Resource" id="Resource_popqd"]
+resource_local_to_scene = true
+script = ExtResource("2_ycr7c")
+healthPoints = 5
 armorPoints = 1
 attackPoints = 1
+currentHp = 0
 
 [sub_resource type="Resource" id="Resource_qif0m"]
 resource_local_to_scene = true
@@ -20,38 +25,141 @@ script = ExtResource("4_y4fdr")
 tags = Array[String](["player", "personnel", "moveable", "revealed"])
 
 [sub_resource type="Resource" id="Resource_xsdam"]
+resource_local_to_scene = true
 script = ExtResource("5_7kx66")
 tags = Array[String](["enemy"])
 
 [sub_resource type="Resource" id="Resource_rif12"]
+resource_local_to_scene = true
 script = ExtResource("6_rwoed")
-tags = Array[String](["player"])
+tags = Array[String](["door", "revealed"])
+
+[sub_resource type="Resource" id="Resource_lnmne"]
+resource_local_to_scene = true
+script = ExtResource("7_kmwvt")
+name = "something"
+type = "Personnel"
+description = "Action: Break down doors"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8v71s"]
 size = Vector2(128, 192)
 
-[node name="CardBase" type="Node2D" node_paths=PackedStringArray("frontFace", "backFace")]
+[node name="CardBase" type="Node2D" node_paths=PackedStringArray("frontFace", "frontControl", "backFace")]
 z_as_relative = false
 script = ExtResource("1_vq8p4")
 currentFaceState = 1
 frontFace = NodePath("FrontView")
+frontControl = NodePath("Control")
 backFace = NodePath("BackView")
-statsSheet = SubResource("Resource_2t424")
+statsSheet = SubResource("Resource_popqd")
 placementResource = ExtResource("3_u43np")
 cardTags = SubResource("Resource_qif0m")
 attackActionResource = SubResource("Resource_xsdam")
 extraActionResource = SubResource("Resource_rif12")
+cardInfoResource = SubResource("Resource_lnmne")
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -96.0
+offset_right = 64.0
+offset_bottom = 96.0
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="Control"]
+z_index = 1
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 24.0
+text = "Breacher"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="TypeLabel" type="Label" parent="Control"]
+z_index = 1
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 104.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 11
+text = "Personnel"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="Control"]
+z_index = 1
+layout_mode = 0
+offset_top = 96.0
+offset_right = 128.0
+offset_bottom = 168.0
+theme_override_font_sizes/font_size = 15
+text = "Action: Break down doors"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CardStats" type="Control" parent="Control"]
+z_index = 1
+anchors_preset = 0
+offset_top = 144.0
+offset_right = 128.0
+offset_bottom = 192.0
+mouse_filter = 2
+
+[node name="HPLabel" type="Label" parent="Control/CardStats"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 24.0
+offset_right = 120.0
+offset_bottom = 47.0
+text = "HP:X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArmorLabel" type="Label" parent="Control/CardStats"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 31.0
+text = "DP:X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackLabel" type="Label" parent="Control/CardStats"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 24.0
+offset_right = 48.0
+offset_bottom = 47.0
+text = "AP:X"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="FrontView" type="Sprite2D" parent="."]
 visible = false
+self_modulate = Color(0.0117647, 0.0156863, 1, 1)
 scale = Vector2(128, 192)
 texture = ExtResource("3_ix7dn")
 
+[node name="Icon" type="Sprite2D" parent="FrontView"]
+position = Vector2(0, -0.166667)
+scale = Vector2(0.015625, 0.0078125)
+texture = ExtResource("8_djw2c")
+
 [node name="BackView" type="Sprite2D" parent="."]
-self_modulate = Color(1.5, 0, 0, 1)
+self_modulate = Color(0.192157, 0, 0.501961, 1)
 position = Vector2(-3.8147e-06, 0)
 scale = Vector2(128, 192)
 texture = ExtResource("3_ix7dn")
+
+[node name="Logo" type="Sprite2D" parent="BackView"]
+position = Vector2(0, -1.19209e-07)
+scale = Vector2(0.015625, 0.015625)
+texture = ExtResource("9_apvpe")
 
 [node name="CollisionArea" type="Area2D" parent="."]
 scale = Vector2(1, 0.999999)

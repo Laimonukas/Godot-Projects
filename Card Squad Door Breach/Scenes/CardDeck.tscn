@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwfhf1o5sf62b"]
+[gd_scene load_steps=4 format=3 uid="uid://bwfhf1o5sf62b"]
 
 [ext_resource type="Script" path="res://Scripts/CardDeck.gd" id="1_4mmr6"]
+[ext_resource type="PackedScene" uid="uid://m366t2f0cqjl" path="res://Scenes/Cards/Personnel/medic.tscn" id="2_nk32m"]
+[ext_resource type="PackedScene" uid="uid://y6w0gnd0mvpu" path="res://Scenes/Cards/Personnel/breacher.tscn" id="3_6wnjb"]
 
 [node name="CardDeck" type="Node2D"]
 script = ExtResource("1_4mmr6")
+cardScenes = Array[PackedScene]([ExtResource("2_nk32m"), ExtResource("3_6wnjb")])
