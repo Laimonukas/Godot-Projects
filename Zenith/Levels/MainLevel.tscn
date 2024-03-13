@@ -1,7 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://dt4qxjvnulkaw"]
 
-[ext_resource type="PackedScene" uid="uid://bglaag0ebyfgu" path="res://Scenes/CharacterHomeBrew.tscn" id="1_4j8cp"]
+[ext_resource type="PackedScene" uid="uid://bh5nqfjqxwecd" path="res://Scenes/CharacterIK.tscn" id="1_5gtmc"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="CityChars" parent="." instance=ExtResource("1_4j8cp")]
+[node name="CityChars" parent="." instance=ExtResource("1_5gtmc")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.509447, 0.860502, 0, -0.860502, 0.509447, 0, 4.43423, 5.98112)

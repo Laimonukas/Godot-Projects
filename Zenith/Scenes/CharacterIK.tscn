@@ -132,8 +132,10 @@ bind/39/pose = Transform3D(1, 2.6077e-08, -4.85039e-09, 2.85892e-08, 1.04332e-07
 radius = 0.216872
 height = 1.79355
 
-[node name="CityChars" type="CharacterBody3D"]
+[node name="CityChars" type="CharacterBody3D" node_paths=PackedStringArray("legTargets", "skeletonIKArray")]
 script = ExtResource("1_cm4dh")
+legTargets = [NodePath("Armature/GeneralSkeleton/LegIK/L_FootPos"), NodePath("Armature/GeneralSkeleton/LegIK/R_FootPos")]
+skeletonIKArray = [NodePath("Armature/GeneralSkeleton/L_LegIK"), NodePath("Armature/GeneralSkeleton/L_HandIK"), NodePath("Armature/GeneralSkeleton/R_HandIK"), NodePath("Armature/GeneralSkeleton/R_LegIK")]
 
 [node name="Armature" type="Node3D" parent="."]
 
@@ -422,6 +424,7 @@ bones/39/rotation = Quaternion(0, 1, 0, 0)
 bones/39/scale = Vector3(1, 1, 1)
 
 [node name="L_LegIK" type="SkeletonIK3D" parent="Armature/GeneralSkeleton"]
+process_mode = 3
 process_priority = 1
 root_bone = &"LeftUpperLeg"
 tip_bone = &"LeftFoot"
@@ -430,6 +433,7 @@ magnet = Vector3(0, 1, 1)
 target_node = NodePath("../LegIK/L_FootPos")
 
 [node name="L_HandIK" type="SkeletonIK3D" parent="Armature/GeneralSkeleton"]
+process_mode = 3
 process_priority = 1
 root_bone = &"LeftUpperArm"
 tip_bone = &"LeftHand"
@@ -438,6 +442,7 @@ magnet = Vector3(1, 0.7, 0)
 target_node = NodePath("../BodyHips/HandIK/L_Hand")
 
 [node name="R_HandIK" type="SkeletonIK3D" parent="Armature/GeneralSkeleton"]
+process_mode = 3
 process_priority = 1
 root_bone = &"RightUpperArm"
 tip_bone = &"RightHand"
@@ -446,6 +451,7 @@ magnet = Vector3(-1, 0.7, 0)
 target_node = NodePath("../BodyHips/HandIK/R_Hand")
 
 [node name="R_LegIK" type="SkeletonIK3D" parent="Armature/GeneralSkeleton"]
+process_mode = 3
 process_priority = 1
 root_bone = &"RightUpperLeg"
 tip_bone = &"RightFoot"
@@ -461,7 +467,7 @@ surface_material_override/0 = ExtResource("3_duqgj")
 [node name="LegIK" type="Node3D" parent="Armature/GeneralSkeleton"]
 
 [node name="L_FootPos" type="Marker3D" parent="Armature/GeneralSkeleton/LegIK"]
-transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.120935, 0.0769752, -0.0602149)
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.1, 0, 0)
 
 [node name="R_FootPos" type="Marker3D" parent="Armature/GeneralSkeleton/LegIK"]
 transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, -0.131206, 0.0253778, -0.0542166)
@@ -488,5 +494,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.909822, 0)
 shape = SubResource("CapsuleShape3D_8m0ey")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, -3.11186e-08, 0.934503, 0.355955, 8.16968e-08, 0.355955, -0.934503, 0, 2.13588, -2.07442)
+transform = Transform3D(-3.79854e-08, -0.355955, 0.934503, -3.11186e-08, 0.934503, 0.355955, -1, -1.55593e-08, -4.65743e-08, 4.00814, 2.13588, -0.0228095)
 fov = 90.0
