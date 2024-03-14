@@ -132,10 +132,11 @@ bind/39/pose = Transform3D(1, 2.6077e-08, -4.85039e-09, 2.85892e-08, 1.04332e-07
 radius = 0.216872
 height = 1.79355
 
-[node name="CityChars" type="CharacterBody3D" node_paths=PackedStringArray("legTargets", "skeletonIKArray")]
+[node name="CityChars" type="CharacterBody3D" node_paths=PackedStringArray("legTargets", "skeletonIKArray", "hipsBone")]
 script = ExtResource("1_cm4dh")
 legTargets = [NodePath("Armature/GeneralSkeleton/LegIK/L_FootPos"), NodePath("Armature/GeneralSkeleton/LegIK/R_FootPos")]
 skeletonIKArray = [NodePath("Armature/GeneralSkeleton/L_LegIK"), NodePath("Armature/GeneralSkeleton/L_HandIK"), NodePath("Armature/GeneralSkeleton/R_HandIK"), NodePath("Armature/GeneralSkeleton/R_LegIK")]
+hipsBone = NodePath("Armature/GeneralSkeleton/BodyHips")
 
 [node name="Armature" type="Node3D" parent="."]
 
@@ -470,10 +471,10 @@ surface_material_override/0 = ExtResource("3_duqgj")
 transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.1, 0, 0)
 
 [node name="R_FootPos" type="Marker3D" parent="Armature/GeneralSkeleton/LegIK"]
-transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, -0.131206, 0.0253778, -0.0542166)
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, -0.1, 0, 0)
 
 [node name="BodyHips" type="BoneAttachment3D" parent="Armature/GeneralSkeleton"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.862, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.887, 0)
 bone_name = "Hips"
 bone_idx = 0
 override_pose = true

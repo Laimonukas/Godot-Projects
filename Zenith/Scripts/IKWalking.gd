@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @export var legTargets : Array[Marker3D] = []
 @export var skeletonIKArray : Array[SkeletonIK3D] = []
+@export var hipsBone : BoneAttachment3D
 
 var passedTimeFrac : float = 0.0
 var passedTime : float = 0.0
@@ -25,11 +26,14 @@ func HandleInputAndVelocity(delta):
 
 func HandleLegMovement(delta):
 	legDelta += delta
-	legTargets[0].position.z = 0.4 * sin(legDelta)
-	legTargets[1].position.z = 0.4 * sin(legDelta + 3.14)
+	legTargets[0].position.z = 0.4 * sin(deg_to_rad(90.0 * legDelta))
+	legTargets[1].position.z = 0.4 * sin(deg_to_rad(90.0 * legDelta + 180.0))
 	
-	legTargets[0].position.y = 0.4 * clamp(sin(legDelta),0.0,1.0)
-	legTargets[1].position.y = 0.4 * clamp(sin(legDelta + 3.14),0.0,1.0)
+	legTargets[0].position.y = 0.4 * cos(deg_to_rad(90.0 * legDelta))
+	legTargets[1].position.y = 0.4 * cos(deg_to_rad(90.0 * legDelta + 180.0))
+	
+	hipsBone.position.y = lerp(0.890,0.700,cos(deg_to_rad(90.0 * legDelta)))
+	
 	pass
 
 func Fract(x : float):
